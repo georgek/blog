@@ -1,0 +1,5 @@
+#+TITLE: Search
+#+LAYOUT: search
+#+DESCRIPTION:
+#+SUMMARY: search
+#+PLACEHOLDER: search blog

@@ -1,0 +1,70 @@
+baseURL: https://georgek.github.io/blog/
+languageCode: en-gb
+title: gpk blog
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
+params:
+  title: gpk blog
+  description: George Kettleborough's blog
+  keywords: [blog, technology, programming]
+  author: George Kettleborough
+  DateFormat: 2 January 2006
+  defaultTheme: auto
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: false
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+  homeInfoParams:
+    Title: George Kettleborough's Blog
+    Content: This blog contains my ramblings which may or may not be of interest
+
+  socialIcons:
+    - name: github
+      url: "https://github.com/georgek"
+    - name: rss
+      url: "index.xml"
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys: ["title", "permalink", "summary", "content"]
+
+menu:
+  main:
+    - identifier: categories
+      name: categories
+      url: /categories/
+      weight: 10
+    - identifier: tags
+      name: tags
+      url: /tags/
+      weight: 20
+    - identifier: search
+      name: search
+      url: /search/
+      weight: 30

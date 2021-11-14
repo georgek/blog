@@ -1,14 +1,13 @@
-#+options: ':nil *:t -:t ::t <:t H:3 \n:nil ^:t arch:headline author:t broken-links:nil
-#+options: c:nil creator:nil d:(not "LOGBOOK") date:t e:t email:nil f:t inline:t num:t
-#+options: p:nil pri:nil prop:nil stat:t tags:t tasks:t tex:t timestamp:t title:t toc:t
-#+options: todo:t |:t
 #+title: First Post
 #+date: <2021-11-13 Sat>
-#+author: George Kettleborough
-#+language: en
-#+select_tags: export
-#+exclude_tags: noexport
-#+creator: Emacs 27.2 (Org mode 9.3.1)
+#+DRAFT: true
+#+DESCRIPTION: First post
+#+CATEGORIES[]: Testing
+#+TAGS[]: test
+#+KEYWORDS[]: test first
+#+SLUG:
+#+SUMMARY: First post
+
 
 This is my first post which I'm writing with org-mode. I'm setting this up now so that I
 have an easy way to publish articles when I feel like writing something.

@@ -1,0 +1,11 @@
+#+TITLE: Hugo Org-Mode
+#+DATE: 2021-11-16T19:48:53Z
+#+DRAFT: true
+#+DESCRIPTION:
+#+CATEGORIES[]: Technology
+#+TAGS[]: emacs org-mode hugo
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+I'm using Hugo with org-mode.
