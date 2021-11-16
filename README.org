@@ -1,0 +1,2 @@
+This is the "source" for my blog. I use org-mode to write and Hugo to build a static
+site.
