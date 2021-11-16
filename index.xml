@@ -5,16 +5,7 @@
     <link>https://georgek.github.io/blog/</link>
     <description>Recent content on gpk blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-gb</language>
-    <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://georgek.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>First Post</title>
-      <link>https://georgek.github.io/blog/posts/first-post/</link>
-      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
-      
-      <guid>https://georgek.github.io/blog/posts/first-post/</guid>
-      <description>This is my first post which I&amp;#39;m writing with org-mode. I&amp;#39;m setting this up now so that I have an easy way to publish articles when I feel like writing something.</description>
-    </item>
+    <language>en-gb</language><atom:link href="https://georgek.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>
