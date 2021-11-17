@@ -1,0 +1,164 @@
+#+TITLE: There Are Two Types of Commit
+#+DATE: 2021-11-17T19:38:20Z
+#+DRAFT: true
+#+DESCRIPTION:
+#+CATEGORIES[]: programming
+#+TAGS[]: git
+#+KEYWORDS[]: git version control
+#+SLUG:
+#+SUMMARY:
+
+Git has changed a lot of things since it was released in 2005. Now the dominant version
+control system by a wide margin, gone are the centralised repositories of old---git is a
+decentralised system. But what does this really mean? One thing it means is speed. Git's
+speed enabled workflows that were not previously possible. Yet I still see many people
+using workflows that would be more at home in a centralised system.
+
+In particular, I want to talk about commits. Commits in git are cheap. And I'm not
+talking about something irrelevant like disk space or even CPU time here, I'm talking
+about /your/ time. It wasn't always this way. In centralised systems a commit was
+expensive. A commit involved network access as it would send your commit to the
+server. A commit essentially released your work to others. Yes, there were branches, but
+you were still putting your work out there. Commits were so expensive that it was common
+for developers to commit only once a day, or even less. If you've been using git for a
+while, I hope this sounds insane to you! In git, commits are so cheap we can easily make
+hundreds in a day, and many people do.
+
+But not all commits are equal. Git is a very flexible system and it doesn't dictate what
+you use it for. To git, a commit is just a snapshot of your repository. What that
+snapshot represents is completely up to you. But when it comes to software development,
+there are really only two types of commit which I will call *savepoints* and *versions*.
+
+* Savepoints
+
+Savepoints are your /tools/. They enable you to "undo" your work. They help you mentally
+keep track of your progress and establish a new baseline. I probably don't need to sell
+this concept to you, but there is one thing you should probably do: make more of
+them. If you find it even slightly burdensome to make a savepoint then you need to fix
+your tools right now. Making a savepoint should not impact your flow. It should have
+such little cognitive overhead that it becomes as natural as saving a file. You could
+consider making commits every time you save. I think that's a bit extreme, but if it
+works for you then it's better than nothing.
+
+Savepoints can be a mess. They can follow your own personal flow. There are no rules or
+guidelines here. I would always advise being methodical, but these tools are yours and
+yours alone. If they work for you, they work for the team.
+
+What this means, though, is your savepoints are not to be shared. They don't belong on
+eternal branches (like master). In fact, the ultimate fate of savepoints is garbage
+collection after they have been restructured into versions. Later I will suggest a
+practical workflow which will make this more clear.
+
+* Versions
+
+Versions are your /output/.  Ultimately, versions are the only commits that matter in
+the long run. The job of a developer or maintainer is to produce new versions of the
+product, whether these represent new features, bug fixes or otherwise.
+
+While a savepoint might happen just because it's the end of the day, or it just felt
+right at the time, a version represents a fully working iteration of the software that
+could be merged or released at any time. Versions take a lot more planning to get
+right. A good version should be minimally different from the previous version, while
+still being complete and working. This is what people mean when they talk about /atomic/
+commits.
+
+Unlike savepoints, versions are supposed to be shared widely. Versions will end up on
+public branches, like the master branch. They may be turned into releases and deployed
+at any time, possibly by someone other than you. Versions are also eternal. They will
+probably be around longer than you are. They are your output, so take pride in them.
+
+* An Analogy: Database Transactions
+
+There is a direct analogy here with database transactions. You only need to replace the
+word "version" with "transaction". When building a database transaction it is common to
+introduce savepoints into the workflow. These enable the database to be rolled back to
+some known, good intermediate state in case something goes wrong during the
+transaction. No single savepoint will end up being committed to the final database, only
+the complete transaction matters.
+
+* From Savepoints to Versions
+
+My advice is to use savepoints during development but produce versions in the end. But
+how can we do both? The missing piece is *rebasing*. Rebasing allows you to rewrite
+history or, in other words, to rewrite savepoints as versions.
+
+Imagine the following savepoints:
+
+#+begin_example
+WIP: Upgrade widget library
+Fix typo in widget library config
+Use new widget for checkout form
+[WIP] Use new widget for sign up form (broken)
+Fix typo in checkout form
+Finish sign up form
+Fix typo
+Use new widget for profile and request forms
+#+end_example
+
+There are multiple problems with these which means they cannot be released as versions:
+
+- Unhelpful commit messages (Fix typo, WIP etc.),
+- Commits fixing problems in earlier, unreleased commits,
+- Non-atomic commits (assuming profile and request forms are independent).
+
+A rebase could turn these into proper versions:
+
+#+begin_example
+Upgrade widget library to 3.12.0
+Upgrade widget in checkout form
+Upgrade widget in sign up form
+Upgrade widget in profile form
+Upgrade widget in request form
+#+end_example
+
+Why not just squash everything into one big commit? Well, remember, commits are still
+cheap, even version commits. Smaller commits help when regressions happen. The bigger
+your commits, the harder it is to find the source of a regression. So do yourself a
+favour and don't lazily squash down branches into single commits. It also makes it more
+difficult for people to review your changes. Ideally changes should be reviewed in small
+bite-sized pieces.
+
+Rebasing can be hard. My advice is to think ahead here. Don't make a complete mess of
+your savepoint commits. Think about the rebase you'll have to do later. Squashing
+commits is easier than splitting them up, so make more commits. Help yourself out by
+using decent commit messages, otherwise you will need to look into the diffs to make
+sense of commits later.
+
+Some tips:
+
+- Rebase often. This cannot be stressed enough. The more you rebase, the easier it
+  becomes. You should be rebasing any development branches on to the integration branch
+  at the beginning of every day, and squashing your savepoints into versions (if they
+  are ready) at the end of every day. Waiting until merge time to rebase is what causes
+  developers to give up and squash the mess into one commit.
+
+- Use fixup and squash commits. If you know a commit merely fixes an earlier commit,
+  use a fixup commit to identify the commit it fixes right now. Later you can issue an
+  autosquash flag and git will automatically reorder and set these commits to be
+  squashed for you.
+
+- Consider higher-level tools like an "instant fixup". This is simply a fixup/squash
+  commit as above followed immediately by an autosquash. Magit includes this command and
+  it can make smaller fixes easier as it gets them out of the way. But use it with care
+  because if you need to "undo" you'll have to use the reflog.
+
+* Releases
+
+Another possible use for commits is *releases*. A release is a blessed version that has
+possibly gone through more rigorous testing and been put through a release pipeline to
+create a deployment or bundle. However, it is often far more convenient to use tags to
+make releases. Using commits is another throwback to older systems. Tags have many
+advantages, not least of which is they are even cheaper than commits.
+
+* Summary
+
+One reason git is often called source code management (SCM) rather than a version
+control system (VCS) is that not all commits are versions. Thinking of all commits as
+versions can really hold you back and essentially force you to work in a similar way to
+older tools. In summary:
+
+- Commits can represent many things including savepoints and versions,
+- Savepoints are a developer's /tool/. The ultimate fate of a savepoint is garbage
+  collection,
+- Versions are a developer's /output/. The ultimate fate of a version is to be released
+  and forever stored in a project's history.
