@@ -41,27 +41,33 @@ elements. Online recipes tend to be all-inclusive and I often find them frustrat
 Despite me calling them "sub-recipes" earlier, I think these common elements of cooking
 are more like functions than subroutines. It comes completely naturally to a cook to
 prepare two or more foods simultaneously and in complete isolation---in separate threads
-of execution, if you will. This concept is intuitive to anyone. If I say you need a
-sauce and some cooked pasta I would not expect you to attempt to produce both in the
-same pot at the same time. We just don't think like that.
+of execution if you will. This concept is intuitive to anyone. If I say you need a sauce
+and some cooked pasta I would not expect you to attempt to produce both in the same pot
+at the same time. We just don't think like that.
 
 To take the analogy to its limits, let's consider the existence of higher-order
 functions in the kitchen. Not even the most verbose recipe out there tells you to shape
 your biscuits one by one. It's simply implied that to build an array of biscuits you
-produce one biscuit for every space on the tray. This is map. And mixing all those
-ingredients together at the end? That's reduce (with the binary operator "mix").
+produce one biscuit for every space on the tray. This is map (with the unary operator
+"shape"). And mixing all those ingredients together at the end of a recipe? That's
+reduce (with the binary operator "mix").
 
 But I think the most convincing argument against imperative thinking is simply that we
 are not automata. We do not perform mindless tasks in isolation. If a fellow human
-enters your kitchen and enquires on your activity you wouldn't tell him you are mixing
+enters your kitchen and enquires on your activity you wouldn't tell him you're mixing
 flour into water. You'd tell him you're making a cake. You always know what the end
-result is. Otherwise you'd never get there. Recipes aren't written imperatively because
-this is how we think. They are written this way because it's a reasonably effective way
-of recording them in written English. This does not by any means imply it matches the
-way we think or that it's the only way to effectively communicate a recipe.
+result is going to be. Otherwise you'd never get there. Recipes aren't written
+imperatively because this matches the way we think. They are written this way because
+it's a reasonably effective way of recording them in written English. This does not by
+any means imply we think this way or that it's the only way to effectively communicate a
+recipe.
 
 Imperative programming is a learned skill. This is not something that comes intuitively
-to most people. If you tried to teach people in the same way you "teach" a computer to
-sort numbers I doubt you would find much success. But try telling someone you need a
-shuffled deck of cards and they'll either shuffle it or they'll ask how. If this is
-thinking backwards then consider me backwards.
+to most people. Nobody thinks about the world in terms of mutations and global state.
+If you tried to teach people skills in the same way you "teach" a computer to sort
+numbers I doubt you would find much success. But try telling someone you start a game
+with a shuffled deck of cards and they'll either shuffle a deck for you or they'll tell
+you they don't know how to shuffle. For many programmers thinking imperatively is
+something you need to unlearn before understanding functional programming. But when you
+do I think you'll find functional programming is much more natural, human and matches
+the way we think.
