@@ -41,7 +41,7 @@ params:
 
   socialIcons:
     - name: github
-      url: "https://github.com/georgek"
+      url: "https://github.com/georgek/blog"
     - name: rss
       url: "index.xml"
 
