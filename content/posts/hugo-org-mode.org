@@ -62,6 +62,27 @@ metadata is pretty self-explanatory, but you can just play around with it.
 
 * Deploying with Github Actions
 
+First of all, *before* you build or commit anything, add a ~.gitignore~ file:
+
+#+BEGIN_SRC gitignore
+/.hugo_build.lock
+/public/*
+!/public/.nojekyll
+#+END_SRC
+
+This will ensure you don't accidentally commit your locally built version of the site.
+
+You should also add the ~.nojekyll~ file to stop GitHub trying to run Jekyll (another
+static site generator) on your stuff.  I'm not sure if this is still necessary but it
+can't harm:
+
+#+BEGIN_SRC bash
+mkdir -p public
+touch public/.nojekyll
+#+END_SRC
+
+Now commit the ~.gitignore~ and ~.nojekyll~ files.
+
 To publish your site you simply run ~hugo~.  This builds the site, including all
 articles that are *not* marked as draft, and puts it all into the ~/public/~ directory.
 Now, you could simply copy the contents of that directory to a web server of your
