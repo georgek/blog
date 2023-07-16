@@ -1,0 +1,60 @@
+#+TITLE: Building a Home Cinema on a Shoestring
+#+DATE: 2023-07-15T12:32:47+01:00
+#+DRAFT: true
+#+DESCRIPTION: An opinionated guide to home cinema for the thrifty geek
+#+CATEGORIES[]: Lifestyle
+#+TAGS[]: home-cinema audio projector
+#+KEYWORDS[]:
+#+SLUG: shoestring-home-cinema
+#+SUMMARY: 
+
+I love going to the cinema, but I've always been disappointed that I can't see older
+films and I can't see them when it's convenient for me.  There have always been ways to
+watch films at home, but even today when large screens and high-definition formats are
+ubiquitous, it's just not the same as the cinema experience.  There's something
+completely different about the big screen that a TV in a living room can't replicate.
+For that reason I've wanted my own home cinema for as long as I can remember.  The
+problem is I don't want to spend a lot of money on it.
+
+Home cinema has a strong overlap with the audiophile world.  You can spend as much as
+you want on it, and there will always be more.  It's not that it's wrong to spend a lot
+on it; there are real benefits to the latest, high-end gear.  But I think you can get
+90% of the way there on about 10% of the budget, if that.  However, you might have to
+make lifestyle sacrifices to save the most money.  More on that below.
+
+First I'll outline my definition of a home cinema system, then I'm going to suggest a
+logical upgrade path to get yourself there.  This will be opinionated.  I make no
+apologies for that.  This will also take some dedication.  It's a real project.  Saving
+money usually means building your own knowledge rather than paying for someone else's.
+But if you can get there, the results are thoroughly rewarding.
+
+* The fundamentals
+
+First, a brief outline of what I think is essential in a home cinema.  Remember, we are
+trying to get 90% of the value from 10% of the cost.
+
+** The room
+
+Possibly the most important part of all of this is the room.  First thing to get out of
+the way: a home cinema is not a living room.  You won't just be able to plonk your
+system down in the living room and call it a day.  This is where the real project is.
+The rest is just buying equipment.
+
+The ideal room is a squarish box shape with no windows.  If you do have windows, chimney
+breasts, an L-shaped room etc. then it will make this more difficult, but you have to
+work with what you have.  I wouldn't suggest acquiring a new space in a budget home
+cinema guide.
+
+If you /do/ need your room to double up as a living room then you need to consider ways
+to convert it between these two very different purposes.  This is especially true if
+live in a household that doesn't completely share your enthusiasm for the project.
+
+Furniture can be just standard living room furniture.  A sofa is ideal.  It just needs
+to be comfortable and oriented towards the screen.
+
+** Sound
+
+
+
+* Suggested upgrade path
+

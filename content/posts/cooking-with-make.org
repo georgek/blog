@@ -1,0 +1,11 @@
+#+TITLE: Cooking With Make
+#+DATE: 2023-07-16T10:03:40+01:00
+#+DRAFT: true
+#+DESCRIPTION:
+#+CATEGORIES[]:
+#+TAGS[]:
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+I realised I think about cooking a bit like a Makefile.
