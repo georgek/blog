@@ -36,8 +36,11 @@ params:
   tocopen: false
 
   homeInfoParams:
-    Title: George Kettleborough's Blog
+    Title: "George Kettleborough's Blog"
     Content: This blog contains my ramblings which may or may not be of interest
+
+  assets:
+    disableHLJS: true
 
   socialIcons:
     - name: github
@@ -53,6 +56,15 @@ params:
     threshold: 0.4
     minMatchCharLength: 0
     keys: ["title", "permalink", "summary", "content"]
+
+markup:
+  highlight:
+    anchorLineNos: false
+    codeFences: true
+    guessSyntax: false
+    lineNos: true
+    noClasses: true
+    style: solarized-dark
 
 menu:
   main:

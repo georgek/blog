@@ -64,7 +64,7 @@ metadata is pretty self-explanatory, but you can just play around with it.
 
 First of all, *before* you build or commit anything, add a ~.gitignore~ file:
 
-#+BEGIN_SRC gitignore
+#+BEGIN_SRC
 /.hugo_build.lock
 /public/*
 !/public/.nojekyll
