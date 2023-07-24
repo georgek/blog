@@ -1,0 +1,11 @@
+#+TITLE: Fixing my JVC DLA-X5000 Projecto
+#+DATE: 2023-07-24T21:02:25+01:00
+#+DRAFT: true
+#+DESCRIPTION: Making the projector quiet again
+#+CATEGORIES[]: Lifestyle
+#+TAGS[]: home-cinema projector repairs
+#+KEYWORDS[]:
+#+SLUG: fixing-dla-x5000
+#+SUMMARY:
+
+Fixing the fan.

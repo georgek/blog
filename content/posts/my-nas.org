@@ -1,0 +1,11 @@
+#+TITLE: My NAS
+#+DATE: 2023-07-24T21:02:31+01:00
+#+DRAFT: true
+#+DESCRIPTION: Building my NAS
+#+CATEGORIES[]: Technology
+#+TAGS[]: nas networking storage
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+NAS
