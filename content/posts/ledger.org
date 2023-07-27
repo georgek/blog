@@ -1,0 +1,70 @@
+#+TITLE: Ledger
+#+DATE: 2023-07-27T16:28:59+01:00
+#+DRAFT: true
+#+DESCRIPTION:
+#+CATEGORIES[]:
+#+TAGS[]:
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+How money is created using ledger to understand.
+
+In an accounting system, everything must always sum to zero. That means every
+transaction has to balance, so nothing can "appear" or "disappear", it has to come from
+somewhere and has to go somewhere.
+
+Imagine you ran a private currency called Mate Dollars (M$) for you and your mates to
+exchange with each other "off grid". You decide to introduce the concept of loans. A
+transaction which lends 1000M$ to MateA would look like this (in ledger[0] format):
+
+  2022-01-30 Loan to Mate A
+      Accounts:MateA       1000.00M$
+      Liabilities:MateA   -1000.00M$
+
+This a perfectly valid transaction. It sums to zero. Now Mate A can "spend" this money,
+maybe he buys some goods from Mate B:
+
+  2022-02-01 Goods
+      Accounts:MateA    -500.00M$
+      Accounts:MateB     500.00M$
+
+Now Mate A and Mate B both have 500 Mate Dollars.
+
+Eventually Mate A will have to pay back his loan because the bank (you) will charge
+interest on any current liability:
+
+  2022-02-30 Loan repayment
+      Accounts:MateA      -1000.00M$
+      Liabilities:MateA    1000.00M$
+
+Now he's paid back the loan.
+
+Now from inside the system, nothing was ever created or destroyed. But from outside the
+system (ie. the real world) it looks like money was "created" at "Loan to Mate A" and
+destroyed at "Loan repayment". From Mate B's point of view, Mate A always had that
+money. He doesn't know anything about the bank loan.
+
+Between those two transactions, 1000 Mate Dollars existed, but it was just a ghost in
+the machine.
+
+Replace "you" with Barclays Bank, "Mate Dollars" with Pounds Sterling and "you and your
+mates" with the public above and you now understand how "real" currency works. 97% of
+money we use is just a ghost in the machine between a bank creating it via a loan and
+the borrower paying it back.
+
+So, you see, money appearing and disappearing from thin air is not a feature of crypto
+at all. It's just an illusion. It's what it looks like to anyone outside of the ledger
+(ie. everyone except the bank).
+
+The ETH transaction is the equivalent of you (the banker) making a promise to Mate A to
+keep his money in an account that can never be accessed by anyone, including him:
+
+  2022-01-30 Silly transaction
+      Accounts:MateA      -1000.00M$
+      Dungeon:MateA        1000.00M$
+
+The account "Dungeon:MateA" will now always have a positive balance for as long as you
+keep your promise.
+
+Unlike you, the Ethereum blockchain is incapable of ever breaking this promise.
