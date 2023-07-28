@@ -1,9 +1,9 @@
-#+TITLE: Cooking With Make
+#+TITLE: Cooking with Make
 #+DATE: 2023-07-16T10:03:40+01:00
 #+DRAFT: true
-#+DESCRIPTION:
-#+CATEGORIES[]:
-#+TAGS[]:
+#+DESCRIPTION: How to compile your dinner
+#+CATEGORIES[]: geeky
+#+TAGS[]: cooking programming make makefile declarative
 #+KEYWORDS[]:
 #+SLUG:
 #+SUMMARY:
