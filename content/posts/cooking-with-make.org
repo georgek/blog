@@ -1,5 +1,5 @@
 #+TITLE: Cooking with Make
-#+DATE: 2023-07-16T10:03:40+01:00
+#+DATE: 2023-07-28
 #+DRAFT: true
 #+DESCRIPTION: How to compile your dinner
 #+CATEGORIES[]: geeky
