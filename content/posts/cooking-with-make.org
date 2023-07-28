@@ -8,4 +8,155 @@
 #+SLUG:
 #+SUMMARY:
 
-I realised I think about cooking a bit like a Makefile.
+I cook a lot of food from scratch and it occurred to me one day that the way I
+understand and assimilate recipes is very similar to how ~make~ works.
+
+So, in case you don't know, ~make~ is a tool used to build executable software from
+source code.  Building software often involves several steps such as translation,
+compilation, linking and bundling.  The process required for a particular project is
+describe in a ~Makefile~ but, here's the thing, it isn't described imperatively, it's
+described /declaratively/.
+
+Let's look at an example:
+
+#+BEGIN_SRC makefile
+myprogram: code.c
+	gcc code.c -o myprogram
+#+END_SRC
+
+In the example ~myprogram~ is a *target* and ~code.c~ is a *prerequisite*.  The target
+is what ~make~ is going to, well, make.  The prerequisite is what is required before we
+can make it.  In this case, the prerequisite is source code, so is always present and
+satisfied.
+
+The second line tells make /how/ to make the target from the prerequisite.  In this
+case, we run a C compiler.
+
+In this second example, more than one step is required to build the target:
+
+#+BEGIN_SRC makefile
+myprogram: module.o
+	gcc module.o -o myprogram
+
+module.o: module.c
+	gcc -c module.c -o module.o
+#+END_SRC
+
+Now we first require ~module.o~ and, in case it's not already present, we show how to
+make ~module.o~ too which requires ~module.c~, the source code.
+
+* Making food
+
+So what does a food recipe look like in a ~Makefile~?  Here's how to make a basic
+[[https://en.wikipedia.org/wiki/B%C3%A9chamel_sauce][béchamel sauce]]:
+
+#+BEGIN_SRC makefile
+béchamel: milk roux
+	Gradually incorporate milk into roux, whisking continuously
+
+roux: butter flour
+	Combine equal parts melted butter and flour into smooth paste
+#+END_SRC
+
+We could easily extend this file to include higher-level targets, like a [[https://en.wikipedia.org/wiki/Mornay_sauce][Mornay sauce]]:
+
+#+BEGIN_SRC makefile
+mornay: béchamel grated-cheese
+	Add grated cheese to warm sauce
+#+END_SRC
+
+More complex recipes are then natural:
+
+#+BEGIN_SRC makefile
+cauliflower-cheese: mornay boiled-cauliflower
+	Combine sauce and boiled cauliflower
+
+boilded-cauliflower: cauliflower
+	Separate cauliflower and boil in salted water
+#+END_SRC
+
+* Implicit rules
+
+A perhaps lesser-known feature of ~make~ is that it contains implicit rules.  That is,
+~make~ already knows how to make some things, mostly around C compilation.  These aren't
+as often used today, probably because C is no longer the only language in town.
+
+#+BEGIN_SRC makefile
+module: module.o
+#+END_SRC
+
+This is a valid ~Makefile~.  This works because ~make~ already knows how to make
+~module.o~ from ~module.c~ and ~module~ from ~module.o~.
+
+It's the same in the kitchen.
+
+#+BEGIN_SRC makefile
+salsa: chopped-tomato chopped-onion chopped-chilli
+#+END_SRC
+
+Some things don't need to be written as rules.  Even if you've never seen a chilli
+before, you already know to get chopped chilli from chilli, you chop it with a knife.
+And you already know that to make a sauce from chopped ingredients, you mix them.
+
+* Parallel execution
+
+It's possible to configure ~make~ to run jobs in parallel with the ~-J~ flag, for
+example ~-J4~ says run up to four things at once, presumably because you have four CPU
+cores available.  The following process can be sped up on two cores:
+
+#+BEGIN_SRC makefile
+myprogram: main.o module.o
+#+END_SRC
+
+This is because building ~main.o~ and ~module.o~ don't depend on each other so can each
+be built immediately, as soon as a CPU core is available.
+
+It's the same in the kitchen.  Instead of CPU cores you have burners and ovens.  The
+following can be executed in parallel given one toaster and one hob:
+
+#+BEGIN_SRC makefile
+beans-on-toast: warm-beans toasted-bread
+#+END_SRC
+
+* Cooking isn't a script
+
+Before I could cook myself, I used to marvel at the ability of experienced cooks to not
+only reproduce a dish from memory, but to seemingly make it up as they went along.  To
+observe it would appear the script was different every time, but the result was always
+the same!
+
+Now I realise how it's possible: they weren't memorising scripts.  That would be far too
+hard.  Imagine the hundreds of recipes and thousands of steps that would need to be
+remembered.  Instead, human minds have a remarkable ability to organise this stuff, and
+I think it looks like one giant ~Makefile~.  We develop implicit rules far more
+comprehensive than those of ~make~.  Complex recipes are integrated by taking advantage
+of the redundancy in multiple layers of existing rules.
+
+We probably even have a default target or, in English, a favourite comfort dish.
+
+When reading recipes they are almost always written in imperative style.  My approach is
+to read it once through and assimilate it into my global ~Makefile~ before executing
+it.  I don't think it's a good idea to execute any recipe from top to bottom without
+reading it first.  I'll often scribble down a recipe into a pseudo-~Makefile~ format and
+take that into the kitchen rather than the original text.
+
+For the record, I don't actually write down recipes in anything close to a strict
+~Makefile~ format but, just for fun, here's what I think a Margherita pizza recipe looks
+like:
+
+#+BEGIN_SRC makefile
+margherita-pizza: cooked-margherita-pizza basil
+	Add basil to top of pizza
+
+cooked-margherita-pizza: pizza-base tomato-sauce cheese
+	Spread sauce on base and top with cheese, bake in oven
+
+pizza-base: pizza-dough
+	Stretch dough into thin circular disc
+
+pizza-dough: flour water salt yeast
+	Combine ingredients, knead, prove for many hours
+
+tomato-sauce: tomato
+	Peel and chop tomatoes
+#+END_SRC
