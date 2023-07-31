@@ -1,0 +1,110 @@
+#+TITLE: Arduino Programming with Emacs
+#+DATE: 2023-07-31T19:31:23+01:00
+#+DRAFT: false
+#+DESCRIPTION: An easy way to start Arduino for Emacs users
+#+CATEGORIES[]: programming
+#+TAGS[]: emacs arduino programming electronics
+#+KEYWORDS[]: emacs arduino ide text programming electronics
+#+SLUG: emacs-arduino
+#+SUMMARY: Develop for Arduino in your favourite text editor with PlatformIO
+
+If you want to start Arduino programming you'll notice a lot of the documentation and
+tutorials are centred around the Arduino IDE.  Now, obviously, as an Emacs user you'll
+be loath to install something like Arduino IDE, let alone actually use it.  The good
+news is it's super easy to get started with Arduino with any editor, including Emacs and
+even Vim if you so desire.
+
+All the Arduino IDE is doing is calling a cross-compiler toolchain then using [[https://github.com/avrdudes/avrdude][~avrdude~]]
+to communicate with the Arduino to upload software.  The Arduino Uno and Nano both use
+the Atmel AVR platform so what you need is a toolchain that can target that platform.
+Now, you could install your own toolchain and call ~avrdude~ directly.  If you know how
+to do that then I guess you can stop reading now.  But if you don't, or aren't
+interested in learning how (it's not very interesting), then read on.
+
+* PlatformIO
+
+[[https://platformio.org/][PlatformIO]] is a project that makes it really easy to do embedded development.
+
+First, install PlatformIO, I like to use [[https://github.com/pypa/pipx][pipx]] to install tools like this: ~pipx install
+platformio~.
+
+Now, start your project by making a directory for it:
+
+#+BEGIN_SRC sh
+mkdir my_new_project
+cd my_new_project
+#+END_SRC
+
+And initialise a PlatformIO project:
+
+#+BEGIN_SRC sh
+platformio project init --board uno --board nanoatmega328
+#+END_SRC
+
+This will configure your project for both Arduino Uno and Nano.
+
+Now write some barebones C++ code that does nothing in ~src/main.cpp~:
+
+#+BEGIN_SRC cpp
+#include "Arduino.h"
+
+void setup()
+{
+    // your setup code here
+}
+
+void loop()
+{
+    // your main loop here
+}
+#+END_SRC
+
+This is, of course, totally standard C++ so you can use your normal C++ modes etc.
+
+You should end up with a project structure like this:
+
+#+BEGIN_SRC text
+.
+├── include
+│   └── README
+├── lib
+│   └── README
+├── platformio.ini
+├── src
+│   └── main.cpp
+└── test
+    └── README
+#+END_SRC
+
+Now you can simply run the following to build the software for all platforms specified
+in ~platformio.ini~:
+
+#+BEGIN_SRC sh
+platformio run
+#+END_SRC
+
+To build /and/ upload the software to your Arduino, if you are on Linux you first have
+to install some udev rules:
+https://docs.platformio.org/en/latest/core/installation/udev-rules.html
+
+Then you can run simply:
+
+#+BEGIN_SRC sh
+platformio run -e nanoatmega328 -t upload # for arduino nano
+platformio run -e uni -t upload # for arduino uno
+#+END_SRC
+
+This tends to cleverly pick the right serial device but if you have more than one you
+might need to specify it with [[https://docs.platformio.org/en/latest/core/userguide/cmd_run.html#cmdoption-pio-run-upload-port][~--upload-port~]].
+
+You can adapt these as your command for ~M-x compile~ or write a ~Makefile~ if you
+prefer.  Don't forget it expects to be run from the top-level where ~platformio.ini~
+lives, though.
+
+Another super-useful command to be aware of is ~platformio device monitor~.  This gives
+you a serial terminal for communicating with your device.  Really convenient.  There's a
+lot more too.
+
+And that's it!  You'll find the Arduino documentation here:
+https://www.arduino.cc/reference/en/ That's all you should need to get started.  Happy
+hacking!
