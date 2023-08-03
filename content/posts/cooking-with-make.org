@@ -1,12 +1,12 @@
 #+TITLE: Cooking with Make
-#+DATE: 2023-07-28
-#+DRAFT: true
+#+DATE: 2023-08-03
+#+DRAFT: false
 #+DESCRIPTION: How to compile your dinner
 #+CATEGORIES[]: geeky
 #+TAGS[]: cooking programming make makefile declarative
 #+KEYWORDS[]:
 #+SLUG:
-#+SUMMARY:
+#+SUMMARY: In which I compare cooking food with building software
 
 I cook a lot of food from scratch and it occurred to me one day that the way I
 understand and assimilate recipes is very similar to how ~make~ works.
@@ -29,8 +29,8 @@ is what ~make~ is going to, well, make.  The prerequisite is what is required be
 can make it.  In this case, the prerequisite is source code, so is always present and
 satisfied.
 
-The second line tells make /how/ to make the target from the prerequisite.  In this
-case, we run a C compiler.
+The second line tells make /how/ to make the target from the prerequisite (OK, this bit
+is imperative, but we have to do /something/).  In this case, we run a C compiler.
 
 In this second example, more than one step is required to build the target:
 
@@ -95,8 +95,8 @@ salsa: chopped-tomato chopped-onion chopped-chilli
 #+END_SRC
 
 Some things don't need to be written as rules.  Even if you've never seen a chilli
-before, you already know to get chopped chilli from chilli, you chop it with a knife.
-And you already know that to make a sauce from chopped ingredients, you mix them.
+before, you already know to get chopped chilli from chilli: you chop it with a knife.
+And you already know that to make a sauce from chopped ingredients: you mix them.
 
 * Parallel execution
 
@@ -111,8 +111,8 @@ myprogram: main.o module.o
 This is because building ~main.o~ and ~module.o~ don't depend on each other so can each
 be built immediately, as soon as a CPU core is available.
 
-It's the same in the kitchen.  Instead of CPU cores you have burners and ovens.  The
-following can be executed in parallel given one toaster and one hob:
+It's the same in the kitchen.  Instead of CPU cores you have burners, ovens, toasters
+etc.  The following can be executed in parallel given one toaster and one hob:
 
 #+BEGIN_SRC makefile
 beans-on-toast: warm-beans toasted-bread
