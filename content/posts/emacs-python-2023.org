@@ -1,0 +1,142 @@
+#+TITLE: My 2023 Emacs Python Setup
+#+DATE: 2023-08-10
+#+DRAFT: true
+#+DESCRIPTION: My new configuration with Emacs 29, Eglot, python-lsp-server and tree-sitter
+#+CATEGORIES[]: Programming
+#+TAGS[]: programming emacs python
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+I've been using Emacs for almost 15 years now.  Somewhat surprisingly, I hadn't touched
+my config in three years!  It's been working that well.  But now that Emacs 29 has been
+released I've decided to take a look at what's new and there have been some big changes.
+
+* Goodbye Elpy, Goodbye Projectile
+
+Elpy has been the primary mode for Python development for me for years now.  But sadly,
+it looks like the project is no more.  The good news is there are better ways to do what
+it did.  It's bittersweet to say goodbye to it and I will be eternally grateful to the
+authors, but progress is progress.
+
+Similarly, Projectile was what I used to manage projects.  But now Emacs has
+~project.el~ built in and I've opted to use that instead.  One nice thing about
+~project.el~ is it uses other standard stuff underneath like ~xref~.  I configured
+~xref~ to use Ripgrep and now the Project commands like ~C-x p g~ use Ripgrep:
+
+#+begin_src elisp
+(use-package xref
+  :config
+  (setq xref-search-program 'ripgrep))
+#+end_src
+
+* Native builds and tree-sitter
+
+I always build Emacs myself from source if I can.  I run Gentoo on my personal computer
+so that goes without saying, but I do it on Ubuntu too, if only to get the latest
+versions.  This does mean I can easily enable a couple of new features: native builds
+and tree-sitter.
+
+On Gentoo this was a simple as adding a couple of USE flags to portage.  My USE flags
+for emacs now look like:
+
+#+begin_src
+app-editors/emacs athena cairo gui gtk harfbuzz json libxml2 source tree-sitter jit -X
+#+end_src
+
+The ~gtk -X~ also implies a ~pgtk~ build which is nice because I use wayland (sway).
+
+* Eglot
+
+Elpy provided a proper IDE experience for Python but it did it in a completely custom,
+albeit very clever, way via a special RPC process which used ~jedi~.  Now with LSP we
+can get essentially the same sort of thing but in a more standard way that works with
+all languages.
+
+I have tried LSP (in particular, ~lsp-mode~) in emacs before, but I wasn't impressed.  I
+cannot stand latency and the moment I detect latency when merely typing in a text
+editor, I walk away.  But I'm pleased to say that with Emacs 29, native builds, Eglot
+and [[https://github.com/python-lsp/python-lsp-server][~python-lsp-server~]] it is now fast enough for me.
+
+I installed ~python-lsp-server~ with ~pipx~.  This is my preferred way of installing
+Python apps.  I suppose I should do it with Portage, but I make an exception for Python
+because I'm so familiar with it.  Notice how there will be only one LSP server installed
+for my whole system (not one per virtualenv).
+
+Enabling Eglot is easy.  To make it work for Python it just needs the following:
+
+#+begin_src elisp
+(use-package eglot
+  :hook (python-mode . eglot-ensure))
+#+end_src
+
+Now just open a Python file and it should work.  It does everything Elpy did (or, at
+least, what I used it for) and more.  Just like that.
+
+* Virtualenvs
+
+OK, so, it doesn't completely just work.  One of the most important things for me is
+being able to jump to the definition of a symbol in the source.  This does just work
+for first party stuff and (kinda) for standard library stuff, but it won't work for
+third party stuff.  That's because the LSP server does know where to find those
+libraries.
+
+Usually when developing on a Python project one would create a virtual environment for
+it.  I make everything a package such that doing a ~pip install -e .~ installs the
+package and all of its dependencies into the virtualenv.  Then you just need to make the
+LSP server aware of this environment.
+
+I used to use ~virtualenvwrapper~ to create virtualenvs for each project, but I've found
+a better way: [[https://direnv.net/][~direnv~]].  This allows you to create ~.envrc~ files in directories with
+anything you want in it then automatically loads it into your environment when you
+change to that directory.  What's even neater is it has built-in support for Python (and
+other languages).
+
+To install ~direnv~ on Gentoo I used the [[https://github.com/gentoo-mirror/guru][Guru]] overlay:
+
+#+begin_src bash
+eselect repository enable guru
+#+end_src
+
+After installing and setting up ~direnv~, make a file called ~.envrc~ at the top of your
+project and put the following:
+
+#+begin_src bash
+layout python
+#+end_src
+
+That's it!  After enabling your project for ~direnv~ support it will automatically
+create a virtualenv and activate it.  When you change directory, it will deactivate it.
+Amazing!
+
+In Emacs you can install the ~direnv~ package and enable it:
+
+#+begin_src elisp
+(use-package direnv
+  :config
+  (direnv-mode))
+#+end_src
+
+Now when you browse to a project with a ~.envrc~ file it will just work.
+
+* Tree-sitter
+
+Finally, to enable tree-sitter I needed to first install the grammar for Python, I added
+the following to my emacs config:
+
+#+begin_src elisp
+(setq treesit-language-source-alist
+   '((python "https://github.com/tree-sitter/tree-sitter-python")))
+#+end_src
+
+And then (after evaling the above) you can run: ~M-x treesit-install-language-grammar~.
+This builds the grammar for you and puts it in your emacs config.
+
+Now you can use the mode ~python-ts-mode~ instead of ~python-mode~.
+
+* Conclusion
+
+In conclusion, I've switched from Projectile to project.el, from Elpy to Eglot/LSP and
+from ~virtualenvwrapper~ to ~direnv~ as well as including the latest improvements like
+native builds and tree-sitter.  This has really simplified my config and I seem to have
+a renewed love for Emacs.
