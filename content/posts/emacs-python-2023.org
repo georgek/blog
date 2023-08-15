@@ -1,27 +1,29 @@
 #+TITLE: My 2023 Emacs Python Setup
-#+DATE: 2023-08-10
-#+DRAFT: true
+#+DATE: 2023-08-15
+#+DRAFT: false
 #+DESCRIPTION: My new configuration with Emacs 29, Eglot, python-lsp-server and tree-sitter
 #+CATEGORIES[]: Programming
 #+TAGS[]: programming emacs python
 #+KEYWORDS[]:
 #+SLUG:
 #+SUMMARY:
+#+toc: t
 
 I've been using Emacs for almost 15 years now.  Somewhat surprisingly, I hadn't touched
 my config in three years!  It's been working that well.  But now that Emacs 29 has been
-released I've decided to take a look at what's new and there have been some big changes.
+released I've decided to take a look at what's new and there have been some big changes,
+particularly for Python.
 
 * Goodbye Elpy, Goodbye Projectile
 
-Elpy has been the primary mode for Python development for me for years now.  But sadly,
+[[https://github.com/jorgenschaefer/elpy/][Elpy]] has been the primary mode for Python development for me for years now.  But sadly,
 it looks like the project is no more.  The good news is there are better ways to do what
 it did.  It's bittersweet to say goodbye to it and I will be eternally grateful to the
 authors, but progress is progress.
 
-Similarly, Projectile was what I used to manage projects.  But now Emacs has project.el
+Similarly, [[https://github.com/bbatsov/projectile][Projectile]] was what I used to manage projects.  But now Emacs has project.el
 built in and I've opted to use that instead.  One nice thing about project.el is it uses
-other standard stuff underneath like xref.  I configured xref to use Ripgrep and now the
+other standard stuff underneath like xref.  I configured xref to use [[https://github.com/BurntSushi/ripgrep][Ripgrep]] and now the
 Project commands like ~C-x p g~ use Ripgrep:
 
 #+begin_src elisp
@@ -46,9 +48,10 @@ app-editors/emacs athena cairo gui gtk harfbuzz json libxml2 source tree-sitter 
 
 The ~gtk -X~ also implies a ~pgtk~ build which is nice because I use wayland (sway).
 
-On Ubuntu (20.04, yeah, old, rolling distros ftw) it was more difficult.  I first pulled
-the source code (~emacs-29.1.tar.gz~) from a [[http://ftpmirror.gnu.org/emacs/][nearby GNU mirror]] per the [[https://www.gnu.org/software/emacs/download.html][GNU website]].
-Then a few packages are required (I use i3/X11 on Ubuntu):
+On Ubuntu (20.04, yeah, old, this is one reason I prefer rolling distros) it was more
+difficult.  I first pulled the source code (~emacs-29.1.tar.gz~) from a [[http://ftpmirror.gnu.org/emacs/][nearby GNU
+mirror]] per the [[https://www.gnu.org/software/emacs/download.html][GNU website]].  Then a few packages are required (I use i3/X11 on
+Ubuntu):
 
 #+begin_src bash
 sudo apt install autoconf make gcc texinfo libgtk-3-dev libxpm-dev libjpeg-dev \
@@ -69,19 +72,19 @@ CC="gcc-10" ./configure --prefix=$HOME --with-json --with-native-compilation=aot
   --with-tree-sitter
 #+end_src
 
-Note that I keep my own builds in ~$HOME~ by settings ~--prefix~.  By default the
+Note that I keep my own builds in ~$HOME~ by setting ~--prefix~.  By default the
 installation would put it in the system directories which I prefer not to do as those
 are controlled by my system package manager.  Also note that I set
 ~--with-native-compilation=aot~ which makes native builds ahead of time instead of JIT
-compiling them.  Run ~./configure --help~ to see all of them options.
+compiling them.  Run ~./configure --help~ to see all of the build options.
 
 Then I just compiled it:
 
 #+begin_src bash
-make -j 8 # 8 threads
+make -j 8                       # 8 threads
 #+end_src
 
-Can be tested with ~src/emacs -Q~ then if it works:
+The build can be tested with ~src/emacs -Q~ then, if it works:
 
 #+begin_src bash
 make install
@@ -94,15 +97,15 @@ albeit very clever, way via a special RPC process which used ~jedi~.  Now with L
 can get essentially the same sort of thing but in a more standard way that works with
 all languages.
 
-I have tried LSP (in particular, ~lsp-mode~) in emacs before, but I wasn't impressed.  I
+I have tried LSP (in particular, [[https://emacs-lsp.github.io/lsp-mode/][~lsp-mode~]]) in emacs before, but I wasn't impressed.  I
 cannot stand latency and the moment I detect latency when merely typing in a text
 editor, I walk away.  But I'm pleased to say that with Emacs 29, native builds, Eglot
-and [[https://github.com/python-lsp/python-lsp-server][~python-lsp-server~]] it is now fast enough for me.
+and [[https://github.com/python-lsp/python-lsp-server][~python-lsp-server~]] it is now fast enough for me.  ~lsp-mode~ might very well be
+fast enough now too.  I'll probably try it eventually.
 
-I installed ~python-lsp-server~ with ~pipx~.  This is my preferred way of installing
-Python apps.  I suppose I should do it with Portage, but I make an exception for Python
-because I'm so familiar with it.  Notice how there will be only one LSP server installed
-for my whole system (not one per virtualenv).
+I installed ~python-lsp-server~ (with [[https://github.com/pypa/pipx][~pipx~]] on Ubuntu).  This is my preferred way of
+installing Python apps if they're not available in the base distro.  Notice how there
+will be only one LSP server installed for my whole system (not one per virtualenv).
 
 Enabling Eglot is easy.  To make it work for Python it just needs the following:
 
@@ -177,11 +180,86 @@ the following to my emacs config:
 And then (after evaling the above) you can run: ~M-x treesit-install-language-grammar~.
 This builds the grammar for you and puts it in your emacs config.
 
-Now you can use the mode ~python-ts-mode~ instead of ~python-mode~.
+Now you can use the mode ~python-ts-mode~ instead of ~python-mode~:
+
+#+begin_src elisp
+(use-package python
+  :mode ("\\.py\\'" . python-ts-mode)
+  :init
+  (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode)))
+#+end_src
+
+The ~major-mode-remap-list~ entry means ~python-ts-mode~ will be used whenever
+~python-mode~ would have been used, like when opening a script with no file extension
+but a Python shebang.
+
+* Completion
+
+One thing I cannot do without is some kind of completion capability.  In bash I use
+tab-completion extensively and I consider any keyboard-driven software that doesn't
+support at least tab-completion to be defective.
+
+Basic completion is supported in Emacs out of the box but it can be extended to be quite
+sophisticated.  But I've always found it a bit overwhelming.  My life was changed when I
+first enabled [[https://www.gnu.org/software/emacs/manual/html_mono/ido.html][ido]].  The combination of completion and narrowing is amazing.  Later I
+switched to other packages like [[https://github.com/abo-abo/swiper][ivy]], [[https://emacs-helm.github.io/helm/][Helm]] and [[https://github.com/radian-software/selectrum][Selectrum]] and enabled in-buffer completion
+with [[https://company-mode.github.io/][Company]].  Selectrum is now defunct and replaced with [[https://github.com/minad/vertico][Vertico]].
+
+For the first time, I have a completion set up that I understand and that I'm very happy
+with.
+
+What I really wanted was fuzzy-style completion in minibuffer contexts but dead basic
+prefix-style completion within buffers.  I also want the completion within-buffer to be
+driven by the tab key like in a bash shell.  I've settled on Company within-buffer and
+Vertico in the minibuffer.
+
+I like the setting ~(setq tab-always-indent 'complete)~ which causes TAB to indent
+first, then complete, but I was getting weird behaviour where that completion would not
+launch company.  So instead:
+
+#+begin_src elisp
+(global-set-key (kbd "TAB") #'company-indent-or-complete-common)
+#+end_src
+
+This now does the right thing but launches Company instead of the default completion
+function.
+
+The other major part is completion styles.  I like the [[https://github.com/oantolin/orderless][Orderless]] style for the fuzzy
+minibuffer style, but it doesn't work for basic completion.  Emacs supports setting a
+list of completion styles by setting ~completion-styles~ and further refining that for
+specific categories by setting ~completion-category-overrides~.  The trouble is, the
+category names for the latter are quite hard to find.  But eventually I settled on the
+following configuration:
+
+#+begin_src elisp
+(use-package orderless
+  :init
+  (setq completion-styles '(basic partial-completion orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((project-file (styles orderless))
+                                        (buffer (styles orderless))
+                                        (command (styles orderless)))))
+#+end_src
+
+This sets ~basic~ and ~partial-completion~ styles first by default everywhere.  Company
+doesn't really support the Orderless style, which is fine by me as I don't want it
+in-buffer anyway.  I then override it for particular categories to add ~orderless~ to
+the front.  ~project-file~ is for finding files in projects with ~C-x p f~, ~buffer~ is
+for switching buffers and ~command~ is for running commands with ~M-x~.
 
 * Conclusion
 
-In conclusion, I've switched from Projectile to project.el, from Elpy to Eglot/LSP and
-from virtualenvwrapper to direnv as well as including the latest improvements like
-native builds and tree-sitter.  This has really simplified my config and I seem to have
-a renewed love for Emacs.
+To sum up, I've switched from Projectile to project.el, from Elpy to Eglot/LSP and from
+virtualenvwrapper to direnv as well as including the latest improvements like native
+builds and tree-sitter.  This has really simplified my config and I seem to have a
+renewed love for Emacs.
+
+I've been using this configuration for a few days now for real work and I really love it
+so far.  Things like the eldoc and xref jump to definition features are working
+perfectly now and I've had real trouble with consistent behaviour before.
+
+My actual emacs config does include a number of extra tweaks to all of this stuff.  I
+love reading other people's .emacs files, so maybe you'll enjoy reading mine too:
+https://github.com/georgek/dot-emacs
+
+Happy hacking!
