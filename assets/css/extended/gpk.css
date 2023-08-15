@@ -14,3 +14,7 @@ h1 {
     text-align: justify;
     font-family: 'Lora', serif;
 }
+
+article.first-entry {
+    min-height: 0;
+}
