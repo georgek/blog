@@ -1,9 +1,9 @@
 #+TITLE: Replacing Strings in an Entire Project
-#+DATE: 2023-08-16T16:31:26+01:00
-#+DRAFT: true
+#+DATE: 2023-08-22
+#+DRAFT: false
 #+DESCRIPTION: 
 #+CATEGORIES[]: hacks
-#+TAGS[]: emacs
+#+TAGS[]: emacs regexp
 #+KEYWORDS[]:
 #+SLUG:
 #+SUMMARY:
@@ -11,8 +11,8 @@
 This is a little trick I just applied and thought was cool enough to write down.
 
 Let's say you want to replace a name that is used throughout a project.  Due to various
-conventions in use the name might appear in several forms like: ~MY_COOL_NAME~,
-~my-cool-name~, ~my_cool_name~ etc.
+conventions/restrictions in use the name might appear in several forms like:
+~MY_COOL_NAME~, ~my-cool-name~, ~my_cool_name~ etc.
 
 In Emacs you can invoke regexp replace across an entire project by invoking
 ~project-query-replace-regexp~, by default bound to ~C-x p r~.  This will first prompt
@@ -30,3 +30,8 @@ After pressing enter again emacs will then cycle through every replacement in ev
 in the project allowing you to either apply it, with ~y~ or skip it, with ~n~.  If you
 wish to make the changes across an entire file unconditionally, press ~!~.  If you wish
 to skip an entire file, press ~N~.  You can also press ~?~ to see the other options.
+
+Notice Emacs does what you (probably) want when it comes to case.  We didn't type the
+search in upper case, but it will match ~MY_COOL_NAME~ and replace it with ~NEW_NAME~.
+Similarly, if there were a ~My-Cool-Name~, it would replace it with ~New-Name~
+automatically.
