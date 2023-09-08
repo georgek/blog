@@ -1,0 +1,22 @@
+#+TITLE: Git is your Safety Rope
+#+DATE: 2023-09-08T09:25:12+01:00
+#+DRAFT: true
+#+DESCRIPTION:
+#+CATEGORIES[]:
+#+TAGS[]:
+#+KEYWORDS[]:
+#+SLUG:
+#+SUMMARY:
+
+When I was learning rock climbing I distinctly remember my instructor telling me "you'll
+never get good until you learn to trust the rope".
+
+This principle seems to ring true in many areas of life.  You'll never really push
+yourself if you think there's a high chance of catastrophe.  In society we have things
+like insurance to help with this.  For software development and version on control, you
+have git.
+
+TODO:
+
+- Commands that can corrupt worktree: ~git reset --hard~
+- ~git worktree~ to make a new worktree
