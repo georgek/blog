@@ -8,3 +8,5 @@
 #+SLUG:
 #+SUMMARY:
 
+At the beginning of 2023 I spent four days walking across the island of Gran Canaria
+with my partner.
