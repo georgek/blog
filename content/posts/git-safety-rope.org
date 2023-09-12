@@ -12,11 +12,128 @@ When I was learning rock climbing I distinctly remember my instructor telling me
 never get good until you learn to trust the rope".
 
 This principle seems to ring true in many areas of life.  You'll never really push
-yourself if you think there's a high chance of catastrophe.  In society we have things
-like insurance to help with this.  For software development and version on control, you
-have git.
+yourself if you think there's a high chance of a catastrophe.  That's why we have things
+like insurance, backups and, well, safety ropes.
+
+But wait, isn't git the thing I need protecting from?  Like any powerful tool, git can
+do the wrong thing if wielded incorrectly.  But if you follow just a few simple rules,
+it's literally impossible for git to break anything.
+
+* Version control without git
+
+A version control system allows you to store and access multiple version of the same
+codebase.  It's worth imagining what this might look like without git, so let's invent
+our own version control.
+
+First let's make our project and create a README:
+
+#+begin_src bash
+mkdir my-project
+echo "hi" > my-project/README
+#+end_src
+
+This is a pretty good start, so let's *commit* this version:
+
+#+begin_src bash
+cd ..
+cp -pr my-project my-project-v1
+#+end_src
+
+An important rule in our system is that we must never touch any committed version again.
+But we continue to work on the original copy.  This copy is known as the *working
+directory*.
+
+So we make another change:
+
+#+begin_src bash
+echo "more stuff" >> my-project/README
+echo "new file stuff" >> my-project/new-file
+#+end_src
+
+Let's check what the difference is compared to v1:
+
+#+begin_src bash
+diff -Nur my-project-v1 my-project
+#+end_src
+
+#+begin_src diff
+diff -Nur my-project-v1/new-file my-project/new-file
+--- my-project-v1/new-file	1970-01-01 01:00:00.000000000 +0100
++++ my-project/new-file	2023-09-12 22:53:23.421997103 +0100
+@@ -0,0 +1 @@
++new file stuff
+diff -Nur my-project-v1/README my-project/README
+--- my-project-v1/README	2023-09-12 22:52:44.806065953 +0100
++++ my-project/README	2023-09-12 22:53:13.246015242 +0100
+@@ -1 +1,2 @@
+ hi
++more stuff
+#+end_src
+
+Let's commit this new version:
+
+#+begin_src bash
+cp -pr my-project my-project-v1-1
+#+end_src
+
+Notice we called it ~v1-1~ instead of ~v2~.  This means it's the first version descended
+from ~v1~.  To see why this is important, let's first check out ~v1~ again:
+
+#+begin_src bash
+rsync -a --delete my-project-v1/ my-project/
+#+end_src
+
+Now we make a completely different change:
+
+#+begin_src bash
+echo "something different" >> my-project/README
+#+end_src
+
+Remember we can always check the diff:
+
+#+begin_src bash
+diff -Nur my-project-v1 my-project
+#+end_src
+
+#+begin_src diff
+diff -Nur my-project-v1/README my-project/README
+--- my-project-v1/README	2023-09-12 22:52:44.806065953 +0100
++++ my-project/README	2023-09-12 23:14:10.060730295 +0100
+@@ -1 +1,2 @@
+ hi
++something different
+#+end_src
+
+And now we can commit this version, which is the second version descended from ~v1~:
+
+#+begin_src bash
+cp -pr my-project my-project-v1-2
+#+end_src
+
+We now have two branches that diverge at ~v1~.
+
+OK, you probably get the idea.  This is basically how git works, The difference is git
+makes it possible (and efficient) to have literally /millions/ of versions of the same
+codebase on your filesystem.  But it's essentially doing the same thing behind the
+scenes: making copies and storing the parent/child relationships between copies.
+
+* You can't touch the blob store
+
+In our version control system we had the rule that we would never touch any committed
+version again.  Git has the very same rule.  Git stores all the committed versions in
+its blob store and the blob store is an *immutable, append-only database*.
+
+This is possibly the most fundamental thing to understand about git.  It will not ever
+delete things from the blob store.[fn:1]
 
 TODO:
 
 - Commands that can corrupt worktree: ~git reset --hard~
 - ~git worktree~ to make a new worktree
+
+* Footnotes
+
+[fn:1] Git does actually delete unreachable items from its blob store after a while.
+This is called garbage collection.  In practice this doesn't matter because you can't
+practically get at those blobs anyway.  It also prunes the reflog removing anything
+older than 90 days, by default.
