@@ -124,16 +124,23 @@ version again.  Git has the very same rule.  Git stores all the committed versio
 its blob store and the blob store is an *immutable, append-only database*.
 
 This is possibly the most fundamental thing to understand about git.  It will not ever
-delete things from the blob store.[fn:1]
+delete things from the blob store[fn:1]. So this is the key: to not lose anything you
+need to get it into the blob store.  Your working directory is /not/ in the blob store.
+To get stuff into the blob store, you need to commit it.
 
 TODO:
 
 - Commands that can corrupt worktree: ~git reset --hard~
 - ~git worktree~ to make a new worktree
+- push can affect other people so be careful and responsible
 
-* Footnotes
+[fn:1] OK, "not ever" is a lie.  Git does actually delete unreachable items from its
+blob store, but this is mainly stuff created by internal operations.  The process is
+called garbage collection.  In practice this doesn't matter because you can't
+practically get at those blobs anyway, but it does also prune the reflog, removing
+anything older than 90 days, by default.  This is a bit less good but, again, in
+practice 90 days is probably more than long enough.
 
-[fn:1] Git does actually delete unreachable items from its blob store after a while.
-This is called garbage collection.  In practice this doesn't matter because you can't
-practically get at those blobs anyway.  It also prunes the reflog removing anything
-older than 90 days, by default.
+# Local Variables:
+# org-footnote-section: nil
+# End:
