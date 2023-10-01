@@ -1,0 +1,28 @@
+#+TITLE: Resolving Private IP Addresses with pfSense DNS Resolver
+#+DATE: 2023-10-01T23:26:11+01:00
+#+DRAFT: false
+#+DESCRIPTION:
+#+CATEGORIES[]: networking
+#+TAGS[]: pfsense networking dns k8s
+#+KEYWORDS[]: pfsense networking dns k8s nip.io sslip.io traefik.me azmk8s.io
+#+SLUG:
+#+SUMMARY:
+
+I use the Unbound DNS resolver built in to pfSense.  By default the resolver filters out
+any results that are private IP addresses.  Normally this makes sense: no public domain
+should have a private address.  But sometimes it does make sense.  For example there are
+some useful services like [[https://sslip.io/][sslip.io]] that will resolve to any IP address that you like.
+So ~127.0.0.1.sslip.io~ resolves to to ~127.0.0.1~.  This is can be useful for local
+development, especially when working with containers and reverse proxies and the like.
+
+To allow Unbound to resolve these properly an extra configuration needs to be added.
+pfSense has no GUI config so this must be added under the custom options in the DNS
+resolver settings in pfSense.  My options look like this:
+
+#+begin_src conf
+server:
+private-domain: "azmk8s.io"
+private-domain: "nip.io"
+private-domain: "sslip.io"
+private-domain: "traefik.me"
+#+end_src
