@@ -1,0 +1,202 @@
+#+TITLE: Working on Multiple Web Projects with Docker Compose and Traefik
+#+DATE: 2023-10-02T21:07:29+01:00
+#+DRAFT: false
+#+DESCRIPTION:
+#+CATEGORIES[]: programming
+#+TAGS[]: programming networking web development traefik docker
+#+KEYWORDS[]: programming networking web development traefik docker docker-compose
+#+SLUG:
+#+SUMMARY:
+
+I work on multiple web projects and run local development servers for each of them.  I
+often have to switch between them and sometimes it's useful to have multiple projects up
+at the same time.  Recently I've found a way that makes managing these more enjoyable.
+
+* A single project with Docker Compose
+
+I use [[https://docs.docker.com/compose/][docker compose]] to manage local development instances of these projects.  A typical
+compose file for a web project might look like this:
+
+#+begin_src yaml
+services:
+  db:
+    image: "postgres"
+    environment:
+      POSTGRES_DB: "proj"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pass"
+
+  web:
+    build: .
+    depends_on:
+      - "db"
+    environment:
+      DATABASE_URL: "postgres://user:pass@db/proj"
+    ports:
+      - "8000:80"
+#+end_src
+
+Note the very last line.  This is where we map port 8000 from the host to port 80 of the
+container such that the service can be accessed via ~http://127.0.0.1:8000~.
+
+This works quite well for a single project, but it suffers from a couple of problems if
+you work on multiple projects:
+
+1. It doesn't scale.  If I want to run another project at the same time, I'll have to
+   use a different port number, maybe 8001, then 8002 etc.,
+
+2. What if that ~compose.yaml~ file is checked in as part of the project? Does the whole
+   team have to agree on a set of port numbers to use for each project?
+
+* Using overrides for multiple projects
+
+Fortunately Docker Compose does have a solution for (2) in the form of the (not very
+well documented) ~compose.override.yaml~.  This file will automatically will
+automatically be [[https://docs.docker.com/compose/multiple-compose-files/merge/][merged]] into the ~compose.yaml~.
+
+Unlike some other guides concerning this file, I prefer to *not* check
+~compose.override.yaml~ into version control and instead add it to the ~.gitignore~
+file. Adding it to version control completely defeats the purpose of it: to allow
+individual developers to override the standard compose file.
+
+So, with this in mind, I no longer expose any ports by default in ~compose.yaml~ because
+I don't know what will be convenient for each developer.  This set up might look like
+this:
+
+#+begin_src yaml
+# compose.yaml
+services:
+  db:
+    image: "postgres"
+    environment:
+      POSTGRES_DB: "proj"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "pass"
+
+  web:
+    build: .
+    depends_on:
+      - "db"
+    environment:
+      DATABASE_URL: "postgres://user:pass@db/proj"
+--
+# compose.override.yaml (to be created by each developer)
+services:
+  web:
+    ports:
+      - "8000:80"
+#+end_src
+
+* Using Traefik
+
+So now each developer can pick their own port numbers for each project, but we can still
+do better than this.  People aren't good at remembering numbers.  We are much better at
+remembering names.  [[https://doc.traefik.io/traefik/][Traefik]] is a free software edge router that can be used as a simple
+and super easy to configure reverse-proxy in container-based set ups.
+
+Using Docker, Traefik can automatically discover services to create routes to.  It uses
+container labels to further configure these routes.  The following tiny example from the
+[[https://doc.traefik.io/traefik/getting-started/quick-start/][docs]] is illustrative:
+
+#+begin_src yaml
+services:
+  reverse-proxy:
+    image: traefik:v2.10
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  whoami:
+    image: traefik/whoami
+    labels:
+      - "traefik.http.routers.whoami.rule=Host(`whoami.docker.localhost`)"
+#+end_src
+
+This starts two containers on the same docker network.  The reverse proxy listens on
+port 80 and forwards traffic with a host header of "whoami.docker.localhost" to the
+~whoami~ service.  Traefik guesses which port to send it to ~whoami~ based on the ports
+exposed by the container.
+
+If you haven't played with Traefik before it's worth going through the [[https://doc.traefik.io/traefik/getting-started/quick-start/][quick-start]]
+properly now then coming back to see how we can make this work for multiple projects.
+
+* Traefik with multiple projects
+
+This doesn't quite solve our problem yet.  We don't want all of our project inside one
+compose file.  Luckily Traefik communicates with the Docker daemon directly and doesn't
+really care about the compose file, but you do need to make sure a few things are in
+order.
+
+Firstly, make a docker network especially for Traefik to communicate with other services
+that you want to expose, for example:
+
+#+begin_src yaml
+services:
+  reverse-proxy:
+    image: traefik:v2.10
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    attachable: true
+    name: traefik
+#+end_src
+
+We create the network ~traefik~ and give it the name "traefik" (otherwise docker compose
+would scope it by project, e.g. "traefik_traefik").  We also allow other containers to
+attach to this network.
+
+Then in our ~compose.override.yaml~ file from above, instead of mapping ports, we do the
+following:
+
+#+begin_src yaml
+services:
+  web:
+    labels:
+      - "traefik.http.routers.proj.rule=Host(`proj.traefik.me`)"
+      - "traefik.http.services.proj.loadbalancer.server.port=8000"
+      - "traefik.docker.network=traefik"
+    networks:
+      - default
+      - traefik
+
+networks:
+  traefik:
+    external: true
+#+end_src
+
+Now, you should be able to browse to [[http://proj.traefik.me/]] in your web browser.
+
+There's a few things going on here.  First, we have declared the ~traefik~ network as an
+external network.  This means compose won't manage it, but expects it to exist (so you
+must start your traefik composition already).  Next we override the ~networks~ setting
+of ~web~ to make it part of the ~traefik~ network too.  Note we also have to add the
+~default~ network, otherwise it wouldn't be able to communicate with ~db~ and other
+services on its own default network.
+
+The ~traefik.http.routers.proj.rule~ label configures Traefik to route HTTP traffic with
+the "proj.traefik.me" hostname to the container. The ~traffic.docker.network~ label is
+necessary because ~web~ is on two networks.  Finally, we set
+~traefik.http.services.proj.loadbalancer.server.port~ for completeness, just in case
+your container needs a different port mapping than the port it is set to expose, or if
+it exposes multiple ports.
+
+There is one final piece of magic, the "traefik.me" hostname.  What is that?  You can
+read about it at [[http://traefik.me/]].  Essentially it is a DNS service that resolves to
+any IP address that you want, but by default it resolves ~<xxx>.traefik.me~ to
+~127.0.0.1~.  There are other services like this including [[https://sslip.io/]] and
+[[https://nip.io/]].
+
+* Conclusion
+
+By leveraging both the ~compose.override.yaml~ file and Traefik it's easy to run
+multiple web projects on your development system at the same time and have easy to
+remember names to access them all.  Each developer is free to run as many as they want 
+and create their own easily-manageable configurations.
