@@ -7,10 +7,10 @@ h1 {
 }
 
 .post-title {
-    font-size: 45px;
+    font-size: 2.4em;
 }
 
-.post-content p {
+.post-content {
     text-align: justify;
     font-family: 'Lora', serif;
 }
