@@ -14,7 +14,7 @@ well-loved, it's known to be a bit difficult to package (to say the least) and m
 distro packages you'll find are out of date.  The [[https://calibre-ebook.com/download_linux][official website]] recommends against
 using any distro packages and instead installing it directly from the site.
 
-The problem is the official instructions are problematic for a number of reasons.  For a
+Unfortunately, the official instructions are problematic for a number of reasons.  For a
 start, copying and pasting commands from the browser is considered dangerous.  But
 that's easy to fix, in bash do ~Ctrl-X Ctrl-E~ and your preferred text editor will be
 opened for you to type your command.  This means you can inspect what is pasted before
