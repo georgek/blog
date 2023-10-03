@@ -130,10 +130,10 @@ properly now then coming back to see how we can make this work for multiple proj
 
 * Traefik with multiple projects
 
-This doesn't quite solve our problem yet.  We don't want all of our project inside one
-compose file.  Luckily Traefik communicates with the Docker daemon directly and doesn't
-really care about the compose file, but you do need to make sure a few things are in
-order.
+This doesn't quite solve our problem yet.  We don't want all of our various projects
+inside one compose file.  Luckily Traefik communicates with the Docker daemon directly
+and doesn't really care about the compose file, but you do need to make sure a few
+things are in order for this to work.
 
 Firstly, make a docker network especially for Traefik to communicate with other services
 that you want to expose, for example:
