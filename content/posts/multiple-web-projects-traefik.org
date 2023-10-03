@@ -22,6 +22,7 @@ I use [[https://docs.docker.com/compose/][docker compose]] to manage local devel
 compose file for a web project might look like this:
 
 #+begin_src yaml
+# proj/compose.yaml
 services:
   db:
     image: "postgres"
@@ -83,7 +84,9 @@ services:
       - "db"
     environment:
       DATABASE_URL: "postgres://user:pass@db/proj"
---
+#+end_src
+
+#+begin_src yaml
 # compose.override.yaml (to be created by each developer)
 services:
   web:
@@ -103,6 +106,7 @@ container labels to further configure these routes.  The following tiny example 
 [[https://doc.traefik.io/traefik/getting-started/quick-start/][docs]] is illustrative:
 
 #+begin_src yaml
+# traefik/compose.yaml
 services:
   reverse-proxy:
     image: traefik:v2.10
@@ -139,6 +143,7 @@ that you want to expose, for example:
 services:
   reverse-proxy:
     image: traefik:v2.10
+    restart: unless-stopped
     command: --api.insecure=true --providers.docker
     ports:
       - "80:80"
@@ -224,7 +229,9 @@ services:
       DATABASE_URL: "postgres://user:pass@db/proj"
     ports:
       - "8000:80"
---
+#+end_src
+
+#+begin_src yaml
 # compose.override.yaml (to be created by each developer)
 services:
   web:
