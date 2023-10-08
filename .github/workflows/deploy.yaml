@@ -1,8 +1,6 @@
 name: deploy
 
-on:
-  push:
-    branches: [master]
+on: push
 
 permissions:
   contents: write
@@ -36,3 +34,4 @@ jobs:
         with:
           branch: gh-pages
           folder: public
+        if: github.ref == 'refs/heads/master'
