@@ -6,7 +6,6 @@
 CLOSED: [2023-10-02 Mon 09:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: multiple-web-projects-traefik
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :END:
 
 ** Introduction                                                      :ignore:
@@ -280,7 +279,6 @@ too hard to remove this file from repos if already present.
 CLOSED: [2023-08-15 Tue 14:19]
 :PROPERTIES:
 :EXPORT_FILE_NAME: emacs-python-2023
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description My new configuration with Emacs 29, Eglot, python-lsp-server and tree-sitter
 :END:
 
@@ -545,7 +543,6 @@ Happy hacking!
 CLOSED: [2023-07-31 Mon 19:30]
 :PROPERTIES:
 :EXPORT_FILE_NAME: emacs-arduino
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary Develop for Arduino in your favourite text editor with PlatformIO
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description An easy way to start Arduino for Emacs users
 :END:

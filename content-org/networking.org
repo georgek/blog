@@ -18,7 +18,6 @@
 CLOSED: [2023-10-01 Sun 23:10]
 :PROPERTIES:
 :EXPORT_FILE_NAME: pfsense-unbound-private
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :END:
 
 I use the Unbound DNS resolver built in to pfSense.  By default the resolver filters out

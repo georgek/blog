@@ -6,7 +6,6 @@
 CLOSED: [2023-08-03 Thu 00:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: cooking-with-make
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary In which I compare cooking food with building software
 :END:
 

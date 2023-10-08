@@ -178,7 +178,6 @@ first iteration, as electronic maps have now done.
 CLOSED: [2023-09-21 Thu 14:10]
 :PROPERTIES:
 :EXPORT_FILE_NAME: emacs-hangs-debug
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :END:
 
 Even after using Emacs for 15 years there's still so much I can learn. I probably should
@@ -215,7 +214,6 @@ impacting performance and it might be worth auditing hooks like
 CLOSED: [2023-08-22 Tue 14:22]
 :PROPERTIES:
 :EXPORT_FILE_NAME: emacs-regexp-replace
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :END:
 
 This is a little trick I just applied and thought was cool enough to write down.
@@ -250,7 +248,6 @@ automatically.
 CLOSED: [2023-08-13 Sun 13:23]
 :PROPERTIES:
 :EXPORT_FILE_NAME: calibre-rootless-install
-:EXPORT_HUGO_LASTMOD: 2023-10-08
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary How to install Calibre on Linux without root and/or sudo
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description The best way to install Calibre on Linux
 :END:
@@ -337,7 +334,7 @@ they will point to the new version.
 CLOSED: [2023-07-15 Sat 13:43]
 :PROPERTIES:
 :EXPORT_FILE_NAME: hugo-org-mode
-:EXPORT_HUGO_LASTMOD: 2023-10-08
+:EXPORT_HUGO_LASTMOD: <2023-10-08 Sun 20:52>
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary I've set up my blog such that I can write it using org-mode and host it and edit it anywhere. I'm using Hugo as a static site generator and GitHub as a host.
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description How I set up this blog using emacs, org-mode and Hugo
 :END:
