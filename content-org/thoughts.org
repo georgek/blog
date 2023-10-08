@@ -1,12 +1,16 @@
-#+TITLE: Cooking with Make
-#+DATE: 2023-08-03
-#+DRAFT: false
-#+DESCRIPTION: How to compile your dinner
-#+CATEGORIES[]: geeky
-#+TAGS[]: cooking programming make makefile declarative
-#+KEYWORDS[]:
-#+SLUG:
-#+SUMMARY: In which I compare cooking food with building software
+#+author: George Kettleborough
+#+hugo_base_dir: ../
+#+hugo_categories: thoughts
+
+* DONE Cooking with Make      :cooking:programming:make:makefile:declarative:
+CLOSED: [2023-08-03 Thu 00:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: cooking-with-make
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary In which I compare cooking food with building software
+:END:
+
+** Introduction                                                      :ignore:
 
 I cook a lot of food from scratch and it occurred to me one day that the way I
 understand and assimilate recipes is very similar to how ~make~ works.
@@ -45,7 +49,7 @@ module.o: module.c
 Now we first require ~module.o~ and, in case it's not already present, we show how to
 make ~module.o~ too which requires ~module.c~, the source code.
 
-* Making food
+** Making food
 
 So what does a food recipe look like in a ~Makefile~?  Here's how to make a basic
 [[https://en.wikipedia.org/wiki/B%C3%A9chamel_sauce][béchamel sauce]]:
@@ -75,7 +79,7 @@ boilded-cauliflower: cauliflower
 	Separate cauliflower and boil in salted water
 #+END_SRC
 
-* Implicit rules
+** Implicit rules
 
 A perhaps lesser-known feature of ~make~ is that it contains implicit rules.  That is,
 ~make~ already knows how to make some things, mostly around C compilation.  These aren't
@@ -98,10 +102,10 @@ Some things don't need to be written as rules.  Even if you've never seen a chil
 before, you already know to get chopped chilli from chilli: you chop it with a knife.
 And you already know that to make a sauce from chopped ingredients: you mix them.
 
-* Parallel execution
+** Parallel execution
 
-It's possible to configure ~make~ to run jobs in parallel with the ~-J~ flag, for
-example ~-J4~ says run up to four things at once, presumably because you have four CPU
+It's possible to configure ~make~ to run jobs in parallel with the ~-j~ flag, for
+example ~-j4~ says run up to four things at once, presumably because you have four CPU
 cores available.  The following process can be sped up on two cores:
 
 #+BEGIN_SRC makefile
@@ -118,7 +122,7 @@ etc.  The following can be executed in parallel given one toaster and one hob:
 beans-on-toast: warm-beans toasted-bread
 #+END_SRC
 
-* Cooking isn't a script
+** Cooking isn't a script
 
 Before I could cook myself, I used to marvel at the ability of experienced cooks to not
 only reproduce a dish from memory, but to seemingly make it up as they went along.  To

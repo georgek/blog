@@ -1,12 +1,25 @@
-#+TITLE: Building a Home Cinema on a Shoestring
-#+DATE: 2023-07-24
-#+DRAFT: false
-#+DESCRIPTION: An opinionated guide to home cinema for the thrifty geek
-#+CATEGORIES[]: Lifestyle
-#+TAGS[]: home-cinema audio projector
-#+KEYWORDS[]:
-#+SLUG: shoestring-home-cinema
-#+SUMMARY: 
+#+author: George Kettleborough
+#+hugo_draft: t
+#+hugo_base_dir: ../
+#+hugo_categories: life
+
+* TODO Norfolk Coast Path                             :walking:nationaltrail:
+
+* TODO Camino Gran Canaria                                   :walking:camino:
+
+* TODO Camino Primitivo                                      :walking:camino:
+
+* TODO Ben Eater Computer                    :projects:electronics:computers:
+
+* DONE Building a Home Cinema on a Shoestring    :homecinema:audio:projector:
+CLOSED: [2023-07-24 Mon 14:25]
+:PROPERTIES:
+:EXPORT_FILE_NAME: shoestring-home-cinema
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description An opinionated guide to home cinema for the thrifty geek
+:END:
+
+** Introduction                                                      :ignore:
 
 I love going to the cinema, but I've always been disappointed that I can't see older
 films and I can't see them when it's convenient for me.  There have always been ways to
@@ -40,7 +53,7 @@ A note before starting: this will also take some dedication.  It's a real projec
 Saving money usually means building your own knowledge rather than paying for someone
 else's.  But if you can get there, the results are thoroughly rewarding.
 
-* Projector
+** Projector
 
 Currently I think a projector is the only option.  You can get TVs up to 75" or so, but
 that's not big enough and they are so unwieldy at that size you might as well get a
@@ -65,7 +78,7 @@ You don't need 4K, you don't need HDR, you don't need high frame rate.  A high q
 you don't have to worry about any HDMI standards etc.  You can just buy whatever is
 cheapest.
 
-* The Room
+** The Room
 
 Possibly the most important part of all of this is the room.  First thing to get out of
 the way: a home cinema is not a living room.  You won't just be able to plonk your
@@ -93,7 +106,7 @@ you want to convert the room back into a living room.  A white ceiling is a
 disadvantage.  Ideally it would be black.  But you can get away with just having
 blacked-out walls.
 
-* Sound
+** Sound
 
 Good sound is just as important as a big screen.  What matters is good quality speakers
 and amplifier and correct positioning of those speakers.  Do not consider anything with
@@ -103,7 +116,7 @@ will be mostly second hand.
 
 You will upgrade your equipment in the following order:
 
-** Stereo set up
+*** Stereo set up
 
 Start with a high quality stereo system.  You want speakers that can handle down to
 about 60Hz or lower, if possible, and a stereo amplifier.
@@ -124,13 +137,13 @@ You need to position them correctly.  Basically you want a triangle with the spe
 front and you in the middle.  Even a basic stereo system should sound a lot better than
 any TV.
 
-** Environment
+*** Environment
 
 The environment needs to be quiet.  You don't want any sources of noise.  You also want
 to be able to play sound loudly without fear of annoying neighbours etc.  This is so you
 can enjoy sound with full dynamic range.
 
-** Subwoofer
+*** Subwoofer
 
 Next you can add a subwoofer.  A good quality one from a make like SVS is worth it, but
 they do hold their value pretty well, so you might need to allocate more funds then your
@@ -138,14 +151,14 @@ whole stereo set up.  Make sure the subwoofer supports both high level and low l
 inputs.  The low level input is preferable, but you need an AVR for that, so for now you
 will use the high level set up.
 
-** AVR
+*** AVR
 
 An AVR is a more advanced amp that will support multi-channel audio and digital inputs.
 You can also plug your subwoofer in with the low level input which you definitely
 should.  These don't hold their value well and as long as you get one without the latest
 HDMI standard you can get one for 10% of its original value.
 
-** More speakers
+*** More speakers
 
 If you get this far, you should first look into adding a centre speaker.  But you really
 want it to match your front stereo speakers, so you might want to upgrade the whole set
@@ -158,7 +171,7 @@ consider them before doing the above. You can, however, consider them before a c
 speaker if you are the only one using the cinema, as the ghost centre of the stereo set
 up should be good enough.
 
-* Media
+** Media
 
 I use a NAS to store my media.  You can find an excellent video series by Jeff Geerling
 outlining how to rip blu-ray media to a NAS, starting here:
@@ -173,7 +186,7 @@ the Behringer UCA202 which can be had new for around £20.  If you do have an AV
 you don't need this as you will use audio passthrough via HDMI, but at £20 this is
 probably cheaper to get started.
 
-* Conclusion
+** Conclusion
 
 If you stick to second hand stuff you can cobble together a great home cinema for less
 than £2000.  It's still a lot of money and takes a lot of work and research, but it's a

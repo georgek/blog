@@ -1,12 +1,25 @@
-#+TITLE: Resolving Private IP Addresses with pfSense DNS Resolver
-#+DATE: 2023-10-01T23:26:11+01:00
-#+DRAFT: false
-#+DESCRIPTION:
-#+CATEGORIES[]: networking
-#+TAGS[]: pfsense networking dns k8s
-#+KEYWORDS[]: pfsense networking dns k8s nip.io sslip.io traefik.me azmk8s.io
-#+SLUG:
-#+SUMMARY:
+#+author: George Kettleborough
+#+hugo_draft: t
+#+hugo_base_dir: ../
+#+hugo_categories: networking
+
+
+* TODO My Router                                             :router:pfsense:
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-router
+:END:
+
+* TODO My NAS                                                   :nas:storage:
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-nas
+:END:
+
+* DONE Resolving Private IP Addresses with pfSense DNS Resolver :pfsense:dns:k8s:
+CLOSED: [2023-10-01 Sun 23:10]
+:PROPERTIES:
+:EXPORT_FILE_NAME: pfsense-unbound-private
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:END:
 
 I use the Unbound DNS resolver built in to pfSense.  By default the resolver filters out
 any results that are private IP addresses.  Normally this makes sense: no public domain

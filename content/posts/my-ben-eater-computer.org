@@ -1,9 +1,0 @@
-#+TITLE: My Ben Eater Computer
-#+DATE: 2023-07-25T23:18:47+01:00
-#+DRAFT: true
-#+DESCRIPTION:
-#+CATEGORIES[]:
-#+TAGS[]:
-#+KEYWORDS[]:
-#+SLUG:
-#+SUMMARY:

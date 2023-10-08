@@ -58,6 +58,11 @@ params:
     keys: ["title", "permalink", "summary", "content"]
 
 markup:
+  goldmark:
+    renderer:
+      hardWraps: false
+      unsafe: true
+      xhtml: false
   highlight:
     anchorLineNos: false
     codeFences: true

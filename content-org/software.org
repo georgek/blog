@@ -1,0 +1,499 @@
+#+author: George Kettleborough
+#+hugo_draft: t
+#+hugo_base_dir: ../
+#+hugo_categories: software
+
+* TODO Git is your Safety Rope                          :git:vcs:development:
+:PROPERTIES:
+:EXPORT_FILE_NAME: git-safety-rope
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary 
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description 
+:END:
+
+** Introduction                                                      :ignore:
+
+When I was learning rock climbing I distinctly remember my instructor telling me "you'll
+never get good until you learn to trust the rope".
+
+This principle seems to ring true in many areas of life.  You'll never really push
+yourself if you think there's a high chance of a catastrophe.  That's why we have things
+like insurance, backups and, well, safety ropes.
+
+But wait, isn't git the thing I need protecting from?  Like any powerful tool, git can
+do the wrong thing if wielded incorrectly.  But if you follow just a few simple rules,
+it's literally impossible for git to break anything.
+
+** Version control without git
+
+A version control system allows you to store and access multiple version of the same
+codebase.  It's worth imagining what this might look like without git, so let's invent
+our own version control.
+
+First let's make our project and create a README:
+
+#+begin_src bash
+mkdir my-project
+echo "hi" > my-project/README
+#+end_src
+
+This is a pretty good start, so let's *commit* this version:
+
+#+begin_src bash
+cd ..
+cp -pr my-project my-project-v1
+#+end_src
+
+An important rule in our system is that we must never touch any committed version again.
+But we continue to work on the original copy.  This copy is known as the *working
+directory*.
+
+So we make another change:
+
+#+begin_src bash
+echo "more stuff" >> my-project/README
+echo "new file stuff" >> my-project/new-file
+#+end_src
+
+Let's check what the difference is compared to v1:
+
+#+begin_src bash
+diff -Nur my-project-v1 my-project
+#+end_src
+
+#+begin_src diff
+diff -Nur my-project-v1/new-file my-project/new-file
+--- my-project-v1/new-file	1970-01-01 01:00:00.000000000 +0100
++++ my-project/new-file	2023-09-12 22:53:23.421997103 +0100
+@@ -0,0 +1 @@
++new file stuff
+diff -Nur my-project-v1/README my-project/README
+--- my-project-v1/README	2023-09-12 22:52:44.806065953 +0100
++++ my-project/README	2023-09-12 22:53:13.246015242 +0100
+@@ -1 +1,2 @@
+ hi
++more stuff
+#+end_src
+
+Let's commit this new version:
+
+#+begin_src bash
+cp -pr my-project my-project-v1-1
+#+end_src
+
+Notice we called it ~v1-1~ instead of ~v2~.  This means it's the first version descended
+from ~v1~.  To see why this is important, let's first check out ~v1~ again:
+
+#+begin_src bash
+rsync -a --delete my-project-v1/ my-project/
+#+end_src
+
+Now we make a completely different change:
+
+#+begin_src bash
+echo "something different" >> my-project/README
+#+end_src
+
+Remember we can always check the diff:
+
+#+begin_src bash
+diff -Nur my-project-v1 my-project
+#+end_src
+
+#+begin_src diff
+diff -Nur my-project-v1/README my-project/README
+--- my-project-v1/README	2023-09-12 22:52:44.806065953 +0100
++++ my-project/README	2023-09-12 23:14:10.060730295 +0100
+@@ -1 +1,2 @@
+ hi
++something different
+#+end_src
+
+And now we can commit this version, which is the second version descended from ~v1~:
+
+#+begin_src bash
+cp -pr my-project my-project-v1-2
+#+end_src
+
+We now have two branches that diverge at ~v1~.
+
+OK, you probably get the idea.  This is basically how git works, The difference is git
+makes it possible (and efficient) to have literally /millions/ of versions of the same
+codebase on your filesystem.  But it's essentially doing the same thing behind the
+scenes: making copies and storing the parent/child relationships between copies.
+
+** You can't touch the blob store
+
+In our version control system we had the rule that we would never touch any committed
+version again.  Git has the very same rule.  Git stores all the committed versions in
+its blob store and the blob store is an *immutable, append-only database*.
+
+This is possibly the most fundamental thing to understand about git.  It will not ever
+delete things from the blob store[fn:1]. So this is the key: to not lose anything you
+need to get it into the blob store.  Your working directory is /not/ in the blob store.
+To get stuff into the blob store, you need to commit it.
+
+TODO:
+
+- Commands that can corrupt worktree: ~git reset --hard~
+- ~git worktree~ to make a new worktree
+- push can affect other people so be careful and responsible
+
+[fn:1] OK, "not ever" is a lie.  Git does actually delete unreachable items from its
+blob store, but this is mainly stuff created by internal operations.  The process is
+called garbage collection.  In practice this doesn't matter because you can't
+practically get at those blobs anyway, but it does also prune the reflog, removing
+anything older than 90 days, by default.  This is a bit less good but, again, in
+practice 90 days is probably more than long enough.
+
+* TODO Calendars                                               :calendar:gui:
+:PROPERTIES:
+:EXPORT_FILE_NAME: calendars
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary 
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description 
+:END:
+
+Why are we still using paper-like calendars?
+
+Bit about Gutenberg press.
+
+HN comments:
+
+Thunderbird has the only calendar I know that has a "multiweek" display as opposed to
+(well, in addition to) the utterly retarded month view that exists in every other GUI.
+
+We've been doing electronic calendars for how long now? Why are we still using a
+paradigm from paper based calendars? At the beginning of a month I can see three weeks
+ahead, but at the end of the month I can see three weeks behind. It frustrates me no end
+that this is still a thing. It reminds me of the early days of Google maps when they
+were no better than paper maps, but now we can rotate the map, zoom in and out etc. But
+calendars are still no better than paper calendars. Apart from the one in Thunderbird.
+
+---
+
+It did have zoom, but they were fixed levels so no different to having multiple paper
+maps at different scales. Yes, of course there is the advantage that it's "not paper",
+but that was the only advantage really. This is not unexpected at all as new technology
+very often mimics existing technology in its first iteration. If you look at the first
+outputs of the Gutenberg press you can see they were trying to mimic handwritten books
+of the time. But usually the new technology very quickly surpasses the old after the
+first iteration, as electronic maps have now done.
+
+* DONE Why is Emacs Hanging?                                :emacs:debugging:
+CLOSED: [2023-09-21 Thu 14:10]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-hangs-debug
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:END:
+
+Even after using Emacs for 15 years there's still so much I can learn. I probably should
+have already known this, but there's a first time for everything.
+
+It's rare that Emacs hangs. Exceedingly rare. Which is probably why I didn't know how to
+deal with it. Today Emacs started hanging when trying to open files over a remote TRAMP
+session (SSH).
+
+The most important key of all that everyone who uses Emacs knows is ~C-g~. This is the
+universal "quit" key and it has the power to interrupt any long running processes. What
+I didn't know about is ~M-x toggle-debug-on-quit~. I've used ~toggle-debug-on-error~
+extensively when programming Elisp (I even have it bound to a key in Elisp
+buffers). ~toggle-debug-on-quit~ is similar except the debugger is invoked when you
+~C-g~.
+
+While this is enabled, I was able to reproduce the hang, then press ~C-g~. I could see
+that what was happening is ~ess-r-package-auto-activate~ was being called via
+~after-change-major-mode-hook~, this was in turn calling on TRAMP again to try to find
+an R package or something. I don't regularly use ESS mode, so I simply disabled this
+behaviour with ~(setq ess-r-package-auto-activate nil)~.
+
+~toggle-debug-on-quit~ should be toggled off again aftewards, as quitting isn't actually
+an error most of the time. Doom modeline handily displays an icon when it's enabled,
+confirming that I'm the last person to know about this.
+
+Something else interesting to consider here is packages can still affect Emacs
+performance even if you aren't using them. I haven't used R or ESS mode for years, but
+I've left them in my config because, why not? But these "dormant" packages can still be
+impacting performance and it might be worth auditing hooks like
+~after-change-major-mode-hook~ to check for packages you don't really need any more.
+
+* DONE Replacing Strings in an Entire Project                  :emacs:regexp:
+CLOSED: [2023-08-22 Tue 14:22]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-regexp-replace
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:END:
+
+This is a little trick I just applied and thought was cool enough to write down.
+
+Let's say you want to replace a name that is used throughout a project.  Due to various
+conventions/restrictions in use the name might appear in several forms like:
+~MY_COOL_NAME~, ~my-cool-name~, ~my_cool_name~ etc.
+
+In Emacs you can invoke regexp replace across an entire project by invoking
+~project-query-replace-regexp~, by default bound to ~C-x p r~.  This will first prompt
+for the regexp to search for, then what to replace it with.
+
+For the search regexp we can put: ~my\([_-]\)cool\1name~.
+
+This allows either underscore or hyphen as a separator.  Notice we use ~\1~ as the
+second separator.  This is a "backreference" and simply refers to whatever was captured
+in the first group, in this case ~\([_-]\)~.
+
+We can then us the same backreference in the replacement, so we can put: ~new\1name~.
+
+After pressing enter again emacs will then cycle through every replacement in every file
+in the project allowing you to either apply it, with ~y~ or skip it, with ~n~.  If you
+wish to make the changes across an entire file unconditionally, press ~!~.  If you wish
+to skip an entire file, press ~N~.  You can also press ~?~ to see the other options.
+
+Notice Emacs does what you (probably) want when it comes to case.  We didn't type the
+search in upper case, but it will match ~MY_COOL_NAME~ and replace it with ~NEW_NAME~.
+Similarly, if there were a ~My-Cool-Name~, it would replace it with ~New-Name~
+automatically.
+
+* DONE Install Calibre without Root                     :calibre:ebook:linux:
+CLOSED: [2023-08-13 Sun 13:23]
+:PROPERTIES:
+:EXPORT_FILE_NAME: calibre-rootless-install
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary How to install Calibre on Linux without root and/or sudo
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description The best way to install Calibre on Linux
+:END:
+
+** Introduction                                                      :ignore:
+
+On Linux, software should generally be installed with your system package manager (apt,
+yum, portage etc.)  However, Calibre is a bit "special" in this respect.  While
+well-loved, it's known to be a bit difficult to package (to say the least) and most
+distro packages you'll find are out of date.  The [[https://calibre-ebook.com/download_linux][official website]] recommends against
+using any distro packages and instead installing it directly from the site.
+
+Unfortunately, the official instructions are problematic for a number of reasons.  For a
+start, copying and pasting commands from the browser is considered dangerous.  But
+that's easy to fix, in bash do ~Ctrl-X Ctrl-E~ and your preferred text editor will be
+opened for you to type your command.  This means you can inspect what is pasted before
+is run (save the file then exit the editor to run the command).  Very important.  Always
+do this when copy/pasting from the web.
+
+But that's not all, it also has you run the installer as root.  The installer does tuck
+everything nicely away inside ~/opt/calibre~, but it's just not a good idea for many
+reasons.
+
+** User-level installation
+
+Instead you can install it in your home directory under ~~/opt~ like this:
+
+#+begin_src bash
+wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh \
+    | sh /dev/stdin install_dir=~/opt isolated=True
+#+end_src
+
+Or, even better, as a completely different user so any error in the script can't trample
+anything in your home directory:
+
+#+begin_src bash
+sudo useradd calibre            # add new user the first time
+
+wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh \
+    | sudo -u calibre sh -s install_dir=~calibre/opt isolated=True
+#+end_src
+
+Once finished it will tell you to run ~/home/<user>/opt/calibre/calibre~ to start.  If
+you have ~~/bin~ (or perhaps ~~/.local/bin~) on your ~PATH~ you can add a nicer link
+with the following:
+
+#+begin_src bash
+ln -s /home/<user>/opt/calibre/calibre ~/bin
+#+end_src
+
+Then you should be able to run simply ~calibre~.
+
+** Desktop environment integration
+
+If you need a menu item in a desktop environment then you might first need to add the
+link to ~/usr/bin~ (this also makes it available for all users):
+
+#+begin_src bash
+sudo ln -s /home/calibre/opt/calibre/calibre /usr/bin/calibre
+#+end_src
+
+Then you need to make a desktop file called
+~/usr/share/applications/calibre-gui.desktop~ with the following:
+
+#+begin_src bash
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=calibre
+GenericName=E-book library management
+Comment=E-book library management: Convert, view, share, catalogue all your e-books
+TryExec=calibre
+Exec=calibre --detach %U
+Icon=calibre-gui
+Categories=Office;
+X-GNOME-UsesNotifications=true
+MimeType=image/vnd.djvu;application/x-cb7;application/oebps-package+xml;application/epub+zip;application/x-mobi8-ebook;text/plain;application/x-cbc;application/xhtml+xml;application/x-cbz;application/ereader;application/pdf;text/fb2+xml;application/x-mobipocket-subscription;application/x-cbr;application/x-sony-bbeb;text/x-markdown;text/html;application/vnd.oasis.opendocument.text;application/x-mobipocket-ebook;application/vnd.ms-word.document.macroenabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.document;text/rtf;x-scheme-handler/calibre;
+#+end_src
+
+You only need to make these links and desktop entry once.  Next time you update Calibre
+they will point to the new version.
+
+* DONE Writing a Blog with Org-mode             :emacs:orgmode:hugo:blog:gui:
+CLOSED: [2023-07-15 Sat 13:43]
+:PROPERTIES:
+:EXPORT_FILE_NAME: hugo-org-mode
+:EXPORT_HUGO_LASTMOD: 2023-10-08
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary I've set up my blog such that I can write it using org-mode and host it and edit it anywhere. I'm using Hugo as a static site generator and GitHub as a host.
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description How I set up this blog using emacs, org-mode and Hugo
+:END:
+
+** Introduction                                                      :ignore:
+
+I've always thought I should write a blog, but I just never got around to setting it
+up.  I know there are services you can simply sign up to and start writing, but that
+isn't for me.  I have two requirements for this thing:
+
+1. I can write using tools of my choice,
+2. I can host it anywhere.
+
+My tool of choice for writing anything is emacs and, for natural language in particular,
+[[https://orgmode.org/][org-mode]].  This is a bit like markdown, but better.  For version control and deployment
+I use git.
+
+I also want to be able to host it anywhere because I don't want to be tied to a host
+and, ideally, I don't want to pay for it either.  Back in the day it was common to use a
+dynamic site for a blog.  Your content would live in a database and was served up using
+some backend process like WordPress.  But that's too expensive and places too many
+requirements on the host.
+
+With that in mind, I've decided to use a static site generator.  This is ideal as it
+means I don't have to write raw HTML myself (although you can) but the output can be
+hosted anywhere.  I've decided to use [[https://gohugo.io/][Hugo]] simply because it looks good, seems fast,
+well maintained, supports the workflow I want and, most importantly, supports org-mode.
+
+** Using org-mode with Hugo
+
+First of all, you set up your Hugo project by following the [[https://gohugo.io/getting-started/quick-start/][quickstart guide]].
+
+The next thing I did was install the [[https://github.com/adityatelange/hugo-PaperMod/wiki/Installation][PaperMod theme]], as it seems like a decent default
+for a blog.
+
+Now, to start a new page using org-mode, you first need to install an [[https://gohugo.io/content-management/archetypes/][archetype]].  These
+are essentially templates that Hugo uses to start new content.  By default it comes with
+a markdown archetype in ~archetypes/default.md~.  You should add the following code in
+~archetypes/default.org~:
+
+#+NAME: archetypes/default.org
+#+BEGIN_SRC org
+,#+TITLE: {{ replace .Name "-" " " | title }}
+,#+DATE: {{ .Date }}
+,#+DRAFT: true
+,#+DESCRIPTION:
+,#+CATEGORIES[]:
+,#+TAGS[]:
+,#+KEYWORDS[]:
+,#+SLUG:
+,#+SUMMARY:
+
+#+END_SRC
+
+Now you can start a new org-mode post by running: ~hugo new posts/my-org-post.org~.
+You'll find your org-mode file ready to edit in ~content/posts/my-org-post.org~.  The
+metadata is pretty self-explanatory, but you can just play around with it.
+
+** Deploying with Github Actions
+
+First of all, *before* you build or commit anything, add a ~.gitignore~ file:
+
+#+BEGIN_SRC
+/.hugo_build.lock
+/public/*
+!/public/.nojekyll
+#+END_SRC
+
+This will ensure you don't accidentally commit your locally built version of the site.
+
+You should also add the ~.nojekyll~ file to stop GitHub trying to run Jekyll (another
+static site generator) on your stuff.  I'm not sure if this is still necessary but it
+can't harm:
+
+#+BEGIN_SRC bash
+mkdir -p public
+touch public/.nojekyll
+#+END_SRC
+
+Now commit the ~.gitignore~ and ~.nojekyll~ files.
+
+To publish your site you simply run ~hugo~.  This builds the site, including all
+articles that are *not* marked as draft, and puts it all into the ~/public/~ directory.
+Now, you could simply copy the contents of that directory to a web server of your
+choice.  That's how we did it back in the day.  This is how it meets my "can host
+anywhere" requirement.
+
+But I'm lazy and I want it to be easier.  I just want the site to build and deploy when
+I push my changes to git.  This is actually remarkably simple to achieve with modern CI
+tooling such as GitHub Actions.  Although, note: I won't be tied to GitHub or GitHub
+Actions in any meaningful way, it's essentially a glorified copy at the end of the day
+and I can always build my site on my own computer and copy the output the
+"old-fashioned" way.
+
+To build using GitHub simply add the following to ~/.github/workflows/hugo.yml~:
+
+#+BEGIN_SRC yaml
+name: hugo
+
+on:
+  push:
+    branches: [master]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.115.2'
+          extended: true
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: public
+#+END_SRC
+
+This pipeline is triggered by pushes to the ~master~ branch.  It checks out the code,
+sets up Hugo with the same version that I used locally, builds using ~--minify~ (I don't
+like minified pages generally, but the source is available freely so might as well save
+bandwidth) and deploys it to the ~gh-pages~ branch.  Note that the source will live on
+the ~master~ branch (or any other branch), the built version will end up on the
+~gh-pages~ branch, which will then be deployed to Github Pages itself.
+
+** Conclusion
+
+This should be everything needed to get started writing a blog (or any static site) with
+Hugo and hosting it on Github.  If you are reading this then I guess it worked!
+
+Links to the tools in use:
+
+- org-mode: https://orgmode.org/
+- Hugo: https://gohugo.io/
+- GitHub Pages: https://pages.github.com/
+- actions-hugo: https://github.com/peaceiris/actions-hugo
+- github-pages-deploy-action: https://github.com/JamesIves/github-pages-deploy-action
+
+# Local Variables:
+# org-footnote-section: nil
+# End:
