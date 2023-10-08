@@ -3,10 +3,9 @@
 This is the "source" for my blog. I use org-mode to write and Hugo to build a static
 site.
 
-To build the site you need Hugo.  Simply run: ~hugo~ and the output will be in
+To build the site you need Hugo.  Simply run: ~make~ and the output will be in
 ~/public/~.
 
-To run the server locally and include drafts run: ~hugo server -D~.
+To run the server locally and include drafts run: ~make dev~.
 
-To add a new post: ~hugo new posts/my-new-post.org~ and the file will be in
-~/content/posts/my-new-post.org~.
+To add a new post, start a new subtree in one of the ~content-org/*.org~ files.
