@@ -6,8 +6,6 @@
 * TODO Git is your Safety Rope                          :git:vcs:development:
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-safety-rope
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary 
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description 
 :END:
 
 ** Introduction                                                      :ignore:
@@ -148,8 +146,6 @@ practice 90 days is probably more than long enough.
 * TODO Calendars                                               :calendar:gui:
 :PROPERTIES:
 :EXPORT_FILE_NAME: calendars
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary 
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description 
 :END:
 
 Why are we still using paper-like calendars?
@@ -493,6 +489,117 @@ Links to the tools in use:
 - GitHub Pages: https://pages.github.com/
 - actions-hugo: https://github.com/peaceiris/actions-hugo
 - github-pages-deploy-action: https://github.com/JamesIves/github-pages-deploy-action
+
+** Addendum
+
+Now that I've written a few posts I've found the built-in org support of Hugo pretty
+limiting.  It doesn't have first-class support like Markdown does.  Thankfully there is
+the [[https://ox-hugo.scripter.co/][ox-hugo]] package which can export org-mode files to Markdown, before being read by
+Hugo.
+
+The layout for the project is a bit different as it leverages org-mode to handle tags
+and categories in a nicer way, but it's mostly the same (I didn't really have to convert
+my existing posts, but I did anyway).  The main difference is in how the project is
+built.  The GitHub Actions pipeline contains one new entry to set up Emacs:
+
+#+begin_src yaml
+name: deploy
+
+on: push
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: 29.1
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.118.2'
+          extended: true
+
+      - name: Build
+        run: make
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: public
+        if: github.ref == 'refs/heads/master'
+#+end_src
+
+The build step is now container within a Makefile and looks like this:
+
+#+begin_src makefile
+build:
+	cd content-org && emacs --batch -Q --load ../publish.el --funcall gpk-publish-all
+	hugo --minify
+#+end_src
+
+This runs Emacs in batch mode.  The file ~publish.el~ contains settings and functions
+necessary for running ~ox-hugo~:
+
+#+begin_src emacs-lisp
+;;; publish.el --- publish org-mode blog                     -*- lexical-binding: t; -*-
+;;; Commentary:
+;;; original influence: https://github.com/NethumL/nethuml.github.io/
+
+;;; Code:
+(defconst gpk-content-files
+  '("life.org"
+    "networking.org"
+    "programming.org"
+    "software.org"
+    "technology.org"
+    "thoughts.org"))
+
+;; Install packages
+(require 'package)
+(package-initialize)
+(unless package-archive-contents
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents))
+(dolist (pkg '(org-contrib ox-hugo))
+  (package-install pkg))
+
+(require 'url-methods)
+(url-scheme-register-proxy "http")
+(url-scheme-register-proxy "https")
+
+(require 'org)
+(require 'ox-extra)
+(require 'ox-hugo)
+(ox-extras-activate '(ignore-headlines))
+
+(defun gpk-publish-all ()
+  "Publish all content files"
+  (message "Publishing from emacs...")
+  (dolist (file gpk-content-files)
+    (find-file file)
+    (org-hugo-export-wim-to-md t)
+    (message (format "Exported from %s" file)))
+  (message "Finished exporting to markdown"))
+
+;;; publish.el ends here
+#+end_src
+
+As you can see from the comment, this was "influenced" (ie. taken) from another blogger
+and can be found [[https://nethuml.github.io/posts/2022/06/blog-setup-with-hugo-org-mode/][here]].
 
 # Local Variables:
 # org-footnote-section: nil

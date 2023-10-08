@@ -6,7 +6,4 @@
 * TODO Fixing my JVC DLA-X5000 Projector
 :PROPERTIES:
 :EXPORT_FILE_NAME: fixing-dla-x5000
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :summary 
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description 
 :END:
-
