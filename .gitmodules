@@ -1,6 +1,3 @@
-[submodule "themes/PaperMod"]
-	path = themes/PaperMod
-	url = git@github.com:georgek/hugo-PaperMod.git
 [submodule "themes/poison"]
 	path = themes/poison
 	url = https://github.com/georgek/poison.git
