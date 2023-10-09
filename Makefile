@@ -8,7 +8,7 @@ build:
 
 .PHONY: clean
 clean:
-	rm content/posts/*.md
+	rm -r content/*
 
 .PHONY: dev
 dev:

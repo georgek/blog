@@ -8,19 +8,22 @@ params:
   brand: gpk blog
   brand_image: "/blog/android-chrome-192x192.png"
   favicon: "/blog/favicon.ico"
-  description: George Kettleborough's blog
+  description: My ramblings about emacs, the internet and everything
   author: George Kettleborough
   dark_mode: auto
 
   menu:
-    - Name: About
-      URL: /about/
+    - Name: Categories
+      URL: /blog/categories/
       HasChildren: false
-    - Name: Posts
-      URL: /posts/
-      Pre: Recent
-      HasChildren: true
-      Limit: 3
+    - Name: Tags
+      URL: /blog/tags/
+      HasChildren: false
+    # - Name: Posts
+    #   URL: /posts/
+    #   Pre: Recent
+    #   HasChildren: true
+    #   Limit: 3
 
   github_url: https://github.com/georgek
   gitlab_url: https://gitlab.com/gkettleborough
@@ -77,5 +80,6 @@ markup:
     style: solarized-dark
 
 taxonomies:
+  category: categories
   series: series
   tags: tags
