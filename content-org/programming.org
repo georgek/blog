@@ -6,6 +6,7 @@
 CLOSED: [2023-10-02 Mon 09:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: multiple-web-projects-traefik
+:EXPORT_HUGO_LASTMOD: <2023-10-19 Thu 21:24>
 :END:
 
 ** Introduction                                                      :ignore:
@@ -20,6 +21,9 @@ Recently I've found a way that makes managing these more enjoyable.
 
 /2023-10-05 note: If this interesting to you, be sure to check out the comments about this
 article on [[https://news.ycombinator.com/item?id=37756632][Hacker News]] for many other ideas./
+
+/2023-10-19 note: I have now created a repo formalising the ideas in this post and some
+of the Hacker News comments, here: https://github.com/georgek/traefik-local/
 
 ** A single project with Docker Compose
 
