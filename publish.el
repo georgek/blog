@@ -25,6 +25,9 @@
 (url-scheme-register-proxy "http")
 (url-scheme-register-proxy "https")
 
+;;; workaround a bug in either org-mode or ox-hugo causing truncation
+(setq org-element--cache-self-verify t)
+
 (require 'org)
 (require 'ox-extra)
 (require 'ox-hugo)
