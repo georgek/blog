@@ -20,6 +20,6 @@ var map = new maplibregl.Map({
         },
         layers: layers("protomaps","light")
     },
-    bounds: [-15.923996,27.713926,-15.308075,28.205793], // gran-canaria
-    maxBounds: [-16.273499,27.508271,-14.889221,28.386568], // should be same as pmtiles extract
+    bounds: params.bounds.split(",").map(parseFloat),
+    maxBounds: params.maxBounds.split(",").map(parseFloat),
 });

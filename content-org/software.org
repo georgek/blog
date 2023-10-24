@@ -194,7 +194,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map gran-canaria2.pmtiles>}}
+#+hugo: {{<map gran-canaria2.pmtiles "-15.923996,27.713926,-15.308075,28.205793" "-16.273499,27.508271,-14.889221,28.386568">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's still
 hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
