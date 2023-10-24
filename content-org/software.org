@@ -174,6 +174,81 @@ outputs of the Gutenberg press you can see they were trying to mimic handwritten
 of the time. But usually the new technology very quickly surpasses the old after the
 first iteration, as electronic maps have now done.
 
+* TODO Custom Vector Maps on your Hugo Static Site           :hugo:blog:maps:
+:PROPERTIES:
+:EXPORT_FILE_NAME: protomap-hugo-static-site
+:EXPORT_HUGO_PAIRED_SHORTCODES: map
+:END:
+
+** Introduction                                                     :ignore:
+
+This blog is a static site built with [[https://gohugo.io/][Hugo]].  Being static means it can be served from a
+basic, standard (you might say /stupid/, but in a good way) web server with no
+server-side scripting at all.  This blog is currently hosted on Github Pages, but it
+could be anywhere.
+
+Up until now, if you wanted to include an interactive map on a static site you were
+limited to using an external service like Google Maps or Mapbox and embedding their JS
+into your page.  This would then call to their non-static backend service to produce
+some kind of tiles for your frontend.
+
+But we can now put truly static maps into a static site.  Behold!
+
+#+hugo: {{<map gran-canaria2.pmtiles>}}
+
+This isn't coming from a backend tile server.  This is all completely static, it's still
+hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
+done.
+
+** Generating a PMTiles basemap
+
+The magic here starts with [[https://protomaps.com/][Protomaps]] and the PMTiles format.  PMTiles is an archive
+format for tile data which is designed to be accessed with HTTP range requests.  As long
+as the backend server supports HTTP range requests[fn:2] then the client can figure out
+which requests to make to get the tiles it needs.
+
+This means our map data can be hosted anywhere, just like our static site.
+
+You can create a PMTiles archive from raw map data (such as OpenStreetMap), but the
+easiest way is to extract data from an existing archive.  The Protomaps project produces
+[[https://maps.protomaps.com/builds/][daily builds]] of the entire world from OSM data.  These files are over 100GiB but you can
+extract a much smaller file without downloading the whole thing.
+
+First download the latest release of go-pmtiles from [[https://github.com/protomaps/go-pmtiles/releases][GitHub]] for your platform and
+extract it somewhere (preferably somewhere on your ~PATH~ like perhaps ~~/.local/bin~).
+
+Next you need to calculate a bounding box for your extract.  I used [[http://bboxfinder.com][bboxfinder.com]].
+Draw a rectangle then cope the *box* at the bottom.  It should look something like
+~-16.273499,27.508271,-14.889221,28.386568~.
+
+Make sure you keep a note of this bounding box for later!
+
+Now, using ~pmtiles~ that you just installed, you can create your extract like so:
+
+#+begin_src bash
+pmtiles extract \
+        https://build.protomaps.com/20231001.pmtiles \
+        my-extract.pmtiles \
+        --bbox=-16.273499,27.508271,-14.889221,28.386568
+#+end_src
+
+You can test your basemap by visiting [[https://protomaps.github.io/PMTiles/]] and selecting
+your newly created pmtiles file.
+
+[fn:2] Most do, but not all. Notably I found the dev server used by the [[https://parceljs.org/][Parcel]] bundler
+does not, which led to much head scratching.
+
+** Javascript
+
+Now that you have a PMTiles extract that you're happy with we need to render it somehow.
+For this we can use [[https://github.com/maplibre/maplibre-gl-js][maplibre-gl]].
+
+** Building with Hugo
+
+** Notes about ox-hugo
+
+** Conclusion
+
 * DONE Why is Emacs Hanging?                                :emacs:debugging:
 CLOSED: [2023-09-21 Thu 14:10]
 :PROPERTIES:

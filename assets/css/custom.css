@@ -14,3 +14,9 @@ h1, h2, h3, h4, h5 {
 .post {
     font-family: 'Lora', serif;
 }
+
+#map {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 2em;
+}

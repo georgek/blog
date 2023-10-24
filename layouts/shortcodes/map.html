@@ -1,0 +1,4 @@
+<div id="map"></div>
+{{ $options := (dict "params" (dict "pmtiles" ( .Get 0 ))) }}
+{{ $jsBundle := resources.Get "js/map.js" | js.Build $options | resources.Minify | fingerprint }}
+<script src="{{ $jsBundle.Permalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>

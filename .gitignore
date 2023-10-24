@@ -1,3 +1,5 @@
 /.hugo_build.lock
 /public/*
 !/public/.nojekyll
+/dist/
+/node_modules/
