@@ -194,7 +194,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map pmtiles=gran-canaria2.pmtiles bounds="-15.923996,27.713926,-15.308075,28.205793" maxBounds="-16.273499,27.508271,-14.889221,28.386568">}}
+#+hugo: {{<map pmtiles="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" maxBounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's still
 hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
@@ -242,6 +242,27 @@ does not, which led to much head scratching.
 
 Now that you have a PMTiles extract that you're happy with we need to render it somehow.
 For this we can use [[https://github.com/maplibre/maplibre-gl-js][maplibre-gl]].
+
+If you haven't already, in your Hugo project directory initialise an npm project:
+
+#+begin_src bash
+npm init
+#+end_src
+
+Now install the required packages:
+
+#+begin_src bash
+npm install pmtiles
+npm install maplibre-gl
+npm install protomaps-themes-base
+#+end_src
+
+Now add the following as a JavaScript asset at ~assets/js/map.js~:
+
+#+INCLUDE: ../assets/js/map.js src js
+
+This file won't work on its own; it is supposed to be run through Hugo's asset pipeline,
+which we'll set up next.
 
 ** Building with Hugo
 

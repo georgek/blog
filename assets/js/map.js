@@ -14,7 +14,7 @@ var map = new maplibregl.Map({
         sources: {
             "protomaps": {
                 type: "vector",
-                url: `pmtiles:///blog/${params.pmtiles}`,
+                url: `pmtiles://${params.pmtiles}`,
                 attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
             }
         },
