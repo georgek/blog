@@ -6,6 +6,7 @@ build:
 	cd content-org && emacs --batch -Q --load ../publish.el --funcall gpk-publish-all
 	tree content
 	hugo --minify
+	tree public
 
 .PHONY: clean
 clean:
