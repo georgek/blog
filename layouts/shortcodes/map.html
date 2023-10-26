@@ -1,4 +1,5 @@
-<div id="map"></div>
-{{ $options := (dict "params" (dict "pmtiles" ( .Get "pmtiles" ) "bounds" ( .Get "bounds" ) "maxBounds" ( .Get "maxBounds" ))) }}
-{{ $jsBundle := resources.Get "js/map.js" | js.Build $options | resources.Minify | fingerprint }}
-<script src="{{ $jsBundle.Permalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>
+<div class="map"
+     data-tiles-url="{{ .Get "tiles-url" }}"
+     data-bounds="{{ .Get "bounds" }}"
+     data-max-bounds="{{ .Get "max-bounds" }}">
+</div>

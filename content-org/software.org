@@ -194,7 +194,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map pmtiles="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" maxBounds="-16.273499,27.508271,-14.889221,28.386568">}}
+#+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's still
 hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
@@ -265,6 +265,14 @@ This file won't work on its own; it is supposed to be run through Hugo's asset p
 which we'll set up next.
 
 ** Building with Hugo
+
+We are going to use several features of Hugo to make it easy to include a map in any
+page on your site.
+
+If you are unfamiliar with Hugo Pipes you can read all about it [[https://www.regisphilibert.com/blog/2018/07/hugo-pipes-and-asset-processing-pipeline/][here]].
+
+FIXME: What happens if more than one page has a map?  The hugo params need to be in a
+small per-page script that calls the static script to create a map.
 
 ** Notes about ox-hugo
 
