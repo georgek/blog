@@ -174,7 +174,8 @@ outputs of the Gutenberg press you can see they were trying to mimic handwritten
 of the time. But usually the new technology very quickly surpasses the old after the
 first iteration, as electronic maps have now done.
 
-* TODO Custom Static Vector Maps on your Hugo Static Site    :hugo:blog:maps:
+* DONE Custom Static Vector Maps on your Hugo Static Site    :hugo:blog:maps:
+CLOSED: [2023-10-27 Fri 00:11]
 :PROPERTIES:
 :EXPORT_FILE_NAME: protomap-hugo-static-site
 :EXPORT_HUGO_PAIRED_SHORTCODES: map
@@ -183,9 +184,8 @@ first iteration, as electronic maps have now done.
 ** Introduction                                                     :ignore:
 
 This blog is a static site built with [[https://gohugo.io/][Hugo]].  Being static means it can be served from a
-basic, standard (you might say /stupid/, but in a good way) web server with no
-server-side scripting at all.  This blog is currently hosted on Github Pages, but it
-could be anywhere.
+basic, standard (you might say /stupid/) web server with no server-side scripting at
+all.  In fact, this blog is currently hosted on Github Pages, but it could be anywhere.
 
 Up until now, if you wanted to include an interactive map on a static site you were
 limited to using an external service like Google Maps or Mapbox and embedding their JS
@@ -196,12 +196,12 @@ But we can now put truly static maps into a static site.  Behold!
 
 #+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 
-This isn't coming from a backend tile server.  This is all completely static, it's still
-hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
-done.
+This isn't coming from a backend tile server.  This is all completely static, it's all
+hosted on GitHub Pages and the above map uses less than 2MiB of storage.  What's more
+it's really quite easy to get started.  Let's see how it's done.
 
-Although I'm using Hugo as a concrete example, all of this should be easily translatable
-to any static site.
+Although I'm using Hugo as a concrete example below, all of this should be easily
+translatable to any static site.
 
 ** Generating a PMTiles basemap
 
@@ -221,7 +221,7 @@ First download the latest release of go-pmtiles from [[https://github.com/protom
 extract it somewhere (preferably somewhere on your ~PATH~ like perhaps ~~/.local/bin~).
 
 Next you need to calculate a bounding box for your extract.  I used [[http://bboxfinder.com][bboxfinder.com]].
-Draw a rectangle then cope the *box* at the bottom.  It should look something like
+Draw a rectangle then copy the *box* at the bottom.  It should look something like
 ~-16.273499,27.508271,-14.889221,28.386568~.
 
 Make sure you keep a note of this bounding box for later!
@@ -231,7 +231,7 @@ Now, using ~pmtiles~ that you just installed, you can create your extract like s
 #+begin_src bash
 pmtiles extract \
         https://build.protomaps.com/20231001.pmtiles \
-        my-extract.pmtiles \
+        mymap.pmtiles \
         --bbox=-16.273499,27.508271,-14.889221,28.386568
 #+end_src
 
@@ -246,8 +246,8 @@ does not, which led to much head scratching.
 
 ** MapLibre GL
 
-Now that you have a PMTiles extract that you're happy with we need to render it somehow.
-For this we can use [[https://github.com/maplibre/maplibre-gl-js][maplibre-gl]].
+Now you have a PMTiles extract you're happy with we need to render it somehow.  For this
+we can use [[https://github.com/maplibre/maplibre-gl-js][maplibre-gl]].
 
 If you haven't already, in your Hugo project directory initialise an npm project:
 
@@ -274,7 +274,6 @@ let protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles",protocol.tile);
 
 function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
-    console.log(tilesUrl, bounds, maxBounds, container);
     var map = new maplibregl.Map({
         container: container,
         style: {
@@ -307,7 +306,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 #+end_src
 
-What this does is finds every div on your page with the class ~map~ and creates a
+What this does is finds every ~div~ on your page with the class ~map~ and creates a
 maplibre-gl map there.  It expects the ~div.map~ elements to have data attributes which
 it uses to set up the map.  Each ~div~ should look like this:
 
@@ -336,7 +335,7 @@ Some themes include provision for an ~extra-head.html~ or similar that you can p
 
 Most of the work will be done by the JavaScript above, but we first need to bundle and
 include it in our pages.  This is done using Hugo Pipes.[fn:4]  Put the following in the
-~head~ section of your site, near other scripts:
+~<head>~ section of your site, near other scripts:
 
 #+begin_src html
 {{ $jsBundle := resources.Get "js/map.js" | js.Build "js/mapbundle.js" | minify | fingerprint }}
@@ -368,7 +367,7 @@ module:
       target: "assets/css/maplibre-gl.css"
 #+end_src
 
-Do not forget the default mount for ~assets~.  Now in your ~head~ section add the
+Do not forget the default mount for ~assets~.  Now in your ~<head>~ section add the
 stylesheet:
 
 #+begin_src html
@@ -389,7 +388,7 @@ the following in ~layouts/shortcodes/map.html~:
 </div>
 #+end_src
 
-Now you can simply use the shortcode like so:
+Now you can simply use the shortcode anywhere in your site like so:
 
 #+begin_src markdown
 {{</*map tiles-url="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568"*/>}}
@@ -402,23 +401,29 @@ Now you can simply use the shortcode like so:
 
 ** Conclusion
 
-I can't believe how easy this has been for me to set up.  I have previously tried
-setting up my own custom maps and found it quite difficult to get started, not to
-mention requiring me to run a special tileserver somewhere.  I'm by no means a map
-expert (although I am an OpenStreetMap contributor of many years).
+I can't believe how easy this has been for me to set up.  Here's to [[https://protomaps.com/][Protomaps]], [[https://maplibre.org/][MapLibre
+GL]] and, of course, [[https://www.openstreetmap.org/][OpenStreetMap]]!
 
-I really like that I can now have maps on a truly static site.  The map being static
-does have drawbacks, though, and isn't suitable for everything.  In particular, it will
-never receive updates unless you update the pmtiles file.  But, for me, this is by
-design.  I /want/ these pages to be static, including the map.  If I include a route
-showing where I walked, it doesn't make sense for it to appear on some map of the
-future.  It /should/ be a map of the past.
+I had previously tried setting up my own custom maps and found it quite difficult to
+get started, not to mention requiring me to run a special tileserver somewhere or use a
+third party service.  I'm by no means a map expert (although I am an OpenStreetMap
+contributor of many years, if that means anything), so I find this post a testament to
+how far the work of the free/open mapping community has come.
+
+Of course, this approach isn't suitable for everything and comes with drawbacks.  In
+particular, your map will never receive updates unless you update the pmtiles file.
+This could be particularly bad if your area doesn't have good OpenStreetMap coverage.
+
+But, for me, this is static by design.  I /want/ these pages to be static, including the
+map.  If I include a route showing where I walked, it doesn't make sense for it to
+appear on some map of the future.  It /should/ be a map of the past.
 
 Also, let's not forget that maps don't have to contain "real" data.  It could contain a
-planned development or even just a fantasy world.  There are many possibilities.  Next I
-want to try to get hillshading/relief into my maps.
+planned development or even just a fantasy world.  There are many possibilities.  Next
+on my list to play is to try to get hillshading/relief into my maps.
 
-Just for fun, here's another map showing a recent multi-day walk across Gran Canaria[fn:5]:
+To finish, just for fun, here's another map showing a recent multi-day walk across Gran
+Canaria[fn:5]:
 
 #+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" tracks="/blog/gc1.gpx,/blog/gc2.gpx,/blog/gc3.gpx,/blog/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
