@@ -174,7 +174,7 @@ outputs of the Gutenberg press you can see they were trying to mimic handwritten
 of the time. But usually the new technology very quickly surpasses the old after the
 first iteration, as electronic maps have now done.
 
-* TODO Custom Vector Maps on your Hugo Static Site           :hugo:blog:maps:
+* TODO Custom Static Vector Maps on your Hugo Static Site    :hugo:blog:maps:
 :PROPERTIES:
 :EXPORT_FILE_NAME: protomap-hugo-static-site
 :EXPORT_HUGO_PAIRED_SHORTCODES: map
@@ -199,6 +199,9 @@ But we can now put truly static maps into a static site.  Behold!
 This isn't coming from a backend tile server.  This is all completely static, it's still
 hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
 done.
+
+Although I'm using Hugo as a concrete example, all of this should be easily translatable
+to any static site.
 
 ** Generating a PMTiles basemap
 
@@ -235,10 +238,13 @@ pmtiles extract \
 You can test your basemap by visiting [[https://protomaps.github.io/PMTiles/]] and selecting
 your newly created pmtiles file.
 
+Finally, put your PMTiles file into your Hugo static directory, for example
+~static/mymap.pmtiles~.
+
 [fn:2] Most do, but not all. Notably I found the dev server used by the [[https://parceljs.org/][Parcel]] bundler
 does not, which led to much head scratching.
 
-** Javascript
+** MapLibre GL
 
 Now that you have a PMTiles extract that you're happy with we need to render it somehow.
 For this we can use [[https://github.com/maplibre/maplibre-gl-js][maplibre-gl]].
@@ -259,24 +265,172 @@ npm install protomaps-themes-base
 
 Now add the following as a JavaScript asset at ~assets/js/map.js~:
 
-#+INCLUDE: ../assets/js/map.js src js
+#+begin_src js
+import * as pmtiles from "pmtiles";
+import * as maplibregl from "maplibre-gl";
+import layers from 'protomaps-themes-base';
 
-This file won't work on its own; it is supposed to be run through Hugo's asset pipeline,
-which we'll set up next.
+let protocol = new pmtiles.Protocol();
+maplibregl.addProtocol("pmtiles",protocol.tile);
+
+function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
+    console.log(tilesUrl, bounds, maxBounds, container);
+    var map = new maplibregl.Map({
+        container: container,
+        style: {
+            version: 8,
+            glyphs: 'https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf',
+            sources: {
+                "protomaps": {
+                    type: "vector",
+                    url: `pmtiles://${tilesUrl}`,
+                    attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+                }
+            },
+            layers: layers("protomaps","light")
+        },
+        bounds: bounds,
+        maxBounds: maxBounds,
+    });
+    return map;
+}
+
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll("div.map").forEach((e) => {
+        makeMap({
+            tilesUrl: e.dataset.tilesUrl,
+            bounds: e.dataset.bounds.split(",").map(parseFloat),
+            maxBounds: e.dataset.maxBounds.split(",").map(parseFloat),
+            container: e,
+        });
+    });
+});
+#+end_src
+
+What this does is finds every div on your page with the class ~map~ and creates a
+maplibre-gl map there.  It expects the ~div.map~ elements to have data attributes which
+it uses to set up the map.  Each ~div~ should look like this:
+
+#+begin_src html
+<div class="map"
+     data-tiles-url="mymap.pmtiles"
+     data-bounds="-16.273499,27.508271,-14.889221,28.386568"
+     data-max-bounds="-16.273499,27.508271,-14.889221,28.386568"
+</div>
+#+end_src
+
+The bounds are what you saved earlier from running ~pmtiles~.  You should definitely set
+~max-bounds~ the same as your original bbox, but you can set ~bounds~ smaller, like I
+have (bounds is the default zoom, maxBounds is the maximum span of the map).
+
+Now let's put it all together with Hugo.
 
 ** Building with Hugo
 
-We are going to use several features of Hugo to make it easy to include a map in any
-page on your site.
+This section is quite dependent on your site and theme set up, so I can't give
+specifics, but I hope you already have an idea of where to put CSS or JavaScript etc.
+Some themes include provision for an ~extra-head.html~ or similar that you can put in
+~layouts/partials~.[fn:3]
 
-If you are unfamiliar with Hugo Pipes you can read all about it [[https://www.regisphilibert.com/blog/2018/07/hugo-pipes-and-asset-processing-pipeline/][here]].
+*** JavaScript bundle
 
-FIXME: What happens if more than one page has a map?  The hugo params need to be in a
-small per-page script that calls the static script to create a map.
+Most of the work will be done by the JavaScript above, but we first need to bundle and
+include it in our pages.  This is done using Hugo Pipes.[fn:4]  Put the following in the
+~head~ section of your site, near other scripts:
 
-** Notes about ox-hugo
+#+begin_src html
+{{ $jsBundle := resources.Get "js/map.js" | js.Build "js/mapbundle.js" | minify | fingerprint }}
+<script defer src="{{ $jsBundle.Permalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>
+#+end_src
+
+*** CSS
+
+You'll need a couple of bits of CSS, first we need to style the ~div.map~ elements with
+some sensible default at least, so add the following to a style sheet:
+
+#+begin_src css
+div.map {
+    width: 100%;
+    height: 500px;
+    margin-bottom: 1rem;
+}
+#+end_src
+
+You also need maplibgre-gl's style.  First mount the stylesheet from ~node_modules~ in
+Hugo's ~assets~ by adding to your Hugo config:
+
+#+begin_src yaml
+module:
+  mounts:
+    - source: "assets"
+      target: "assets"
+    - source: "node_modules/maplibre-gl/dist/maplibre-gl.css"
+      target: "assets/css/maplibre-gl.css"
+#+end_src
+
+Do not forget the default mount for ~assets~.  Now in your ~head~ section add the
+stylesheet:
+
+#+begin_src html
+{{ $style := resources.Get "css/maplibre-gl.css" | fingerprint }}
+<link rel="stylesheet" href="{{ $style.Permalink }}">
+#+end_src
+
+*** Hugo shortcode
+
+To insert the ~div.map~ element into your markdown posts you'll need a shortcode.  Put
+the following in ~layouts/shortcodes/map.html~:
+
+#+begin_src html
+<div class="map"
+     data-tiles-url="{{ .Get "tiles-url" }}"
+     data-bounds="{{ .Get "bounds" }}"
+     data-max-bounds="{{ .Get "max-bounds" }}">
+</div>
+#+end_src
+
+Now you can simply use the shortcode like so:
+
+#+begin_src markdown
+{{</*map tiles-url="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568"*/>}}
+#+end_src
+
+[fn:3] Overriding a theme is quite easy with Hugo, see:
+[[https://bwaycer.github.io/hugo_tutorial.hugo/themes/customizing/]]
+
+[fn:4] If you are unfamiliar with Hugo Pipes you can read all about it [[https://www.regisphilibert.com/blog/2018/07/hugo-pipes-and-asset-processing-pipeline/][here]].
 
 ** Conclusion
+
+I can't believe how easy this has been for me to set up.  I have previously tried
+setting up my own custom maps and found it quite difficult to get started, not to
+mention requiring me to run a special tileserver somewhere.  I'm by no means a map
+expert (although I am an OpenStreetMap contributor of many years).
+
+I really like that I can now have maps on a truly static site.  The map being static
+does have drawbacks, though, and isn't suitable for everything.  In particular, it will
+never receive updates unless you update the pmtiles file.  But, for me, this is by
+design.  I /want/ these pages to be static, including the map.  If I include a route
+showing where I walked, it doesn't make sense for it to appear on some map of the
+future.  It /should/ be a map of the past.
+
+Also, let's not forget that maps don't have to contain "real" data.  It could contain a
+planned development or even just a fantasy world.  There are many possibilities.  Next I
+want to try to get hillshading/relief into my maps.
+
+Just for fun, here's another map:
+
+#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+
+** Notes about org-mode and ox-hugo
+
+I don't write by blog in Markdown directly, but in org-mode first and use ox-hugo to
+export it.  There are a [[https://ox-hugo.scripter.co/doc/shortcodes/][few]] ways to add shortcodes, but the neatest I've found for the
+map shortcodes is simply:
+
+#+begin_src org
+,#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+#+end_src
 
 * DONE Why is Emacs Hanging?                                :emacs:debugging:
 CLOSED: [2023-09-21 Thu 14:10]
