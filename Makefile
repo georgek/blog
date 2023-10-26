@@ -11,6 +11,7 @@ build:
 .PHONY: clean
 clean:
 	rm -r content/*
+	rm -r public/*
 
 .PHONY: dev
 dev:
