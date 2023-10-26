@@ -1,5 +1,6 @@
 <div class="map"
      data-tiles-url="{{ .Get "tiles-url" }}"
+     {{ if ( .Get "tracks" ) }} data-tracks="{{ .Get "tracks" }}" {{ end }}
      data-bounds="{{ .Get "bounds" }}"
      data-max-bounds="{{ .Get "max-bounds" }}">
 </div>

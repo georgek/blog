@@ -194,7 +194,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
+#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's still
 hosted on GitHub Pages and it's using less than 15MiB of storage.  Let's see how it's
@@ -418,11 +418,16 @@ Also, let's not forget that maps don't have to contain "real" data.  It could co
 planned development or even just a fantasy world.  There are many possibilities.  Next I
 want to try to get hillshading/relief into my maps.
 
-Just for fun, here's another map:
+Just for fun, here's another map showing a recent multi-day walk across Gran Canaria[fn:5]:
 
-#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+#+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" tracks="/blog/gc1.gpx,/blog/gc2.gpx,/blog/gc3.gpx,/blog/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
-** Notes about org-mode and ox-hugo
+[fn:5] I've used [[https://github.com/jimmyrocks/maplibre-gl-vector-text-protocol][maplibre-gl-vector-text-protocol]] to add statically hosted GPX files to
+the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see how. 
+
+** Appendix
+
+*** org-mode and ox-hugo
 
 I don't write by blog in Markdown directly, but in org-mode first and use ox-hugo to
 export it.  There are a [[https://ox-hugo.scripter.co/doc/shortcodes/][few]] ways to add shortcodes, but the neatest I've found for the

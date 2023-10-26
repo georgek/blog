@@ -1,13 +1,16 @@
 import * as pmtiles from "pmtiles";
 import * as maplibregl from "maplibre-gl";
 import layers from 'protomaps-themes-base';
+import { VectorTextProtocol } from "maplibre-gl-vector-text-protocol";
 
 let protocol = new pmtiles.Protocol();
-maplibregl.addProtocol("pmtiles",protocol.tile);
+maplibregl.addProtocol("pmtiles", protocol.tile);
+maplibregl.addProtocol("gpx", VectorTextProtocol);
+
+const attr = '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
 function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
-    console.log(tilesUrl, bounds, maxBounds, container);
-    var map = new maplibregl.Map({
+    const map = new maplibregl.Map({
         container: container,
         style: {
             version: 8,
@@ -16,10 +19,16 @@ function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
                 "protomaps": {
                     type: "vector",
                     url: `pmtiles://${tilesUrl}`,
-                    attribution: '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>'
+                    attribution: attr,
+                },
+                "line": {
+                    "type": "geojson",
+                    "data": "gpx:///blog/gc1.gpx",
                 }
             },
-            layers: layers("protomaps","light")
+            layers: [
+                ...layers("protomaps","light"),
+            ]
         },
         bounds: bounds,
         maxBounds: maxBounds,
@@ -29,11 +38,36 @@ function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
 
 document.addEventListener('DOMContentLoaded', function(){
     document.querySelectorAll("div.map").forEach((e) => {
-        makeMap({
+        const map = makeMap({
             tilesUrl: e.dataset.tilesUrl,
             bounds: e.dataset.bounds.split(",").map(parseFloat),
             maxBounds: e.dataset.maxBounds.split(",").map(parseFloat),
             container: e,
+        });
+
+        map.on("load", () => {
+            if ("tracks" in e.dataset) {
+                const colours = ["red", "green", "blue", "orange"];
+                var i = 0;
+                e.dataset.tracks.split(",").forEach((track) => {
+                    map.addSource(track, {
+                        "type": "geojson",
+                        "data": `gpx://${track}`,
+                    });
+                    map.addLayer({
+                        'id': track,
+                        'type': 'line',
+                        'source': track,
+                        'minzoom': 0,
+                        'maxzoom': 20,
+                        'paint': {
+                            'line-color': colours[i],
+                            'line-width': 3,
+                        }
+                    });
+                    i = (i+1) % colours.length;
+                });
+            }
         });
     });
 });
