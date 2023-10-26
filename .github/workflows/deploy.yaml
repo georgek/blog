@@ -20,11 +20,19 @@ jobs:
         with:
           version: 29.1
 
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: '0.118.2'
           extended: true
+
+      - name: npm
+        run: npm install
 
       - name: Build
         run: make
