@@ -177,7 +177,7 @@ first iteration, as electronic maps have now done.
 * DONE Custom Static Vector Maps on your Hugo Static Site    :hugo:blog:maps:
 CLOSED: [2023-10-27 Fri 00:11]
 :PROPERTIES:
-:EXPORT_FILE_NAME: protomap-hugo-static-site
+:EXPORT_FILE_NAME: hugo-static-site-maps
 :END:
 
 ** Introduction                                                     :ignore:
