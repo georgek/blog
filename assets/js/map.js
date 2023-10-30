@@ -21,10 +21,6 @@ function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
                     url: `pmtiles://${tilesUrl}`,
                     attribution: attr,
                 },
-                "line": {
-                    "type": "geojson",
-                    "data": "gpx:///blog/gc1.gpx",
-                }
             },
             layers: [
                 ...layers("protomaps","light"),
