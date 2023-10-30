@@ -6,6 +6,10 @@ h5 {
   font-family: "Vollkorn", sans-serif;
 }
 
+h2 {
+  margin-top: 1.5rem;
+}
+
 .sidebar-about h1 {
   font-family: "Ubuntu", sans-serif;
 }
