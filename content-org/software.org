@@ -178,6 +178,7 @@ first iteration, as electronic maps have now done.
 CLOSED: [2023-10-27 Fri 00:11]
 :PROPERTIES:
 :EXPORT_FILE_NAME: hugo-static-site-maps
+:EXPORT_HUGO_LASTMOD: [2023-10-30 Mon 22:52]
 :END:
 
 ** Introduction                                                     :ignore:
@@ -433,7 +434,7 @@ the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see 
 
 *** org-mode and ox-hugo
 
-I don't write by blog in Markdown directly, but in org-mode first and use ox-hugo to
+I don't write my blog in Markdown directly, but in org-mode first and use ox-hugo to
 export it.  There are a [[https://ox-hugo.scripter.co/doc/shortcodes/][few]] ways to add shortcodes, but the neatest I've found for the
 map shortcodes is simply:
 

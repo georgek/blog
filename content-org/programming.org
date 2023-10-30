@@ -6,7 +6,7 @@
 CLOSED: [2023-10-02 Mon 09:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: multiple-web-projects-traefik
-:EXPORT_HUGO_LASTMOD: <2023-10-19 Thu 21:24>
+:EXPORT_HUGO_LASTMOD: [2023-10-19 Thu 21:24]
 :END:
 
 ** Introduction                                                      :ignore:
