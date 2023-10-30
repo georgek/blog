@@ -1,3 +1,6 @@
 [submodule "themes/poison"]
 	path = themes/poison
 	url = https://github.com/georgek/poison.git
+[submodule "basemaps-assets"]
+	path = basemaps-assets
+	url = https://github.com/protomaps/basemaps-assets.git

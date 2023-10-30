@@ -11,11 +11,16 @@ const attr =
   '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
 function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
+  const protoMapsLayers = JSON.parse(
+    JSON.stringify(layers("protomaps", "light"))
+      .replace(/Noto Sans/g, "Sans")
+      .replace(/Roboto/g, "Sans"),
+  );
   const map = new maplibregl.Map({
     container: container,
     style: {
       version: 8,
-      glyphs: "https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf",
+      glyphs: "/blog/basemap-fonts/{fontstack}/{range}.pbf",
       sources: {
         protomaps: {
           type: "vector",
@@ -23,7 +28,7 @@ function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
           attribution: attr,
         },
       },
-      layers: [...layers("protomaps", "light")],
+      layers: [...protoMapsLayers],
     },
     bounds: bounds,
     maxBounds: maxBounds,

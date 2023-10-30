@@ -90,3 +90,7 @@ module:
       target: "assets"
     - source: "node_modules/maplibre-gl/dist/maplibre-gl.css"
       target: "assets/css/maplibre-gl.css"
+    - source: "static"
+      target: "static"
+    - source: "basemaps-assets/fonts"
+      target: "static/basemap-fonts"
