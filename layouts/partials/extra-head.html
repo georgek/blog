@@ -1,14 +1,25 @@
-<meta name="google-site-verification" content="0kCOfXcz_aAJKh_eZglpQdpUUfE2IqecYZesW3oUOJo" />
+<meta
+  name="google-site-verification"
+  content="0kCOfXcz_aAJKh_eZglpQdpUUfE2IqecYZesW3oUOJo"
+/>
 
 <!-- Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Vollkorn:ital,wght@0,800;1,800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Vollkorn:ital,wght@0,800;1,800&display=swap"
+  rel="stylesheet"
+/>
 
 <!-- Styles -->
 {{ $style := resources.Get "css/maplibre-gl.css" | fingerprint }}
-<link rel="stylesheet" href="{{ $style.Permalink }}">
+<link rel="stylesheet" href="{{ $style.Permalink }}" />
 
 <!-- maps -->
-{{ $jsBundle := resources.Get "js/map.js" | js.Build "js/mapbundle.js" | minify | fingerprint }}
-<script defer src="{{ $jsBundle.Permalink }}" integrity="{{ $jsBundle.Data.Integrity }}"></script>
+{{ $jsBundle := resources.Get "js/map.js" | js.Build "js/mapbundle.js" | minify
+| fingerprint }}
+<script
+  defer
+  src="{{ $jsBundle.Permalink }}"
+  integrity="{{ $jsBundle.Data.Integrity }}"
+></script>

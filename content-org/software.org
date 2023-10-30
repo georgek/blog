@@ -427,7 +427,7 @@ Canaria[fn:5]:
 #+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" relief-url="/blog/gran-canaria-relief.pmtiles" tracks="/blog/gc1.gpx,/blog/gc2.gpx,/blog/gc3.gpx,/blog/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
 [fn:5] I've used [[https://github.com/jimmyrocks/maplibre-gl-vector-text-protocol][maplibre-gl-vector-text-protocol]] to add statically hosted GPX files to
-the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see how. 
+the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see how.
 
 ** Appendix
 

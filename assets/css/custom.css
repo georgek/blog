@@ -1,22 +1,26 @@
-h1, h2, h3, h4, h5 {
-    font-family: 'Vollkorn', sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "Vollkorn", sans-serif;
 }
 
 .sidebar-about h1 {
-    font-family: "Ubuntu", sans-serif;
+  font-family: "Ubuntu", sans-serif;
 }
 
 .post .info {
-    font-family: "Ubuntu", sans-serif;
-    font-size: 16px;
+  font-family: "Ubuntu", sans-serif;
+  font-size: 16px;
 }
 
 .post {
-    font-family: 'Lora', serif;
+  font-family: "Lora", serif;
 }
 
 div.map {
-    width: 100%;
-    height: 500px;
-    margin-bottom: 1rem;
+  width: 100%;
+  height: 500px;
+  margin-bottom: 1rem;
 }
