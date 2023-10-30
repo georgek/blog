@@ -16,7 +16,7 @@ function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
             version: 8,
             glyphs: 'https://cdn.protomaps.com/fonts/pbf/{fontstack}/{range}.pbf',
             sources: {
-                "protomaps": {
+                protomaps: {
                     type: "vector",
                     url: `pmtiles://${tilesUrl}`,
                     attribution: attr,
@@ -24,7 +24,7 @@ function makeMap({tilesUrl, bounds, maxBounds, container = "map"}) {
             },
             layers: [
                 ...layers("protomaps","light"),
-            ]
+            ],
         },
         bounds: bounds,
         maxBounds: maxBounds,
@@ -47,22 +47,39 @@ document.addEventListener('DOMContentLoaded', function(){
                 var i = 0;
                 e.dataset.tracks.split(",").forEach((track) => {
                     map.addSource(track, {
-                        "type": "geojson",
-                        "data": `gpx://${track}`,
+                        type: "geojson",
+                        data: `gpx://${track}`,
                     });
                     map.addLayer({
-                        'id': track,
-                        'type': 'line',
-                        'source': track,
-                        'minzoom': 0,
-                        'maxzoom': 20,
-                        'paint': {
+                        id: track,
+                        type: 'line',
+                        source: track,
+                        minzoom: 0,
+                        maxzoom: 20,
+                        paint: {
                             'line-color': colours[i],
                             'line-width': 3,
                         }
                     });
                     i = (i+1) % colours.length;
                 });
+            }
+            if ("reliefTilesUrl" in e.dataset) {
+                map.addSource("relief", {
+                    type: "raster-dem",
+                    url: `pmtiles://${e.dataset.reliefTilesUrl}`,
+                    encoding: "terrarium",
+                });
+                map.addLayer({
+                    id: "relief",
+                    source: "relief",
+                    type: "hillshade",
+                    paint: {
+                        "hillshade-accent-color": "#004400",
+                        "hillshade-highlight-color": "#ddffdd",
+                        "hillshade-exaggeration": 0.3,
+                    },
+                }, "water");
             }
         });
     });
