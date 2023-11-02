@@ -14,19 +14,16 @@
 ;; Install packages
 (require 'package)
 (package-initialize)
-(unless package-archive-contents
-  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-  (package-refresh-contents))
-(dolist (pkg '(org-contrib ox-hugo))
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-refresh-contents)
+(setq package-install-upgrade-built-in t)
+(dolist (pkg '(org org-contrib ox-hugo))
   (package-install pkg))
 
 (require 'url-methods)
 (url-scheme-register-proxy "http")
 (url-scheme-register-proxy "https")
-
-;;; workaround a bug in either org-mode or ox-hugo causing truncation
-(setq org-element--cache-self-verify t)
 
 (require 'org)
 (require 'ox-extra)
