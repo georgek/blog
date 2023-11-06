@@ -1,0 +1,35 @@
+#+author: George Kettleborough
+#+hugo_base_dir: ../
+
+* DONE About
+CLOSED: [2023-11-06 Mon 21:24]
+:PROPERTIES:
+:EXPORT_FILE_NAME: _index
+:EXPORT_HUGO_SECTION: about
+:END:
+
+** About this blog
+
+This blog is about various things that interest me, including:
+
+- Programming, in particular Python,
+- Free Software like GNU/Linux and Emacs,
+- Software development and related tools,
+- Long-distance walks and mapping,
+- Random geeky thoughts.
+
+** About me
+
+I'm George Kettleborough, a software developer and geek located in [[https://en.wikipedia.org/wiki/Cambridge][Cambridge]]. I'm
+currently working on data platforms in medical research. Previously I've worked in
+genomics and had a brief stint in finance. I also hold a PhD in Computer Science.
+
+I started programming around the age of 12 when my dad showed me how to make websites by
+writing HTML in MS Notepad. I later discovered PHP and installed my very own WAMP
+stack. Combined with a love of mathematics and machinery I quickly fell in love with
+programming.
+
+I took Computer Science at uni and it was at this point I discovered GNU/Linux. Up until
+that point a lot of stuff seemed mysterious and impenetrable. I learnt about Free
+Software and decided I didn't ever want to live in the non-free world again. I'm an [[https://www.fsf.org/][FSF]]
+member and contributor whenever the time allows.

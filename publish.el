@@ -9,14 +9,16 @@
     "programming.org"
     "software.org"
     "technology.org"
-    "thoughts.org"))
+    "thoughts.org"
+    "misc.org"))
 
 ;; Install packages
 (require 'package)
 (package-initialize)
-(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-(package-refresh-contents)
+(unless package-archive-contents
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (package-refresh-contents))
 (setq package-install-upgrade-built-in t)
 (dolist (pkg '(org org-contrib ox-hugo))
   (package-install pkg))

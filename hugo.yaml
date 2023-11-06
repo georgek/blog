@@ -13,6 +13,9 @@ params:
   dark_mode: false
 
   menu:
+    - Name: About
+      URL: /blog/about/
+      HasChildren: false
     - Name: Categories
       URL: /blog/categories/
       HasChildren: false
