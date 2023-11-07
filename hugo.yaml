@@ -10,7 +10,6 @@ params:
   favicon: "/blog/favicon.ico"
   description: My ramblings about emacs, the internet and everything
   author: George Kettleborough
-  dark_mode: false
 
   menu:
     - Name: About
