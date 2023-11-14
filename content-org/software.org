@@ -3,6 +3,129 @@
 #+hugo_base_dir: ../
 #+hugo_categories: software
 
+* DONE Using Nerd Icons in Org Agenda                         :emacs:orgmode:
+CLOSED: [2023-11-14 Tue 23:56]
+:PROPERTIES:
+:EXPORT_FILE_NAME: org-agenda-nerd-icons
+:END:
+
+** Introduction                                                      :ignore:
+
+Org mode supports icons in its agenda views.  The icons can be given as either file
+paths to images (like SVGs), as image data or as a display property.  I use a [[https://www.nerdfonts.com/][Nerd Font]]
+along with the [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] package in my Emacs config, so I thought I might as well
+enable icons in my org agenda views.
+
+[[file:/blog/emacs/org-agenda-icons.png]]
+
+The nice thing about using nerd fonts is this works perfectly in text mode too (assuming
+you have a nerd font configured for your terminal emulator).
+
+** The code
+
+Since the nerd icons are accessible through a few different sets, I first wrote a
+function to convert a "simple" alist icon specification into an alist org-mode expects:
+
+#+begin_src elisp
+(defun gk-nerd-agenda-icons (fun prefix alist)
+  "Makes an org agenda alist"
+  (mapcar (pcase-lambda (`(,category . ,icon))
+            `(,category
+              (,(funcall fun (concat prefix icon) :height 1.0))))
+          alist))
+#+end_src
+
+I use this function like so to create my mapping from categories to icons:
+
+#+begin_src elisp
+(setq org-agenda-category-icon-alist
+      (append
+       (gk-nerd-agenda-icons #'nerd-icons-mdicon "nf-md-"
+                             '(("Birthday" . "cake_variant")
+                               ("Diary" . "book_clock")
+                               ("Holiday" . "umbrella_beach")
+                               ("Chore" . "broom")
+                               ("Regular" . "autorenew")
+                               ("Sprint" . "run_fast")
+                               ("Database" . "database")
+                               ("ELT" . "pipe")
+                               ("Devops" . "gitlab")
+                               ("Blog" . "fountain_pen_tip")
+                               ("FOSS" . "code_braces")
+                               ("Tool" . "tools")
+                               ("Todo" . "list_status")))
+       (gk-nerd-agenda-icons #'nerd-icons-sucicon "nf-custom-"
+                             '(("Emacs" . "emacs")
+                               ("Org" . "orgmode")))
+       '(("" '(space . (:width (11)))))))
+#+end_src
+
+The final entry is a default match and puts a space of 11 pixels when the category
+doesn't match any entry in the list. You'll have to play around with the number of
+pixels here as it depends on your font.
+
+You can adjust the ~:height 1.0~ part to make the icons bigger or smaller in a graphical
+emacs. You'll have to experiment with this and it will depend on the font you use.
+
+The final thing you probably need is a modification to ~org-agenda-prefix-format~.  The
+reason this is necessary is because some icons take up too much space and make the lines
+in the agenda overflow on the right. This will depend on your font also, but to fix
+overflowing lines, make sure your ~org-agenda-prefix-format~ entries include
+~%-2i~. This means org will include two characters for the icon in its calculation of
+line width.
+
+#+begin_src elisp
+(setq org-agenda-prefix-format '((agenda . " %-2i %-12:c%?-12t% s")
+                                 (todo .   " %-2i %-12:c")
+                                 (tags .   " %-2i %-12:c")
+                                 (search . " %-2i %-12:c")))
+#+end_src
+
+You can, of course, remove the category text (~%-12:c~) completely now, if you wish.
+
+** Limitations
+
+This is actually a bit of a hack as what org agenda is actually doing here is using our
+options as a display property passed to ~propertize~.  It works because a display
+property can be a string, which is just displayed in place of whatever is being
+"propertized".
+
+Unfortunately this means there are some limitations: you can't apply other display
+properties, nor are recursive display properties supported (ie. using ~(propertize icon
+...)~ /as/ the display property). So there can be some alignment issues and you can't
+change the colours of the icons.
+
+Perhaps it's possible to patch to org-mode to properly support propertized text as the
+icon. The difficulty might be making it backwards compatible with current behaviour.
+
+Before I do that I'll see if I actually enjoy using icons enough over the next few
+weeks...
+
+** Alternative approach
+
+An equally hacky, but much easier, way is just setting the category in your org files to
+the nerd icon:
+
+#+begin_src org
+,* Database                                                            :@work:
+:PROPERTIES:
+:CATEGORY: 󰆼
+:END:
+#+end_src
+
+Then something like:
+
+#+begin_src elisp
+(setq org-agenda-prefix-format '((agenda . " %-2c%?-12t% s")
+                                 (todo .   " %-2c")
+                                 (tags .   " %-2c")
+                                 (search . " %-2c")))
+#+end_src
+
+This means you can't practically use the categories for filters and stuff, though.
+
+Happy hacking!
+
 * TODO Git is your Safety Rope                          :git:vcs:development:
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-safety-rope
