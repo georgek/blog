@@ -2,6 +2,46 @@
 #+hugo_base_dir: ../
 #+hugo_categories: thoughts
 
+* DONE Lamenting the Firefox Quick Find Key                    :rant:firefox:
+CLOSED: [2023-11-16 Thu 20:14]
+:PROPERTIES:
+:EXPORT_FILE_NAME: lamenting-firefox-quick-find
+:END:
+
+For as long as I've been a Firefox user---almost 20 years at this point---it has
+featured a "quick find" bound to the venerable ~/~ (forward slash) key.
+
+Following a pattern established by other software like ~less~, ~man~, and ~vi~ the slash
+key was simple: it finds stuff in the current page.
+
+Common patterns like this are great. It's why everyone has agreed on what ~Ctrl-C~ and
+~Ctrl-V~ (or very similar) should do across all operating systems. The ~/~ key used to
+be like this, but not any more.
+
+Web designers, in their infinite wisdom, have taken it upon themselves to hijack the ~/~
+key from users. They have decided that ~/~ shall not mean "find in page" but rather
+"find across the entire website" or, in other words: not at all what that key is supposed
+to do.
+
+At first it was just hip new sites jumping on a trend like everyone is jumping on dark
+mode right now (yes, I know I've jumped on that one too). But then websites I actually
+use day in, day out started to do it. The latest offender, and what finally prompted
+this post, is the [[https://docs.python.org/3/][Python]] documentation. [fn:1]
+
+What's annoying is they could have picked any other key, but they picked ~/~ because
+they /know/ this is already established for search. But "find in page" and "jump up to
+my search bar and find in site using whatever custom search page I have implemented" are
+not even close to the same thing.
+
+So now I'm scared to try the ~/~ key and I've had to teach myself ~Ctrl-F~ instead which
+is more awkward, less universal and doesn't behave in exactly the same way (notably,
+~Enter~ or clicking away doesn't close the search).
+
+I don't expect anything to change now, hence this lament.
+
+[fn:1] Oddly, at around the same time, the [[https://docs.djangoproject.com/en/4.2/][Django]] docs happily /disabled/ their ~/~ key
+hijacking. You win some, you lose some, I suppose.
+
 * DONE Cooking with Make      :cooking:programming:make:makefile:declarative:
 CLOSED: [2023-08-03 Thu 00:00]
 :PROPERTIES:
@@ -163,3 +203,7 @@ pizza-dough: flour water salt yeast
 tomato-sauce: tomato
 	Peel and chop tomatoes
 #+END_SRC
+
+# Local Variables:
+# org-footnote-section: nil
+# End:
