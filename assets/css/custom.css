@@ -28,3 +28,20 @@ div.map {
   height: 500px;
   margin-bottom: 1rem;
 }
+
+.post > p:first-of-type::first-letter {
+  color: var(--bkg-color);
+  background-color: var(--text-color);
+  border-radius: 2px;
+  box-shadow: 3px 3px 0 #005522;
+  font-size: 250%;
+  font-weight: bold;
+  padding: 6px 3px;
+  margin-right: 0.2em;
+  margin-top: 0.1em;
+  float: left;
+}
+
+.post > p:first-of-type::first-line {
+  font-weight: bold;
+}
