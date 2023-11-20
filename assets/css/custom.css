@@ -40,6 +40,7 @@ div.map {
   margin-right: 0.2em;
   margin-top: 0.1em;
   float: left;
+  line-height: 1;
 }
 
 .post > p:first-of-type::first-line {
