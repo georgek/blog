@@ -320,7 +320,7 @@ But we can now put truly static maps into a static site.  Behold!
 #+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's all
-hosted on GitHub Pages and the above map uses less than 2MiB of storage.  What's more
+hosted on GitHub Pages and the above map uses less than 2 MiB of storage.  What's more
 it's really quite easy to get started.  Let's see how it's done.
 
 Although I'm using Hugo as a concrete example below, all of this should be easily
@@ -337,7 +337,7 @@ This means our map data can be hosted anywhere, just like our static site.
 
 You can create a PMTiles archive from raw map data (such as OpenStreetMap), but the
 easiest way is to extract data from an existing archive.  The Protomaps project produces
-[[https://maps.protomaps.com/builds/][daily builds]] of the entire world from OSM data.  These files are over 100GiB but you can
+[[https://maps.protomaps.com/builds/][daily builds]] of the entire world from OSM data.  These files are over 100 GiB but you can
 extract a much smaller file without downloading the whole thing.
 
 First download the latest release of go-pmtiles from [[https://github.com/protomaps/go-pmtiles/releases][GitHub]] for your platform and
