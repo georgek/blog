@@ -2,7 +2,7 @@
 #+hugo_base_dir: ../
 #+hugo_categories: thoughts
 
-* DONE Lamenting the Firefox Quick Find Key                    :rant:firefox:
+* DONE A Lament for the Firefox Quick Find Key                 :rant:firefox:
 CLOSED: [2023-11-16 Thu 20:14]
 :PROPERTIES:
 :EXPORT_FILE_NAME: lamenting-firefox-quick-find
