@@ -3,6 +3,185 @@
 #+hugo_base_dir: ../
 #+hugo_categories: software
 
+* DONE Bash History Hacks                                 :bash:linux:direnv:
+CLOSED: [2023-12-05 Tue 22:22]
+:PROPERTIES:
+:EXPORT_FILE_NAME: project-local-bash-history
+:END:
+
+** Introduction                                                      :ignore:
+
+When you work a lot on the command line, history can be invaluable. I've lost count of
+the number of times I've forgotten how I ran some earlier command and used my bash
+history to find out what it was. This is one of the big advantages of using CLIs over
+GUIs.
+
+** Accessing history
+
+The main interface I use to my history is ~^P~ (~Ctrl-P~). This recalls the previous
+command from history. Subsequent presses step further back and ~^N~ steps forward
+again. These keys are set in muscle memory at this point, I use them that much (they
+also work in emacs and many other places).
+
+A really useful extension to that is ~^R~. This does a reverse incremental search
+through your history for whatever you type. Subsequent presses of ~^R~ go further
+back. I do this many times each day and cringe when I see people stepping up further
+than a few ~^P~ through history.
+
+You can also use ~^S~ to search forwards again (so the counterpart to ~^N~), but you
+probably need to add the following option in your ~.bashrc~ first:[fn:7]
+
+#+begin_src bash
+stty -ixon
+#+end_src
+
+Then there is searching through history with something like ~history | grep <cmd>~ but
+sometimes I just do ~history~ and have a look around. You could, of course, pipe your
+history anywhere else like into ~sed~ and ~uniq~ to perform some kind of stats on your
+history.
+
+I like to set the following to enable a nicer timestamp when viewing history:
+
+#+begin_src bash
+HISTTIMEFORMAT="[%F %T] "
+#+end_src
+
+Now let's look at some tweaks to help with collecting and curating said history.
+
+[fn:7] See: https://unix.stackexchange.com/questions/73498/how-to-cycle-through-reverse-i-search-in-bash
+
+** Unlimited history
+
+The first thing to enable is an unlimited history file. You have the disk space. Put the
+following options in your ~.bashrc~ file:
+
+#+begin_src bash
+HISTFILESIZE=
+HISTSIZE=
+shopt -s histappend
+#+end_src
+
+You should search any exising ~.bashrc~ file for these options as many distros include
+them set by default.
+
+At this point it's useful to understand how bash history works. First there is the
+history we were interacting with above via ~^P~ and ~history~ etc. This is stored in
+memory and local to each bash instance. When you type new commands, this is where they
+end up. Then, separately, there is a persistent history file which is stored on
+disk. You can find out where yours will be by checking the variable ~HISTFILE~ (it's
+usually something like ~~/.bash_history~).
+
+By default, when you run ~bash~ it truncates your history file to ~HISTFILESIZE~ then
+reads it into memory. When you exit it overwrites your history file with ~HISTSIZE~
+entries from memory. With these variables unset the limits are removed, but you still
+need to enable ~histappend~ so bash /appends/ to the history file instead of overwriting
+it. Otherwise you'll get history loss when you run multiple shells.
+
+I also set the following option:
+
+#+begin_src bash
+export HISTCONTROL=ignoreboth
+#+end_src
+
+This ignores duplicate lines and lines that start with a space, so if you are going to
+include a password or something you can start the line with a space to stop it getting
+into your history.
+
+** Project-local history
+
+Sometimes when I'm exploring some new data or tools it seems appropriate to keep history
+local to that project only. This gives me an informal log of what I've done to get the
+data files in my working directory. This can be especially useful if you later need to
+formalise things for writing a paper, for example.
+
+What we'd like is when we ~cd~ to a project any in-memory history is written out to the
+current/old history file, then switch to a project-specific history file, clear the
+in-memory history and read in the project-specific history file.
+
+For this I wondered if I could use [[https://direnv.net/][direnv]] which is a great tool for setting
+project-specific environment variables. But unfortunately direnv can /only/ set
+environment variables.[fn:6] If we simply set ~HISTFILE~ in the ~.envrc~ file this won't
+have the desired effect because, as mentioned above, bash only reads the history file
+when it opens and writes it when it exits. We need to also interact with the ~history~
+command directly to control writing/reading to the old/new history files.
+
+Fortunately, someone else wondered if they could do this with direnv and posted a
+solution to the GitHub issue board using a bash function:
+https://github.com/direnv/direnv/issues/1062
+
+I have tweaked the solution slightly and come up with the following:
+
+#+begin_src bash
+_set_local_histfile() {
+    history -a
+
+    if [[ -n $DIRENV_FILE ]] && [[ -n $LOCAL_HISTFILE ]]; then
+        local histfile_local=${HOME}/.bash_history.d/${DIRENV_FILE%\/*}
+        mkdir -p $(dirname $histfile_local)
+        touch $histfile_local
+        chmod 600 $histfile_local
+    else
+        local histfile_local=${HOME}/.bash_history
+    fi
+
+    [[ "$HISTFILE" == "$histfile_local" ]] && return
+
+    # switch history to new file
+    echo "Writing Bash history to $histfile_local"
+
+    history -w
+    history -c
+
+    export HISTFILE=$histfile_local
+
+    history -r
+}
+
+PROMPT_COMMAND="_set_local_histfile;$PROMPT_COMMAND"
+#+end_src
+
+The function ~_set_local_histfile~ runs before/after each command you run. The first
+thing it does is instantly appends the current history to the history file (~history
+-a~). Then it checks to see if we have enabled local history and, if so, makes a new
+history file in your home directory under ~.bash_history.d~. I wanted to keep all
+history in my home directory rather than in the project directory just in case the
+project is on an NFS mount or something and I can't or wouldn't want to write history
+there. It's also important to set a strict access control on history files (in case you
+type passwords or something). Then, if a local history file is in use, we write out the
+current history, clear current history, switch file and read the new history file, as
+laid out above.
+
+Finally, I chose to make this an option rather than setting it whenever a ~.envrc~ file
+is in use, so to use this set ~LOCAL_HISTFILE=1~ in ~.envrc~:
+
+#+begin_src bash
+echo 'export LOCAL_HISTFILE=1' >> .envrc
+#+end_src
+
+Or to make it a tiny bit nicer you can define a command in your ~.direnvrc~:
+
+#+begin_src bash
+use_localhist() {
+    export LOCAL_HISTFILE=1
+}
+#+end_src
+
+Then you can use simply ~use localhist~ in an ~.envrc~.
+
+[fn:6] Direnv does not run the ~.envrc~ file in the current shell but in a subshell and
+then inspects changes to the environment in the subshell.
+
+** Conclusion
+
+Learning to use history can really improve your proficiency on the command line and with
+a few simple tweaks in your ~.bashrc~ it becomes even more useful and, sometimes, a
+lifesaver.
+
+Increasing the size of your history and preventing history loss is the kind of thing
+you'll wish you enabled yesterday, so you might as well do it now. The local history one
+is a bit more niche, but can be very useful for people like scientists doing a lot of ad
+hoc data processing on the command line.
+
 * DONE Using Nerd Icons in Org Agenda                         :emacs:orgmode:
 CLOSED: [2023-11-14 Tue 23:56]
 :PROPERTIES:
