@@ -61,7 +61,7 @@ HISTSIZE=
 shopt -s histappend
 #+end_src
 
-You should search any exising ~.bashrc~ file for these options as many distros include
+You should search any existing ~.bashrc~ file for these options as many distros include
 them set by default.
 
 At this point it's useful to understand how bash history works. First there is the
