@@ -3,6 +3,143 @@
 #+hugo_base_dir: ../
 #+hugo_categories: software
 
+* DONE Emacs Undo Redo                                                :emacs:
+CLOSED: [2023-12-14 Thu 22:18]
+:PROPERTIES:
+:EXPORT_FILE_NAME: emacs-undo
+:END:
+
+** Introduction                                                      :ignore:
+
+At first glance, undo seems like a simple thing expected of most software these days and
+hardly worth writing about. Indeed, when I say Emacs has a very powerful undo
+system---probably more so than any other text editor---you may wonder what could make an
+undo system powerful. So let's start by considering two big problems most undo systems
+have:
+
+1. If you undo something, make some changes, then change your mind, what you undid is
+   now lost and unrecoverable,
+2. If you make changes in two parts of the same file you cannot undo changes in the
+   first part without undoing changes in the second part too.
+
+Emacs comes with solutions to each of these out of the box. Read on to understand how it
+works and how we can improve upon the defaults even more.
+
+** Standard undo system
+
+To deal with the first problem, it's quite simple: Emacs stores undo commands themselves
+in the undo history. To understand how this works, imagine a situation where you've made
+two changes to a buffer and are now in state ~c~. The history would look like this:
+
+#+begin_example
+   a---b---c
+           ^
+#+end_example
+
+If you now undo twice, you will get back to state ~a~, as you would expect, and the
+history will look like this:
+
+#+begin_example
+   a---b---c
+   ^
+#+end_example
+
+So far, so good, but what happens if we now make a non-undoing change such as entering
+some new text to get into state ~b'~. In most editors, states ~b~ and ~c~ would at this
+point be lost, but in Emacs we get the following history:
+
+#+begin_example
+   a---b---c---b---a---b'
+                       ^
+#+end_example
+
+What's happened is the moment a command breaks the chain of undos, the chain of undos
+are themselves added to the undo history before any subsequent changes. This means you
+can always get back to /any/ previous state, including ~b~ and ~c~.
+
+This might sound quite hard to understand but, in fact, it's actually quite intuitive
+and I used this standard undo system for many years.
+
+** Undo-tree
+
+Another way to understand the states above is as a tree:
+
+#+begin_example
+     a
+    / \
+   b   b'
+   |   ^
+   c
+#+end_example
+
+Now it's perhaps possible to see that Emacs undo is actually doing a kind of tree
+traversal but, by default, you can't see the tree, you just have to imagine it.
+
+But what if it's too difficult to imagine? That's where [[https://www.dr-qubit.org/undo-tree.html][undo-tree]] comes in. Undo-tree
+replaces the standard undo system with an alternative system that gives the standard
+undo/redo commands while still retaining full access to the tree when you need it. It
+comes with a graphical tree browser so you can view the undo tree and move anywhere
+within it.
+
+I should have installed undo-tree years ago. As it happens, I've only started using it
+recently, but now an even better alternative is available.
+
+** Vundo
+
+How I thought undo-tree worked was it used the standard Emacs undo system but merely
+enabled easier navigation through undo states by displaying a tree. This isn't right, it
+actually replaces the undo system completely, but this /is/ how [[https://github.com/casouri/vundo][vundo]] works. With vundo
+you use the standard undo system as described above, but you can display it as a tree
+and navigate through it when you need to.
+
+But vundo would not be competitive with undo-tree if it weren't for a couple of recent
+changes to the standard Emacs undo system. These are the commands ~undo-only~ and
+~undo-redo~. Unlike standard ~undo~, ~undo-only~ will not undo undos and ~undo-redo~
+will /only/ undo undos and not record itself as something to be undone. This might sound
+a bit confusing, but you can think of ~undo-only~ and ~undo-redo~ as exposing just the
+"normal" linear undo that most editors would provide.
+
+I now have the following ~vundo config~:
+
+#+begin_src elisp
+(use-package vundo
+  :bind (("C-x u" . vundo)
+         ("C-/" . undo-only)
+         ("C-?" . undo-redo))
+  :config
+  (setq vundo-glyph-alist vundo-ascii-symbols))
+#+end_src
+
+To get persistent undo (ie. saving the undo history across Emacs sessions) there is
+[[https://github.com/emacsmirror/undo-fu-session][undo-fu-session]].
+
+With this setup you get what undo-tree provided: the simple undo/redo system most of the
+time and access to the full tree when you need it. But because it uses the standard
+Emacs undo system it is simpler, potentially more robust and you get to use one of the
+most powerful Emacs undo features of all, as we will see next.
+
+** Undo in region
+
+We've now covered problem number 1, but what about 2? A tragically little-known feature
+of the Emacs undo system is undo in region. Quite simply, if you select a region and
+undo, it will undo only within that region! How cool is that?
+
+Undo-tree does support this, but it must be enabled by setting
+~undo-tree-enable-undo-in-region~. However, it is known to be buggy and the undo-tree
+author recommends against its use. But if we use vundo we can use it just fine.
+
+** Conclusion
+
+The default Emacs undo system is the best there is. It's one of the many small things
+that mean Emacs users never want to leave Emacs. Not only does it let you recover any
+previous state, you can even restrict your undoing to portions of the whole buffer.
+
+But it wouldn't really be Emacs if we didn't still try to improve things. With just a
+couple of tweaks and a couple of extra packages we get an undo system that is easy to
+understand while losing none of its power and fully persistent between Emacs sessions.
+
+Happy hacking!
+
 * DONE Bash History Hacks                                 :bash:linux:direnv:
 CLOSED: [2023-12-05 Tue 22:22]
 :PROPERTIES:
