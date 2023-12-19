@@ -30,7 +30,7 @@ problem is I don't want to spend a lot of money on it.
 
 The first iteration of my home cinema looked like this:
 
-[[file:/blog/cinema/cinema.jpeg]]
+[[file:/cinema/cinema.jpeg]]
 
 Home cinema has a strong overlap with the audiophile world.  You can spend as much as
 you want on it, and there will always be more.  It's not that it's wrong to spend a lot

@@ -332,7 +332,7 @@ paths to images (like SVGs), as image data or as a display property.  I use a [[
 along with the [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] package in my Emacs config, so I thought I might as well
 enable icons in my org agenda views.
 
-[[file:/blog/emacs/org-agenda-icons.png]]
+[[file:/emacs/org-agenda-icons.png]]
 
 The nice thing about using nerd fonts is this works perfectly in text mode too (assuming
 you have a nerd font configured for your terminal emulator).
@@ -633,7 +633,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+#+hugo: {{<map tiles-url="/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's all
 hosted on GitHub Pages and the above map uses less than 2 MiB of storage.  What's more
@@ -830,7 +830,7 @@ the following in ~layouts/shortcodes/map.html~:
 Now you can simply use the shortcode anywhere in your site like so:
 
 #+begin_src markdown
-{{</*map tiles-url="/blog/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568"*/>}}
+{{</*map tiles-url="/gran-canaria2.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568"*/>}}
 #+end_src
 
 [fn:3] Overriding a theme is quite easy with Hugo, see:
@@ -864,7 +864,7 @@ on my list to play is to try to get hillshading/relief into my maps.
 To finish, just for fun, here's another map showing a recent multi-day walk across Gran
 Canaria[fn:5]:
 
-#+hugo: {{<map tiles-url="/blog/gran-canaria2.pmtiles" relief-url="/blog/gran-canaria-relief.pmtiles" tracks="/blog/gc1.gpx,/blog/gc2.gpx,/blog/gc3.gpx,/blog/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
+#+hugo: {{<map tiles-url="/gran-canaria2.pmtiles" relief-url="/gran-canaria-relief.pmtiles" tracks="/gc1.gpx,/gc2.gpx,/gc3.gpx,/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
 [fn:5] I've used [[https://github.com/jimmyrocks/maplibre-gl-vector-text-protocol][maplibre-gl-vector-text-protocol]] to add statically hosted GPX files to
 the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see how.
@@ -878,7 +878,7 @@ export it.  There are a [[https://ox-hugo.scripter.co/doc/shortcodes/][few]] way
 map shortcodes is simply:
 
 #+begin_src org
-,#+hugo: {{<map tiles-url="/blog/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+,#+hugo: {{<map tiles-url="/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 #+end_src
 
 * DONE Why is Emacs Hanging?                                :emacs:debugging:

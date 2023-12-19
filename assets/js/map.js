@@ -20,7 +20,7 @@ function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
     container: container,
     style: {
       version: 8,
-      glyphs: "/blog/basemap-fonts/{fontstack}/{range}.pbf",
+      glyphs: "/basemap-fonts/{fontstack}/{range}.pbf",
       sources: {
         protomaps: {
           type: "vector",

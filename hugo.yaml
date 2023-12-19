@@ -1,4 +1,4 @@
-baseURL: https://georgek.github.io/blog/
+baseURL: https://blog.gpkb.org/
 languageCode: en-gb
 theme: poison
 paginate: 10
@@ -6,20 +6,20 @@ pluralizeListTitles: false
 
 params:
   brand: gpk blog
-  brand_image: "/blog/android-chrome-192x192.png"
-  favicon: "/blog/favicon.ico"
+  brand_image: "/android-chrome-192x192.png"
+  favicon: "/favicon.ico"
   description: My ramblings about emacs, the internet and everything
   author: George Kettleborough
 
   menu:
     - Name: About
-      URL: /blog/about/
+      URL: /about/
       HasChildren: false
     - Name: Categories
-      URL: /blog/categories/
+      URL: /categories/
       HasChildren: false
     - Name: Tags
-      URL: /blog/tags/
+      URL: /tags/
       HasChildren: false
     # - Name: Posts
     #   URL: /posts/
