@@ -403,10 +403,9 @@ Flycheck for now too.
 ** Virtualenvs
 
 OK, so, it doesn't completely just work.  One of the most important things for me is
-being able to jump to the definition of a symbol in the source.  This does just work
-for first party stuff and (kinda) for standard library stuff, but it won't work for
-third party stuff.  That's because the LSP server does know where to find those
-libraries.
+being able to jump to the definition of a symbol in the source.  This does just work for
+first party stuff and (kinda) for standard library stuff, but it won't work for third
+party stuff.  That's because the LSP server doesn't know where to find those libraries.
 
 Usually when developing on a Python project one would create a virtual environment for
 it.  I make everything a package such that doing a ~pip install -e .~ installs the
