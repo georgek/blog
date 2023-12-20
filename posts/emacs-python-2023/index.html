@@ -54,10 +54,9 @@ will be only one LSP server installed for my whole system (not one per virtualen
 least, what I used it for) and more. Just like that.</p><p>By default, Eglot uses Flymake. I had previously been using Flycheck. I can&rsquo;t really
 remember why, to be honest, so I&rsquo;ll try using Flymake instead and say goodbye to
 Flycheck for now too.</p><h2 id=virtualenvs>Virtualenvs</h2><p>OK, so, it doesn&rsquo;t completely just work. One of the most important things for me is
-being able to jump to the definition of a symbol in the source. This does just work
-for first party stuff and (kinda) for standard library stuff, but it won&rsquo;t work for
-third party stuff. That&rsquo;s because the LSP server does know where to find those
-libraries.</p><p>Usually when developing on a Python project one would create a virtual environment for
+being able to jump to the definition of a symbol in the source. This does just work for
+first party stuff and (kinda) for standard library stuff, but it won&rsquo;t work for third
+party stuff. That&rsquo;s because the LSP server doesn&rsquo;t know where to find those libraries.</p><p>Usually when developing on a Python project one would create a virtual environment for
 it. I make everything a package such that doing a <code>pip install -e .</code> installs the
 package and all of its dependencies into the virtualenv. Then you just need to make the
 LSP server aware of this environment.</p><p>I used to use <code>virtualenvwrapper</code> to create virtualenvs for each project, but I&rsquo;ve found
