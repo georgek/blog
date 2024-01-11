@@ -15,3 +15,7 @@ clean:
 .PHONY: dev
 dev:
 	hugo server -D --navigateToChanged
+
+.PHONY: images
+images:
+	./scripts/mkimages

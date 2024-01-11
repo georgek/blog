@@ -2,8 +2,151 @@
 #+hugo_draft: t
 #+hugo_base_dir: ../
 #+hugo_categories: life
+#+hugo_paired_shortcodes: pictures
 
 * TODO Norfolk Coast Path                             :walking:nationaltrail:
+:PROPERTIES:
+:EXPORT_FILE_NAME: norfolk-coast-path
+:END:
+
+The Norfolk Coast Path (NCP) is a waymarked, long-distance footpath and [[https://www.nationaltrail.co.uk/][National Trail]]
+in England. It stretches from Hunstanton all the way along the Norfolk coastline to
+Hopton. I walked it with my partner [[https://www.peregrinavicki.com/][Vicki]] over the course of seven days in
+September 2022.
+
+#+begin_pictures
+ncp/DSC_1821
+ncp/DSC_1822
+ncp/DSC_1826
+ncp/DSC_1828
+ncp/DSC_1831
+ncp/DSC_1844
+ncp/DSC_1847
+#+end_pictures
+
+** Planning
+
+The NCP is around 135 km (83 miles) and almost completely flat. The ground is mostly
+good, well trodden paths with some slower sections on sandy and shingle beaches (but you
+can often choose to walk inland on firmer ground instead). Fortunately there are no
+major pebble sections (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
+
+There is only one section---the very last section between Gorleston and Hopton---that
+*cannot be walked at high tide*. Other sections are not affected as the waymarkers will
+take you away from any tidal sections. However, people can and do get caught out by the
+incoming tide on the vast sandy beaches around Holkham and Wells (look out for the
+amusing warning signs). It's probably not a problem when you're on the move, but don't
+walk too far out if you're not sure.
+
+At 135 km the NCP can be walked comfortably in 7 days. We walked it over the course of
+two regular weekends and one three day long weekend. In terms of provisions the NCP is
+split into two distinct halves.  Originally the NCP only ran from Hunstanton to
+Cromer. This is the first four days' walking and is well provisioned in terms of shops,
+transport and accommodation.  In 2016 it was extended from Cromer to Hopton. This part is
+considerably more remote with very few options for accommodation and transport.
+
+Starting from Hunstanton, the seven days end fairly evenly at towns and villages along
+the way:
+- Hunstanton
+- Burnham Deepdale (20 km)
+- Wells (17 km)
+- Blakeney (12 km)
+- Sherringham (16 km)
+- Bacton (23 km)
+- Hemsby (25 km)
+- Hopton (20 km)
+
+We weren't
+able to find accommodation in all of these places and had to use public transport to
+help.
+
+For the first weekend we stayed overnight in a private room at [[https://deepdalecamping.co.uk/][Deepdale Backpackers]] in
+Burnham Deepdale then took the [[https://www.lynxbus.co.uk/bus-routes/coastliner-36/][Coastliner]] bus back from Wells to Hunstanton.
+
+On the second weekend we parked at Blakeney and caught the bus to Wells then walked back
+to Blakeney. We were unable to find accommodation in Blakeney so drove to the [[https://www.yha.org.uk/hostel/yha-sheringham][YHA]] in
+Sherringham. We then took the bus back to Blakeney and walked back to Sherringham.
+
+The last three days really need to be done in one go as there are no buses at all on
+this section. We parked in Norwich and took the train to Sherringham to start. There are
+a few places to stay around Bacton but they are either ridiculously expensive or not
+available when you want them. We ended up staying in the pub in North Walsham and had to
+resort to a taxi to take us from/to the NCP at Bacton. Even the taxi was quite hard to
+come by on the bank holiday weekend. In the second night we were able to stay in a
+holiday home in Hemsby. This was by far the hardest bit to plan.
+
+** Walking
+
+*** Day 1: Hunstanton to Burnham Deepdale
+
+The walk starts in the lovely seaside town of Hunstanton. The waymarkers take you on top
+of the cliff away from the amusements and towards Old Hunstanton. We walked this way
+because the tide was in but at low tide you can (and should) walk down to the beach and
+walk that way to see the interesting and unique two-tone cliffs and, at very low tide, a
+small shipwreck.
+
+Depending on the time of day and year there might be crowds enjoying the sandy beaches
+at Old Hunstanton. The NCP takes you away from the crowds, behind the chalets and
+eventually into the dunes next to a golf course. We found ourselves walking through
+waist high foliage and dodging brambles. Classic British walking, but probably the only
+instance of this on the whole trail.
+
+Before long the NCP meets the end of Peddar's Way, another National Trail in Norfolk. It
+was at this point our route was diverted due to the boardwalk at Holme being closed for
+repairs (and natterjack toads). The diversion took us inland up a considerable hill (for
+Norfolk) with lovely views. Although that was nice, the way back down was a bit of a
+trudge.
+
+When we returned to the NCP proper the sandy beaches had given way to salt marshes. This
+would be a familiar sight for the next few days. Much of the coastline here is
+inaccessible due to mud and deep tidal inlets. The saltmarshes are a strange place. From
+afar they look like land, but close up you realise they belong to the sea.
+
+At Brancaster the walk follows a long boardwalk. This was in slight disrepair and there
+were some signs suggesting we shouldn't walk that way. But the alternative was next to a
+road, so we did and it was fine apart from the odd broken plank. After the boardwalk we
+shortly arrived in Burnham Deepdale for the end of the day.
+
+*** Day 2: Burnham Deepdale to Wells-next-the-Sea
+
+Spoonbills?
+
+The second day started with us walking right out to the saltmarshes, far away from the
+villages. It was necessary for the path to dart back inland to cross the river Burn just
+before Burnham Overy Staithe.
+
+We started to notice the car of choice around these parts is a beastly Range Rover,
+Porsche or even Rolls Royce. It turns out a lot of money has moved here given Burnham
+Market its nickname: "Burnham Upmarket".
+
+After the detour inland it was back out to sea and briefly back to sandy beaches. The
+beach at Holkham and onwards to Wells is one of the most beautiful in Norfolk. At low
+tide the sands seem endless. We walked partly out on the beach, looking for shells, and
+partly inland a bit in the woods when the sand became too tiring.
+
+The beach stops abruptly at Wells. You can swim over to the sand on the other side of an
+inlet, but this is otherwise inaccessible due to the return of the salt marshes. From
+the end of the beach it's a long walk back along the top of the sea wall to Wells.
+
+Wells is another pretty seaside town and the end of our day. After a brief visit to the
+souvenir shops we took the bus all the way back to Hunstanton. The bus ride back was
+rather beautiful and provided a nice recap of the walk so far, in reverse.
+
+*** Day 3: Wells-next-the-Sea to Blakeney
+
+*** Day 4: Blakeney to Sherringham
+
+Buoy coffee
+
+*** Day 5: Sherringham to Bacton
+
+Beaston Bump a notable hill.
+
+*** Day 6: Bacton to Hemsby
+
+*** Day 7: Hemsby to Hopton
+
+** Reflection
 
 * TODO Camino Gran Canaria                                   :walking:camino:
 
@@ -193,3 +336,5 @@ great project.  If a partner exists, it helps a lot if they are understanding an
 similar frugal mindset.  If you want this to look good in your living room, expect to
 pay many times more and put in a lot more work.  Hopefully you don't have to.  Enjoy
 your home cinema journey!
+
+#  LocalWords:  waymarks waymark waymarkers waymarker

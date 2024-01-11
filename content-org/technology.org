@@ -3,6 +3,76 @@
 #+hugo_base_dir: ../
 #+hugo_categories: technology
 
+* TODO My Eight Year Old PC
+:PROPERTIES:
+:EXPORT_FILE_NAME: my-eight-year-old-pc
+:END:
+
+I like computers. I own and run a few types but my favourite by far is my desktop
+[[https://en.wikipedia.org/wiki/IBM_PC_compatible][PC]]. What's great about these computers is they can fit almost any budget but through
+upgrades can be made to last a very long time. This is great for reducing waste and
+provides pleasure for the PC owner.
+
+This post is about my current PC which is now over eight years old. In that time it has
+outlived two corporate work laptops (the latest one had soldered-in RAM so had to be
+replaced when more memory was needed) and, thanks to my choice of a lean [[https://www.gentoo.org/][Gentoo]]
+GNU/Linux system, performs at least as well as any other computer I use.
+
+The computer is, of course, a [[https://en.wikipedia.org/wiki/Ship_of_Theseus][Trigger's broom]] at this point; the only original
+components remaining are the motherboard, PSU and some memory (the case is still in use
+in another build). The careful PC builder will always slightly over budget for
+motherboard, PSU and case and under-budget the rest, as they are all easily replaceable
+later.
+
+** Original configuration
+
+In the summer of 2015 my PC was built with the following configuration:
+
+| Part        | Model                             |
+|-------------+-----------------------------------|
+| Motherboard | Asus Z97M-Plus                    |
+| CPU         | Intel Pentium K G3258             |
+| RAM         | 16 GiB Corsair DDR3 1600 MHz        |
+| SSD         | 250 GiB Samsung 850 EVO            |
+| PSU         | SuperFlower Leadex Platinum 550 W  |
+| Case        | Fractal Design Node 804           |
+| Cooler      | Be Quiet! Shadow Rock Low Profile |
+
+The really amazing part of this build was the CPU. On the face of it it's an
+underpowered budget chip, but it had remarkable overclocking potential. In fact, I
+overclocked it from it's stock 3.2 GHz to 4.2 GHz with barely any increase in
+temperature. This was known to work well with the stock cooler, which was included in
+the tiny £50 price tag. Some overclockers were able to get up to 4.8 GHz from this CPU,
+but I wanted to ensure it lasted.
+
+This computer has only ever booted Linux. I started off with Ubuntu but settled on
+Gentoo around 6 years ago. I run a minimal system and spend most of my time in Emacs and
+Firefox.
+
+The case also housed 3 hard disks that I had from previous builds.
+
+** Case swap
+
+In 2020 I decided to build a [[https://en.wikipedia.org/wiki/Network-attached_storage][NAS]] and move the majority of my storage there. The Node 804
+case seemed perfect for the NAS, so I moved the components of my PC to a new Fractal
+Design Define Mini C freeing up the original Node 804 for the NAS. Due to everything
+being Micro ATX this was a simple unscrew and transplant taking no more than an hour.
+
+** Upgrade to best CPU
+
+The best CPU for the socket is the 4790K. This sold for around £300 when it was new, but
+they held their value very well. I was able to get one for around £140 in 2023. Crazy
+that they still go for so much, but it's still better than replacing my entire
+system. Naturally I have overclocked this to 4.6 GHz but unlike the G3258 it needs a
+bigger cooler. At the same time I thought I might as well upgrade my memory to 32 GiB
+since it's not unknown for GCC to use 4 GiB per thread when compiling. This was quite a
+big upgrade and made my system noticeably faster.
+
+** 4K screens
+
+One thing I'd been thinking about for a while is having high-DPI screens. This
+essentially means 4K screens and running them scaled 2x.
+
 * TODO Fixing my JVC DLA-X5000 Projector
 :PROPERTIES:
 :EXPORT_FILE_NAME: fixing-dla-x5000
