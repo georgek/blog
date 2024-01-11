@@ -6,7 +6,7 @@ pluralizeListTitles: false
 
 params:
   brand: gpk blog
-  brand_image: "/android-chrome-192x192.png"
+  brand_image: "/android-chrome-512x512.png"
   favicon: "/favicon.ico"
   description: My ramblings about emacs, the internet and everything
   author: George Kettleborough
