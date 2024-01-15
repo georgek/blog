@@ -1,23 +1,32 @@
 <div class="pictures">
-  {{ range ( split ( trim .Inner "\n" ) "\n" ) }} {{ $imageDetails := ( split .
-  "|" ) }} {{ $src := index $imageDetails 0 }} {{ $alt := index $imageDetails 1
-  }} {{ $title := index $imageDetails 2 }}
-  <figure class="pictures-picture">
-    <a href="/web-images/{{ $src }}.jpeg">
-      <img
-        src="/web-images/{{ $src }}-sm.jpeg"
-        alt="{{ $alt }}"
-        title="{{ $title }}"
-      />
-    </a>
-    <span class="lightbox closed">
-      <img
-        src="/web-images/{{ $src }}.jpeg"
-        alt="{{ $alt }}"
-        title="{{ $title }}"
-        loading="lazy"
-      />
-    </span>
-  </figure>
+  {{ range ( split ( trim .Inner "\n" ) "\n" ) }}
+    {{ $imageDetails := ( split . "|" ) }}
+    {{ $src := index $imageDetails 0 }}
+    {{ $alt := index $imageDetails 1 }}
+    {{ $title := index $imageDetails 2 }}
+    <figure class="pictures-picture" x-data="{ open: false }">
+      <a href="/web-images/{{ $src }}.jpeg" @click.prevent="open = ! open">
+        <img
+          src="/web-images/{{ $src }}-sm.jpeg"
+          alt="{{ $alt }}"
+          title="{{ $title }}"
+        />
+      </a>
+      <span
+        class="lightbox"
+        x-cloak
+        x-show="open"
+        x-transition:enter-start="closed"
+        x-transition:leave-end="closed"
+        @click="open = false"
+      >
+        <img
+          src="/web-images/{{ $src }}.jpeg"
+          alt="{{ $alt }}"
+          title="{{ $title }}"
+          loading="lazy"
+        />
+      </span>
+    </figure>
   {{ end }}
 </div>

@@ -7,8 +7,9 @@
   "author": "George Kettleborough",
   "license": "ISC",
   "dependencies": {
+    "alpinejs": "^3.13.3",
     "maplibre-gl": "^3.5.1",
-    "maplibre-gl-vector-text-protocol": "github:jimmyrocks/maplibre-gl-vector-text-protocol",
+    "maplibre-gl-vector-text-protocol": "github:georgek/maplibre-gl-vector-text-protocol",
     "pmtiles": "^2.11.0",
     "protomaps-themes-base": "^2.0.0-alpha.1"
   }

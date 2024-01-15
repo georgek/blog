@@ -15,7 +15,7 @@ Hopton. I walked it with my partner [[https://www.peregrinavicki.com/][Vicki]] o
 September 2022.
 
 #+begin_pictures
-ncp/DSC_1821
+ncp/DSC_1821|A view from a hill next to the sea with sea and houses visible.|The view from the Beaston bump.
 ncp/DSC_1822
 ncp/DSC_1826
 ncp/DSC_1828
@@ -26,10 +26,10 @@ ncp/DSC_1847
 
 ** Planning
 
-The NCP is around 135 km (83 miles) and almost completely flat. The ground is mostly
-good, well trodden paths with some slower sections on sandy and shingle beaches (but you
-can often choose to walk inland on firmer ground instead). Fortunately there are no
-major pebble sections (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
+The NCP is around 135 km (83 miles) long and quite flat. The way is mostly good, well
+trodden paths with some slower sections on sandy and shingle beaches (but you can often
+choose to walk inland on firmer ground instead). Fortunately there are no major pebble
+sections (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
 
 There is only one section---the very last section between Gorleston and Hopton---that
 *cannot be walked at high tide*. Other sections are not affected as the waymarkers will

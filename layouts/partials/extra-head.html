@@ -16,9 +16,11 @@
 <link rel="stylesheet" href="{{ $style.Permalink }}" />
 
 <!-- Scripts -->
-{{ $map := resources.Get "js/map.js" }} {{ $lightbox := resources.Get
-"js/lightbox.js" }} {{ $script := slice $map $lightbox | resources.Concat
-"js/global.js" }} {{ $bundle := $script | js.Build | fingerprint }}
+{{ $map := resources.Get "js/map.js" }}
+{{ $alpine := resources.Get "js/alpine.js" }}
+
+{{ $script := slice $map $alpine | resources.Concat "js/global.js" }}
+{{ $bundle := $script | js.Build (dict "sourcemap" "inline" ) | minify | fingerprint }}
 <script
   defer
   src="{{ $bundle.Permalink }}"
