@@ -80,7 +80,7 @@ div.map {
   z-index: 2;
   opacity: 1;
   -webkit-tap-highlight-color: transparent;
-  transition: 0.2s ease;
+  transition: 0.2s ease 0.1s;
 }
 
 .lightbox.closed {
@@ -97,8 +97,7 @@ div.map {
   max-width: 90%;
   margin: auto;
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.5);
-  background-color: #fff;
-  transition: 0.2s ease;
+  transition: 0.2s ease 0.1s;
 }
 
 .lightbox.closed > img {

@@ -19,10 +19,22 @@
 {{ $map := resources.Get "js/map.js" }}
 {{ $alpine := resources.Get "js/alpine.js" }}
 
-{{ $script := slice $map $alpine | resources.Concat "js/global.js" }}
-{{ $bundle := $script | js.Build (dict "sourcemap" "inline" ) | minify | fingerprint }}
+{{ $global := slice $alpine | resources.Concat "js/global.js" }}
+{{ $maps := slice $map | resources.Concat "js/maps.js" }}
+
+{{ $globalBundle := $global | js.Build | minify | fingerprint }}
+{{ $mapsBundle := $maps | js.Build | minify | fingerprint }}
+
+
 <script
   defer
-  src="{{ $bundle.Permalink }}"
-  integrity="{{ $bundle.Data.Integrity }}"
+  src="{{ $globalBundle.Permalink }}"
+  integrity="{{ $globalBundle.Data.Integrity }}"
 ></script>
+{{ if .HasShortcode "map" }}
+  <script
+    defer
+    src="{{ $mapsBundle.Permalink }}"
+    integrity="{{ $mapsBundle.Data.Integrity }}"
+  ></script>
+{{ end }}
