@@ -65,6 +65,10 @@ div.map {
   box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.5);
 }
 
+.pictures-picture a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .lightbox {
   cursor: pointer;
   position: fixed;
@@ -77,6 +81,7 @@ div.map {
   transition: 0.2s ease;
   opacity: 1;
   visibility: visible;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lightbox.closed {
