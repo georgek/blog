@@ -4,3 +4,6 @@
 [submodule "basemaps-assets"]
 	path = basemaps-assets
 	url = https://github.com/protomaps/basemaps-assets.git
+[submodule "ox-hugo"]
+	path = ox-hugo
+	url = git@github.com:georgek/ox-hugo.git

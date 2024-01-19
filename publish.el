@@ -21,7 +21,7 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-refresh-contents))
 (setq package-install-upgrade-built-in t)
-(dolist (pkg '(org org-contrib ox-hugo))
+(dolist (pkg '(org org-contrib))
   (package-install pkg))
 
 (require 'url-methods)
@@ -30,7 +30,7 @@
 
 (require 'org)
 (require 'ox-extra)
-(require 'ox-hugo)
+(require 'ox-hugo)                      ; my patched version of ox-hugo is used
 (ox-extras-activate '(ignore-headlines))
 
 (defun gpk-publish-all ()
