@@ -1,7 +1,7 @@
 #+author: George Kettleborough
 #+hugo_draft: t
 #+hugo_base_dir: ../
-#+hugo_categories: networking
+#+hugo_categories: Networking
 
 
 * TODO My Router                                             :router:pfsense:

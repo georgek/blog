@@ -1,6 +1,6 @@
 #+author: George Kettleborough
 #+hugo_base_dir: ../
-#+hugo_categories: thoughts
+#+hugo_categories: Thoughts
 
 * DONE A Lament for the Firefox Quick Find Key                 :rant:firefox:
 CLOSED: [2023-11-16 Thu 20:14]

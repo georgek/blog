@@ -1,7 +1,7 @@
 #+author: George Kettleborough
 #+hugo_draft: t
 #+hugo_base_dir: ../
-#+hugo_categories: technology
+#+hugo_categories: Technology
 
 * TODO My Eight Year Old PC
 :PROPERTIES:

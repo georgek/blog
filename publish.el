@@ -4,7 +4,8 @@
 
 ;;; Code:
 (defconst gpk-content-files
-  '("life.org"
+  '("travel.org"
+    "life.org"
     "networking.org"
     "programming.org"
     "software.org"
