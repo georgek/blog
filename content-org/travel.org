@@ -6,7 +6,7 @@
 #+html_container: section
 #+html_container_nested: t
 
-* TODO Norfolk Coast Path                             :walking:nationaltrail:
+* TODO Norfolk Coast Path                     :walking:britain:nationaltrail:
 :PROPERTIES:
 :EXPORT_FILE_NAME: norfolk-coast-path
 :END:
@@ -130,7 +130,7 @@ the end of the beach it's a long walk back along the top of the sea wall to Well
 
 Wells is another pretty seaside town and the end of our day. After a brief visit to the
 souvenir shops we took the bus all the way back to Hunstanton. The bus ride back was
-rather beautiful and provided a nice recap of the walk so far, in reverse.
+rather beautiful and provided a nice reflection of the walk so far.
 
 *** Day 3: Wells-next-the-Sea to Blakeney
 
@@ -167,6 +167,12 @@ was a little hairy with sea crashing through defences.
 The second half was much harder to plan and the days were a lot longer and harder. But
 it was just as rewarding and well worth it.
 
-* TODO Camino Gran Canaria                                   :walking:camino:
+* TODO Camino Gran Canaria                             :walking:spain:camino:
+:PROPERTIES:
+:EXPORT_FILE_NAME: camino-gran-canaria
+:END:
 
-* TODO Camino Primitivo                                      :walking:camino:
+* TODO Camino Primitivo                                :walking:spain:camino:
+:PROPERTIES:
+:EXPORT_FILE_NAME: camino-primitivo
+:END:
