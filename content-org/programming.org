@@ -1,6 +1,8 @@
 #+author: George Kettleborough
 #+hugo_base_dir: ../
 #+hugo_categories: Programming
+#+html_container: section
+#+html_container_nested: t
 
 * DONE Working on Multiple Web Projects with Docker Compose and Traefik :networking:web:development:traefik:docker:
 CLOSED: [2023-10-02 Mon 09:00]

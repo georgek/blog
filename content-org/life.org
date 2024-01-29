@@ -3,6 +3,8 @@
 #+hugo_base_dir: ../
 #+hugo_categories: Life
 #+hugo_paired_shortcodes: pictures
+#+html_container: section
+#+html_container_nested: t
 
 * TODO Ben Eater Computer                    :projects:electronics:computers:
 

@@ -2,6 +2,8 @@
 #+hugo_draft: t
 #+hugo_base_dir: ../
 #+hugo_categories: Software
+#+html_container: section
+#+html_container_nested: t
 
 * DONE Emacs Undo Redo                                                :emacs:
 CLOSED: [2023-12-14 Thu 22:18]

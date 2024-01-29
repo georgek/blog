@@ -1,16 +1,30 @@
+html {
+  scroll-behavior: smooth;
+}
+
 h1,
 h2,
 h3,
 h4,
 h5 {
   font-family: "Vollkorn", sans-serif;
+  text-wrap: balance;
 }
 
 h2 {
   margin-top: 1.5rem;
 }
 
+p {
+  text-wrap: pretty;
+}
+
 .sidebar-about h1 {
+  font-family: "Ubuntu", sans-serif;
+}
+
+.article-toc,
+article-toc h4 {
   font-family: "Ubuntu", sans-serif;
 }
 
@@ -29,7 +43,7 @@ div.map {
   margin-bottom: 1rem;
 }
 
-.post > p:first-of-type::first-letter {
+article > p:first-of-type::first-letter {
   color: var(--bkg-color);
   background-color: var(--text-color);
   border-radius: 2px;
@@ -41,10 +55,6 @@ div.map {
   margin-top: 0.1em;
   float: left;
   line-height: 1;
-}
-
-.post > p:first-of-type::first-line {
-  font-weight: bold;
 }
 
 .pictures {
