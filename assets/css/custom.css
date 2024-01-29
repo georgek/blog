@@ -9,6 +9,7 @@ h4,
 h5 {
   font-family: "Vollkorn", sans-serif;
   text-wrap: balance;
+  scroll-margin-top: 1em;
 }
 
 h2 {
@@ -17,6 +18,14 @@ h2 {
 
 p {
   text-wrap: pretty;
+}
+
+article {
+  margin-bottom: 10vh;
+}
+
+main {
+  margin-bottom: 40vh;
 }
 
 .sidebar-about h1 {
