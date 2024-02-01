@@ -98,5 +98,3 @@ module:
       target: "assets/css/maplibre-gl.css"
     - source: "static"
       target: "static"
-    - source: "basemaps-assets/fonts"
-      target: "static/basemap-fonts"

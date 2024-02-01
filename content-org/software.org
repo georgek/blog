@@ -635,7 +635,7 @@ some kind of tiles for your frontend.
 
 But we can now put truly static maps into a static site.  Behold!
 
-#+hugo: {{<map tiles-url="/bangor.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
+#+hugo: {{<map tiles-url="/bangor.osm.pmtiles" bounds="-4.178753,53.215670,-4.137597,53.231163" max-bounds="-4.199352,53.210916,-4.116955,53.235941">}}
 
 This isn't coming from a backend tile server.  This is all completely static, it's all
 hosted on GitHub Pages and the above map uses less than 2 MiB of storage.  What's more
@@ -866,7 +866,7 @@ on my list to play is to try to get hillshading/relief into my maps.
 To finish, just for fun, here's another map showing a recent multi-day walk across Gran
 Canaria[fn:5]:
 
-#+hugo: {{<map tiles-url="/gran-canaria2.pmtiles" relief-url="/gran-canaria-relief.pmtiles" tracks="/gc1.gpx,/gc2.gpx,/gc3.gpx,/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
+#+hugo: {{<map tiles-url="/gran-canaria.osm.pmtiles" relief-url="/gran-canaria-relief.pmtiles" tracks="/gc1.gpx,/gc2.gpx,/gc3.gpx,/gc4.gpx" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
 
 [fn:5] I've used [[https://github.com/jimmyrocks/maplibre-gl-vector-text-protocol][maplibre-gl-vector-text-protocol]] to add statically hosted GPX files to
 the map.  See the [[https://github.com/georgek/blog][source]] of my blog to see how.

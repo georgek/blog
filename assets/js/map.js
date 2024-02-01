@@ -7,28 +7,25 @@ let protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
 maplibregl.addProtocol("gpx", VectorTextProtocol);
 
-const attr =
-  '<a href="https://protomaps.com">Protomaps</a> © <a href="https://openstreetmap.org">OpenStreetMap</a>';
+const attr = '© <a href="https://openstreetmap.org">OpenStreetMap</a>';
 
-function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
-  const protoMapsLayers = JSON.parse(
-    JSON.stringify(layers("protomaps", "light"))
-      .replace(/Noto Sans/g, "Sans")
-      .replace(/Roboto/g, "Sans"),
-  );
+async function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
+  const response = await fetch("/osm-bright-gl-style/style.json");
+  const style = await response.json();
   const map = new maplibregl.Map({
     container: container,
     style: {
       version: 8,
-      glyphs: "/basemap-fonts/{fontstack}/{range}.pbf",
+      sprite: `${window.location.origin}/osm-bright-gl-style/sprite`,
+      glyphs: `${window.location.origin}/osm-bright-gl-style/{fontstack}/{range}.pbf`,
       sources: {
-        protomaps: {
+        openmaptiles: {
           type: "vector",
           url: `pmtiles://${tilesUrl}`,
           attribution: attr,
         },
       },
-      layers: [...protoMapsLayers],
+      layers: style.layers,
     },
     bounds: bounds,
     maxBounds: maxBounds,
@@ -37,8 +34,8 @@ function makeMap({ tilesUrl, bounds, maxBounds, container = "map" }) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll("div.map").forEach((e) => {
-    const map = makeMap({
+  document.querySelectorAll("div.map").forEach(async (e) => {
+    const map = await makeMap({
       tilesUrl: e.dataset.tilesUrl,
       bounds: e.dataset.bounds.split(",").map(parseFloat),
       maxBounds: e.dataset.maxBounds.split(",").map(parseFloat),
