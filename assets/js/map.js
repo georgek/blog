@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     map.on("load", () => {
       if ("tracks" in e.dataset) {
-        const colours = ["red", "green", "blue", "orange"];
+        const colours = ["#25874c", "#4c2587", "#874c25"];
         var i = 0;
         e.dataset.tracks.split(",").forEach((track) => {
           map.addSource(track, {
@@ -57,12 +57,44 @@ document.addEventListener("DOMContentLoaded", function () {
             source: track,
             minzoom: 0,
             maxzoom: 20,
+            layout: {
+              "line-cap": "round",
+              "line-join": "round",
+            },
             paint: {
               "line-color": colours[i],
-              "line-width": 3,
+              "line-width": 6,
+              "line-opacity": 0.8,
             },
           });
           i = (i + 1) % colours.length;
+        });
+      }
+      if ("points" in e.dataset) {
+        const features = e.dataset.points.split(",").map((point) => ({
+          type: "Feature",
+          geometry: {
+            type: "Point",
+            coordinates: point.split(":"),
+          },
+        }));
+        map.addSource("points", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: features,
+          },
+        });
+        map.addLayer({
+          id: "points",
+          type: "circle",
+          source: "points",
+          paint: {
+            "circle-radius": 3,
+            "circle-color": "white",
+            "circle-stroke-color": "#005522",
+            "circle-stroke-width": 3,
+          },
         });
       }
       if ("reliefTilesUrl" in e.dataset) {

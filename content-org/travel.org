@@ -33,6 +33,8 @@ trodden paths with some slower sections on sandy and shingle beaches (but you ca
 choose to walk inland on firmer ground instead). Fortunately there are no pebbles and
 the shingles didn't become too tiring (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
 
+#+hugo: {{<map tiles-url="/ncp/ncp.osm.pmtiles" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
+
 There is only one section---the very last section between Gorleston and Hopton---that
 *cannot be walked at high tide*. Other sections are not affected as the waymarkers will
 take you away from any tidal sections. However, people can and do get caught out by the
@@ -81,6 +83,16 @@ holiday home in Hemsby. This was by far the hardest bit to plan.
 
 *** Day 1: Hunstanton to Burnham Deepdale
 
+#+begin_pictures
+ncp/day1/IMG_1401
+ncp/day1/IMG_1429
+ncp/day1/IMG_1430
+ncp/day1/IMG_1492
+ncp/day1/IMG_1528
+ncp/day1/IMG_1550
+ncp/day1/IMG_1553
+#+end_pictures
+
 The walk starts in the lovely seaside town of Hunstanton. The waymarkers take you on top
 of the cliff away from the amusements and towards Old Hunstanton. We walked this way
 because the tide was in but at low tide you can (and should) walk down to the beach and
@@ -110,6 +122,16 @@ road, so we did and it was fine apart from the odd broken plank. After the board
 shortly arrived in Burnham Deepdale for the end of the day.
 
 *** Day 2: Burnham Deepdale to Wells-next-the-Sea
+
+#+begin_pictures
+ncp/day2/IMG_1654
+ncp/day2/IMG_1678
+ncp/day2/IMG_1689
+ncp/day2/IMG_1696
+ncp/day2/IMG_1812
+ncp/day2/DSC_1791
+ncp/day2/IMG_1832
+#+end_pictures
 
 The second day started with us walking right out to the saltmarshes, far away from the
 villages. It was necessary for the path to dart back inland to cross the river Burn just

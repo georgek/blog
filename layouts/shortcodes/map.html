@@ -5,6 +5,7 @@
     data-relief-tiles-url="{{ .Get "relief-url" }}"
   {{ end }}
   {{ if ( .Get "tracks" ) }}data-tracks="{{ .Get "tracks" }}"{{ end }}
+  {{ if ( .Get "points" ) }}data-points="{{ .Get "points" }}"{{ end }}
   data-bounds="{{ .Get "bounds" }}"
   data-max-bounds="{{ .Get "max-bounds" }}"
 ></div>
