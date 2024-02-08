@@ -1,6 +1,5 @@
 import * as pmtiles from "pmtiles";
 import * as maplibregl from "maplibre-gl";
-import layers from "protomaps-themes-base";
 import { VectorTextProtocol } from "maplibre-gl-vector-text-protocol";
 
 let protocol = new pmtiles.Protocol();
