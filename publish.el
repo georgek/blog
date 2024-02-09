@@ -21,7 +21,7 @@
   (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
   (package-refresh-contents))
 (setq package-install-upgrade-built-in t)
-(dolist (pkg '(org org-contrib))
+(dolist (pkg '(org org-contrib tomelr))
   (package-install pkg))
 
 (require 'url-methods)
