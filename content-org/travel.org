@@ -33,7 +33,7 @@ trodden paths with some slower sections on sandy and shingle beaches (but you ca
 choose to walk inland on firmer ground instead). Fortunately there are no pebbles and
 the shingles didn't become too tiring (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
 
-#+hugo: {{<map tiles-url="/ncp/ncp.osm.pmtiles" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
+#+hugo: {{<map main-map=true tiles-url="/ncp/ncp.osm.pmtiles" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
 
 There is only one section---the very last section between Gorleston and Hopton---that
 *cannot be walked at high tide*. Other sections are not affected as the waymarkers will
@@ -81,7 +81,11 @@ holiday home in Hemsby. This was by far the hardest bit to plan.
 
 ** Walking
 
+#+hugo: {{<mini-map-section>}}
+
 *** Day 1: Hunstanton to Burnham Deepdale
+
+#+hugo: {{<mini-map-bounds bounds="0.4887009970843792,52.970074117183685,0.6839822418987751,52.94412994757295">}}
 
 #+begin_pictures
 ncp/day1/IMG_1401
@@ -123,6 +127,8 @@ shortly arrived in Burnham Deepdale for the end of the day.
 
 *** Day 2: Burnham Deepdale to Wells-next-the-Sea
 
+#+hugo: {{<mini-map-bounds bounds="0.6836324650794268,52.97974926419556,0.852420860901475,52.95720923691988">}}
+
 #+begin_pictures
 ncp/day2/IMG_1654
 ncp/day2/IMG_1678
@@ -156,19 +162,25 @@ rather beautiful and provided a nice reflection of the walk so far.
 
 *** Day 3: Wells-next-the-Sea to Blakeney
 
+#+hugo: {{<mini-map-bounds bounds="0.8525082003325224,52.95927571132779,1.0148312151432037,52.94912748970091">}}
+
 We started this day at the end---Blakeney---and caught the bus back to the start at
 Wells. While waiting for the bus we visited Buoy Coffee which is, sadly, no longer
 there, but served delicious coffee from Grey Seal Coffee in Cromer.
 
 Near Cley we spotted several Spoonbills in the air. Some birdwatchers kindly let us
-observe them doing their thing in the marshes. Apparently they have recently started
-breeding in Norfolk after being absent from Britain for hundreds of years.
+observe them nesting in the marshes. Apparently they have recently started breeding in
+Norfolk after being absent from Britain for hundreds of years.
 
 *** Day 4: Blakeney to Sheringham
+
+#+hugo: {{<mini-map-bounds bounds="1.0178787913173437,52.96580362133682,1.2116400618106127,52.94537323527038">}}
 
 A long walk along the beach with Sheringham ever in sight.
 
 *** Day 5: Sheringham to Bacton
+
+#+hugo: {{<mini-map-bounds bounds="1.2131382431834936,52.94532135128975,1.4771898183971643,52.85138829611242">}}
 
 Beaston Bump a notable hill.
 
@@ -177,9 +189,13 @@ soon be lose to erosion.
 
 *** Day 6: Bacton to Hemsby
 
+#+hugo: {{<mini-map-bounds bounds="1.4773163013160229,52.85447761416435,1.7039009369909763,52.689558221027255">}}
+
 So many seals we had to walk on the dunes.
 
 *** Day 7: Hemsby to Hopton
+
+#+hugo: {{<mini-map-bounds bounds="1.701243706047535,52.69137960858643,1.7396469041705132,52.53630400635302">}}
 
 Quite a different walk through a very quiet Yarmouth (Queen's funeral). Walk to Hopton
 was a little hairy with sea crashing through defences.
