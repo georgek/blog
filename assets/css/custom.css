@@ -69,27 +69,26 @@ article > p:first-of-type::first-letter {
 .pictures {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5em 0.6em;
   margin: 1em 0;
+  gap: 0.6em;
 }
 
 .pictures-picture {
   flex-basis: 20%;
-  margin: 0;
-  padding: 0;
   flex-grow: 1;
+  margin: 0;
 }
 
 .pictures-picture > a > img {
-  margin: 0;
   max-height: 15vh;
   min-width: 100%;
   object-fit: cover;
   box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.5);
+  vertical-align: bottom;
+  margin: 0;
 }
 
-@media (max-aspect-ratio: 1/1) {
+@media (max-aspect-ratio: 1.2/1) {
   .pictures-picture > a > img {
     max-height: 8vh;
   }
@@ -98,15 +97,6 @@ article > p:first-of-type::first-letter {
 .pictures-picture a {
   -webkit-tap-highlight-color: transparent;
 }
-
-/* .pictures ~ section { */
-/*     position: relative; */
-/*     top: -2.5em; */
-/* } */
-
-/* .pictures ~ section h2, h3 { */
-/*     text-shadow: 0px 0px 5px var(--bkg-color); */
-/* } */
 
 .lightbox {
   cursor: pointer;
