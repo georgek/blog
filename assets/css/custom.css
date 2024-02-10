@@ -51,6 +51,7 @@ div.map {
   height: 500px;
   margin-bottom: 1rem;
   border-radius: 5px;
+  box-shadow: 0 0 0.3em rgba(0, 0, 0, 0.5);
   transition: 0.2s ease 0.1s;
 }
 
