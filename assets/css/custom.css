@@ -147,6 +147,24 @@ article > p:first-of-type::first-letter {
   max-width: 70%;
 }
 
+.tags a {
+  text-decoration: none;
+}
+
+.tag-nationaltrail a::before {
+  content: "";
+  mask: url("/tags/nationaltrail2.svg");
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--bkg-color);
+  display: inline-block;
+  width: 1em;
+  height: 1.5em;
+  margin-right: 0.2em;
+  vertical-align: middle;
+}
+
 [x-cloak] {
   display: none !important;
 }
