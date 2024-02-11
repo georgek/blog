@@ -182,6 +182,14 @@ article > p:first-of-type::first-letter {
   vertical-align: middle;
 }
 
+.tag-britain a::before {
+  content: "🇬🇧 ";
+}
+
+.tag-spain a::before {
+  content: "🇪🇸 ";
+}
+
 [x-cloak] {
   display: none !important;
 }
