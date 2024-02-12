@@ -39,7 +39,7 @@ There is only one section---the very last section between Gorleston and Hopton--
 *cannot be walked at high tide*. Other sections are not affected as the waymarkers will
 take you away from any tidal sections. However, people can and do get caught out by the
 incoming tide on the vast sandy beaches around Holkham and Wells (look out for the
-amusing warning signs). It's probably not a problem when you're on the move, but don't
+amusing warning signs). It's not really a problem when you're on the move, but don't
 walk out too far if you're not sure.
 
 At 135 km the NCP can be walked comfortably in 7 days for most of the year. We walked it
@@ -84,6 +84,7 @@ holiday home in Hemsby. This was by far the hardest bit to plan.
 #+hugo: {{<mini-map-section>}}
 
 *** Day 1: Hunstanton to Burnham Deepdale
+# 4th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="0.4887009970843792,52.970074117183685,0.6839822418987751,52.94412994757295">}}
 
@@ -115,7 +116,7 @@ repairs (and natterjack toads). The diversion took us inland up a considerable h
 Norfolk) with lovely views. Although that was nice, the way back down was a bit of a
 trudge.
 
-When we returned to the NCP proper the sandy beaches had given way to salt marshes. This
+When we returned to the real NCP the sandy beaches had given way to salt marshes. This
 would be a familiar sight for the next few days. Much of the coastline here is
 inaccessible due to mud and deep tidal inlets. The saltmarshes are a strange place. From
 afar they look like land, but close up you realise they belong to the sea.
@@ -126,6 +127,7 @@ road, so we did and it was fine apart from the odd broken plank. After the board
 shortly arrived in Burnham Deepdale for the end of the day.
 
 *** Day 2: Burnham Deepdale to Wells-next-the-Sea
+# 5th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="0.6836324650794268,52.97974926419556,0.852420860901475,52.95720923691988">}}
 
@@ -158,27 +160,83 @@ the end of the beach it's a long walk back along the top of the sea wall to Well
 
 Wells is another pretty seaside town and the end of our day. After a brief visit to the
 souvenir shops we took the bus all the way back to Hunstanton. The bus ride back was
-rather beautiful and provided a nice reflection of the walk so far.
+rather scenic and provided a nice reflection of the walk so far.
 
 *** Day 3: Wells-next-the-Sea to Blakeney
+# 10th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="0.8525082003325224,52.95927571132779,1.0148312151432037,52.94912748970091">}}
+
+#+begin_pictures
+ncp/day3/IMG_1897
+ncp/day3/IMG_1941
+ncp/day3/IMG_1962
+ncp/day3/IMG_1993
+ncp/day3/IMG_2014
+ncp/day3/IMG_2019
+ncp/day3/IMG_2036
+#+end_pictures
 
 We started this day at the end---Blakeney---and caught the bus back to the start at
 Wells. While waiting for the bus we visited Buoy Coffee which is, sadly, no longer
 there, but served delicious coffee from Grey Seal Coffee in Cromer.
 
+This day was quite different to the others: while the smell of sea always filled our
+noses, it was not visible. The walk was entirely by salt marshes and was even muddy in
+places. At low tide you can supposedly walk across the marshes, but the slippery mud and
+deep gullies are not very inviting. At one part there was even recent fire damage to the
+vegetation.
+
 Near Cley we spotted several Spoonbills in the air. Some birdwatchers kindly let us
 observe them nesting in the marshes. Apparently they have recently started breeding in
 Norfolk after being absent from Britain for hundreds of years.
 
+We took a detour into Stiffkey to have some coffee and lunch from Stiffkey Stores. This
+was convenient because at only 12 km this was our shortest day by far. It seemed a shame
+to do such a short day since some of the later days would be more than twice as long,
+but it was the only way we could figure out. We ended the day by driving to Sheringham
+where we would sleep.
+
 *** Day 4: Blakeney to Sheringham
+# 11th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.0178787913173437,52.96580362133682,1.2116400618106127,52.94537323527038">}}
 
-A long walk along the beach with Sheringham ever in sight.
+#+begin_pictures
+ncp/day4/IMG_2154
+ncp/day4/IMG_2156
+ncp/day4/IMG_2165
+ncp/day4/IMG_2181
+ncp/day4/IMG_2258
+ncp/day4/IMG_2262
+ncp/day4/IMG_2277
+#+end_pictures
+
+Like the previous day we started at the end and caught a bus back to the start. It would
+be our last visit to Blakeney so we were happy to visit Buoy Coffee again. After a
+not-so-brief stop to count all the different types of ducks in the pond near the car
+park it was back into the now familiar salt marshes.
+
+It wouldn't be too long before we were heading back inland towards Cley (pronounced
+ˈklaɪ, to rhyme with "eye") and its famous windmill. This is necessary to cross the
+River Glaven. We walked along narrow flood defence structures and across the bridge
+towards the windmill.
+
+After Cley it was finally back out to the sea again and a classic Norfolk scene: big
+blue skies, green dunes and a golden, lightly shingled beach.  It was a long walk along
+the beach with Sheringham ever in sight. Shingles are tiring to walk on, but there are
+enough compacted sand sections to ease the passage. We couldn't resist playing in the
+wash and collecting shells. This is not something I ever wish to grow out of.
+
+About half way along, with Sheringham seemingly no closer, there are some grassy hills
+which provide a nice variety. Eventually, near Weybourne, cliffs begin to appear in
+front and the path takes you up there. The views are lovely and the terrain takes on an
+undulating nature that we hadn't seen until this point. Eventually we would pass a golf
+course and reach the lifeboat station on the edge of Sheringham. It's then a walk along
+the promenade into one of the prettiest seaside towns in Norfolk.
 
 *** Day 5: Sheringham to Bacton
+# 17th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.2131382431834936,52.94532135128975,1.4771898183971643,52.85138829611242">}}
 
@@ -188,12 +246,14 @@ We walked all the way along the cliff towards Cromer, but it was clear the path 
 soon be lose to erosion.
 
 *** Day 6: Bacton to Hemsby
+# 18th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.4773163013160229,52.85447761416435,1.7039009369909763,52.689558221027255">}}
 
 So many seals we had to walk on the dunes.
 
 *** Day 7: Hemsby to Hopton
+# 19th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.701243706047535,52.69137960858643,1.7396469041705132,52.53630400635302">}}
 
