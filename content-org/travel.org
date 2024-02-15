@@ -6,7 +6,8 @@
 #+html_container: section
 #+html_container_nested: t
 
-* TODO Norfolk Coast Path                     :walking:britain:nationaltrail:
+* DONE Norfolk Coast Path                     :walking:britain:nationaltrail:
+CLOSED: [2024-02-15 Thu 23:33]
 :PROPERTIES:
 :EXPORT_FILE_NAME: norfolk-coast-path
 :END:
