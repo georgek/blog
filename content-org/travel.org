@@ -31,7 +31,7 @@ ncp/DSC_1847
 The NCP is around 135 km (83 miles) long and quite flat. The way is mostly on good, well
 trodden paths with some slower sections on sandy and shingle beaches (but you can often
 choose to walk inland on firmer ground instead). Fortunately there are no pebbles and
-the shingles didn't become too tiring (unlike the walk to [[https://en.wikipedia.org/wiki/Blakeney_Point][Blakeney Point]]).
+the shingles didn't become too tiring.
 
 #+hugo: {{<map main-map=true tiles-url="/ncp/ncp.osm.pmtiles" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
 
@@ -187,9 +187,9 @@ places. At low tide you can supposedly walk across the marshes, but the slippery
 deep gullies are not very inviting. At one part there was even recent fire damage to the
 vegetation.
 
-Near Cley we spotted several Spoonbills in the air. Some birdwatchers kindly let us
-observe them nesting in the marshes. Apparently they have recently started breeding in
-Norfolk after being absent from Britain for hundreds of years.
+Somewhere around Stiffkey we spotted several Spoonbills in the air. Some birdwatchers
+kindly let us observe them nesting in the marshes. Apparently they've recently started
+breeding in Norfolk after being absent from Britain for hundreds of years.
 
 We took a detour into Stiffkey to have some coffee and lunch from Stiffkey Stores. This
 was convenient because at only 12 km this was our shortest day by far. It seemed a shame
@@ -240,30 +240,162 @@ the promenade into one of the prettiest seaside towns in Norfolk.
 
 #+hugo: {{<mini-map-bounds bounds="1.2131382431834936,52.94532135128975,1.4771898183971643,52.85138829611242">}}
 
-Beaston Bump a notable hill.
+#+begin_pictures
+ncp/day5/IMG_2454
+ncp/day5/IMG_2528
+ncp/day5/IMG_2551
+ncp/day5/IMG_2582
+ncp/day5/IMG_2599
+ncp/day5/IMG_2651
+ncp/day5/IMG_2718
+#+end_pictures
 
-We walked all the way along the cliff towards Cromer, but it was clear the path would
-soon be lose to erosion.
+We returned to Sheringham by train from Norwich. An incoming wind gave the sea, and
+somehow the whole town, a completely different character that morning, perhaps preparing
+us for the wilder part of the walk yet to come.
+
+Continuing along the promenade to the east we soon reached the edge of Sheringham and
+the Beeston Bump which, at 63 m, is a notable hill for Norfolk (the actual highest point
+in Norfolk, Beacon Hill, stands at 105 m only a kilometre or so inland from here).
+
+The NCP here begins to take on the character that dominates the second half. Long gone
+are the salt marshes; here we see endless sandy beaches, cliffs and constant reminders
+of a sad fact: this part of the country is literally disappearing into the sea. Norfolk
+is one of the most rapidly eroding areas in the country.
+
+We walked most of the way along the cliff towards Cromer but in many places the path has
+been diverted inland due to erosion. One part in particular was so close to the edge it
+will surely be gone in a few years.
+
+After a brief tour of Cromer including the famous pier and Grey Seal Coffee we said
+goodbye to the last large town and public transport connection before the end. Out of
+Cromer the NCP actually takes you underneath the cliff on to the beach, but we
+mistakenly walked on top of the cliff. But there were no regrets because this part of
+the walk was stunning, reminding me more of the South Coast.
+
+After some easy going cliff top walking we descended on to the beach at Mundesley for
+the last stretch to Bacton. Due to the gas terminal at Bacton this is one part of the
+Norfolk coastline that has been protected by extending the beach outwards. Our day ended
+on the beach here with a sunset creating beautiful colours.
 
 *** Day 6: Bacton to Hemsby
 # 18th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.4773163013160229,52.85447761416435,1.7039009369909763,52.689558221027255">}}
 
-So many seals we had to walk on the dunes.
+#+begin_pictures
+ncp/day6/IMG_2833
+ncp/day6/IMG_2839
+ncp/day6/IMG_2868
+ncp/day6/IMG_2922
+ncp/day6/IMG_2939
+ncp/day6/IMG_2948
+ncp/day6/IMG_3082
+#+end_pictures
+
+Back to Bacton the next day and our walk started with some light rain. Our jackets and
+bag covers would be on most of the day, but one rainy day out of seven is not bad going!
+
+This was the most remote day of them all with just a few small settlements along the
+way. It was also the longest at 25 km. We got into our stride and could soon see the
+classic red and white lighthouse at Happisburgh (pronounced ˈheɪzbʌrə, like
+"hays-burra"). This is one of the most eroded towns with entire rows of houses already
+lost to the sea.
+
+Just after Happisburgh we stopped at Smallsticks Café for some coffee and cake in a
+charming beach chalet. We then pushed on to Sea Palling for our lunch at the chip shop.
+
+The rain set in again after lunch as we walked along more beaches, dunes and sea walls
+towards one of Norfolk's local wonders: the seals at Horsey Gap. A large colony of grey
+seals has taken up residence on the beaches between Horsey and Winterton. At this time
+of year the pups are around 9 months old and the seals just like to lounge on the
+beach. There were so many at one part that we were forced off the beach and into the
+dunes.
+
+Winterton Dunes sat between Horsey and our bed for the night in Hemsby. The dunes were
+quite unique and seemed endless no doubt thanks to our aching feet and rapidly fading
+light. It was a Sunday the day before the Queen's funeral and we had placed all of our
+hope for dinner on a single Co-op located in Hemsby. Luckily it was still open and our
+dinner consisted entirely of reduced items. Our bed was in the depths of the caravan
+park which seemed like a maze in what was now complete darkness. Luckily we did bring
+our head torches.
 
 *** Day 7: Hemsby to Hopton
 # 19th September 2022
 
 #+hugo: {{<mini-map-bounds bounds="1.701243706047535,52.69137960858643,1.7396469041705132,52.53630400635302">}}
 
-Quite a different walk through a very quiet Yarmouth (Queen's funeral). Walk to Hopton
-was a little hairy with sea crashing through defences.
+#+begin_pictures
+ncp/day7/IMG_3200
+ncp/day7/IMG_3213
+ncp/day7/IMG_3262
+ncp/day7/IMG_3343
+ncp/day7/IMG_3409
+ncp/day7/IMG_3440
+ncp/day7/IMG_3461
+#+end_pictures
+
+The final day of the walk was a bit different. The beaches here are probably the most
+gorgeous in the whole county (perhaps even the country). That means from here all the
+way to the end at Hopton is a prime holiday-making spot. It's not remote and, in fact,
+we'd be walking right through one of Norfolk's larger urban centres.
+
+But today was really different because it was the Queen's funeral. It was long past
+prime holiday season, but even at Caister it felt eerily quiet. We walked past the
+caravan parks and the dunes on the edge of Great Yarmouth and on through the Venetian
+Waterways. Yarmouth was dead, as if it was Christmas day, except the weather was
+glorious.
+
+It was necessary to cross the River Yare in to Gorleston and continue the walk along the
+docks. There are some sights to be seen, but this part of the walk did grind on a
+bit. Dockyards are very large and boring places to traverse on foot.
+
+Eventually we exited the dockyards and reached the beach at Gorleston. What a wonderful
+sight! It's such a juxtaposition with the beautiful golden sand on one side the moody,
+rusty docks on the other.
+
+For the final part of the walk I neglected to check the tide times. We were forced to
+walk behind the sea defences on a narrow piece of beach. It was a tiny bit scary at
+times as the sea was crashing heavily against the wooden groynes and threatening to cut
+us off in places. There is an alternative route, but we needed to catch a bus at the end
+and found ourselves committed to the beach.
+
+Eventually near Hopton there was a way off the beach and the tide forced us to take
+it. We scurried through another maze of a caravan park to get to the official end, took
+a couple of pictures with the sign, looked briefly onwards towards Suffolk, then darted
+back to the bus stop.
 
 ** Reflection
 
-The second half was much harder to plan and the days were a lot longer and harder. But
-it was just as rewarding and well worth it.
+#+hugo: {{<mini-map-section>}}
+
+#+hugo: {{<mini-map-bounds bounds="0.396881,52.495323,1.812744,53.023870">}}
+
+Norfolk has always been special to me. When I was little we used to have our summer
+holidays in Caister and Hopton. It seemed a million miles away back then. Later I would
+move to Norwich for my studies and lived there for 10 years. Even after moving to
+Norwich it still took a few years for my world to shrink and for me to realise I could
+go to some of these places again. On my bike and later by car I ended up visiting many
+of the places along the coast.
+
+But I hadn't seen all of it. I was aware of the Norfolk Coast Path and have a picture I
+took of the sign back in 2017 when the path ended at Cromer. It just never occurred to
+me that I could actually do it. Thanks to Vicki I now know how to do long-distance walks
+and I can now say I've seen the entire Norfolk Coast.
+
+The NCP seems like a great introduction to long-distance walking too. Especially the
+first half. But I doubt anyone would get to Cromer and want to stop. But then again, you
+never do. There is a Suffolk Coast Path and we definitely intend to do it as a kind of
+sequel to the NCP.
+
+There's nothing like walking as a way to experience the planet. Even cycling isn't the
+same. You can literally feel it against your feet: every undulation, every
+texture. Unlike other modes of transport walking happens mostly subconsciously. Your
+mind is free to see everything, hear everything and smell everything. Plus you can stop
+at any moment if something is worth some extra time.
+
+This was my first long-distance walk and I had a wonderful time. It's a great
+introduction to long-distance walking and one that I'd highly recommend!
 
 * TODO Camino Gran Canaria                             :walking:spain:camino:
 :PROPERTIES:

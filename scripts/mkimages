@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO use make pattern rules to do this?
+
 find src-images/ -type d -printf 'static/web-images/%P\n' | xargs mkdir -p
 
 for f in $(find src-images/ -type f -iregex '.*jpe?g$'); do
