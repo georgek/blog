@@ -1,1 +1,0 @@
-(()=>{document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll("figure.pictures-picture").forEach(e=>{const n=e.querySelector("a"),t=e.querySelector(".lightbox");n.addEventListener("click",e=>{e.preventDefault(),t.classList.remove("closed")}),t.addEventListener("click",e=>{e.preventDefault(),t.classList.add("closed")})})})})()
