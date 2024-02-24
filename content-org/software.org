@@ -5,6 +5,400 @@
 #+html_container: section
 #+html_container_nested: t
 
+* TODO Git is a Version Control System                              :git:vcs:
+:PROPERTIES:
+:EXPORT_FILE_NAME: git-is-a-version-control-system
+:END:
+
+** Introduction                                                      :ignore:
+
+The title of this post isn't supposed to be provocative. After all, it's simply the
+textbook definition of what git is. So why bother stating it? Well, I've worked with a
+fair few junior developers now and I'm starting to see a pattern. Many of these
+developers have never programmed without git and they see git simply as the way to get
+new code into a repository. A glorified copy, essentially---but an annoying one that is
+prone to going wrong.
+
+But git is so much more than a glorified copy. In this post I want to go back to basics
+and show what a version control system is and what it can do for you. I hope this will
+provide a different view of git that might help you in your git journey.
+
+** Dumb version control
+
+Back in the day, before everything was on the cloud, it was frighteningly common to see
+the following turn up in an email attachment:
+
+~important-document-v6-2024-02-16-(gpk).docx~
+
+People who knew better would scoff at this, but what you're seeing here is version
+control. It's just very manual, dumb version control. It was scoffed it because it's the
+kind of thing that is prone to going wrong, but if implemented very carefully, it could
+go right. Here's how it might work:
+
+1. Type up the first version of a document, say ~important-document.docx~,
+2. Make a copy of that, called ~important-document-v1.docx~,
+3. Continue making further additions/edits to ~important-document.docx~,
+4. Make another copy of that, called ~important-document-v2.docx~.
+
+The important thing here is discipline. For this to go well, the ~v1~, ~v2~ documents
+must never be edited again, lest you undermine the whole system. To make it easier to do
+the right thing the dumb version control user might opt to keep the untouchable copies
+in a hidden directory, like ~.vcs~, which might look like:
+
+#+begin_src :linenos false
+.
+├── important-document.docx
+└── .vcs
+    ├── important-document-v1.docx
+    └── important-document-v2.docx
+#+end_src
+
+What about those other parts in the first example, like the ~(gpk)~? These are to enable
+collaboration. The way this worked is you would send ~v6~ to me, then continue working
+and produce a ~v7~. Later, I would send you back some corrections. You now have two
+branches that need to be reconciled. And that's exactly what people would do, they would
+go through the corrected ~v6~ and apply all the changes to ~v7~. People just kept this
+stuff in their head and, for the most part, it kind of worked.
+
+** Git is dumb version control
+
+The big secret is git is, in essence, nothing more than an implementation of the above
+system, with one small difference.
+
+The first thing to understand about git is *a commit is a copy of your entire working
+directory*. This also means a commit and a version are the same thing. Just like the
+dumb system, making a commit is nothing more than copying the current *working
+directory* into a separate storage place. With git, the storage place is actually a
+~.git~ directory.
+
+The second, and arguably most important, thing to understand is *commits are
+immutable*. Remember in the dumb system we said we must not ever touch the ~v1~, ~v2~
+etc. copies? Git enforces this. There is no command in git that can modify, overwrite or
+delete any commit that has been made.[fn:8]
+
+The small difference between the dumb system and git is what version numbers look
+like. In the dumb system we used a linear sequence of numbers. But this falls apart as
+soon as we have a second person working on a project. Essentially, my ~v2~ and your ~v2~
+are different versions and if we ever hope to merge these together the system needs to
+be able to store them and refer to them at the same time.
+
+There are many solutions to this problem, but git's solution is simple: it uses the hash
+of the entire commit as the version number. But since hashes are not sequential, it also
+stores a link to the previous version with every version.
+
+[fn:8] Of course, this is only true if you operate within the confines of git. Git can't
+help you if you ~rm -rf~ your entire repo or something. There is also garbage
+collection, but this can be safely ignored in normal usage and even disabled if you
+really wish.
+
+** Doing dumb things with git
+
+So how do we actually use git? Let's compare and contrast the dumb version control
+system with git. Note the dumb VCS commands are supposed to be illustrative and almost
+certainly don't work in all cases (like with hidden files/dirs). Also note, when there
+are multiple commands they are to be taken together as atomic operations; I'm not saying
+the individual commands are analogous to each other.
+
+*** Making a commit
+
+In the dumb system we copy the working copy into the ~.vcs~ directory:
+
+#+begin_src sh
+mkdir .vcs/v6
+cp -r * .vcs/v6
+#+end_src
+
+Note we have to somehow know that ~v6~ is the next version number.
+
+In git we do:
+
+#+begin_src sh
+git add -A
+git commit -m "New version"
+#+end_src
+
+We didn't have to know the previous version number, nor the new version number. Git
+instead tells us the hash of the new version after it's done.
+
+*** Checkout an old version
+
+In the dumb system we must first wipe our working copy then copy the version we want:
+
+#+begin_src sh
+rm -r *
+cp -r .vcs/v1/* .
+#+end_src
+
+Note the symmetry between commit and checkout.
+
+With git we need to specify a version somehow. We could use a hash, or a relative lookup
+like ~HEAD^~, which means the previous commit to the one currently checked out (recall
+git stores a link to the previous commit with every commit):
+
+#+begin_src sh
+git checkout HEAD^
+#+end_src
+
+Git warns us about being in a detached head state because anything you do in this state
+is kind of difficult to keep track of unless you're good at remembering commit hashes.
+
+*** Using meaningful version labels
+
+In the dumb system the version labels are up to us. The ~v1~ labels are already
+meaningful, but we could use even more meaningful labels if we wish:
+
+#+begin_src sh
+mkdir .vcs/v6-test2
+cp -r * .vcs/v6-test2
+#+end_src
+
+In git, we can't change the hashes, but we can add as many /additional/ labels to a
+commit as we like. There are two types of labels in git: branches and tags.
+
+To create a new branch ~new-branch~ that labels a commit ~124b7c6~:
+
+#+begin_src sh
+git branch new-branch 124b7c6
+#+end_src
+
+To create a tag ~new-tag~ that labels the same commit:
+
+#+begin_src sh
+git tag -am "New tag" new-tag 124b7c6
+#+end_src
+
+Note that in both cases we have only added /labels/ to existing commits. Nothing else
+has changed.
+
+We can use our meaningful names instead of hashes, for example to create another tag
+for the very same commit:
+
+#+begin_src sh
+git tag -am "Another tag" another-tag new-branch
+#+end_src
+
+The difference between branches and tags are branches are mutable while tags are
+immutable. If you make a commit git *updates* your current branch (if there is one) to
+point to the new commit. Tags, on the other hand, will forever point to the same commit.
+
+*** What is the current version/branch?
+
+In the dumb system you just store the current version in your head. Since we were using
+sequential numbers you could know by inspecting the ~.vcs~ directory and seeing the
+largest number is ~v6~. This is how you would know the next version is to be ~v7~.
+
+Git stores the current version/branch in /its/ head. Quite literally, in a file called
+~HEAD~. You can check this any git repository by running ~cat .git/HEAD~. You would
+probably see something like ~ref: refs/heads/master~.
+
+This is how git "knows" what the previous version is when you make a commit. It's also
+how it knows which branch to update when you make a commit.
+
+You can use ~HEAD~ as a label in its own right as we saw above when we checked out
+~HEAD^~.
+
+A detached head state happens when you checkout a commit directly using its hash. If you
+were to look at ~.git/HEAD~ in this state you would see an entire commit hash instead of
+a ref. If you make commits in this state there is no branch to update so these commits
+can only be found using their hash. Git warns you before and after leaving a detached
+head state. If in doubt, create a branch like it tells you to do!
+
+*** Syncing with a remote
+
+With the dumb system, syncing to a remote can be done using any sync tool, like rsync:
+
+#+begin_src sh
+rsync .vcs my-server:my-project
+#+end_src
+
+This copies just the ~.vcs~ directory so everything we have so far committed.
+
+Git is much more clever in this regard as it tries to minimise the amount of data it
+sends and manages your remotes itself, but you can do something similar like this:
+
+#+begin_src sh
+git remote add my-remote my-server
+git push my-remote --follow-tags '*:*'
+#+end_src
+
+This pushes all commits as well as all branches and all tags.
+
+*** Differences between versions
+
+In the dumb system, we can use the standard ~diff~ tool to see the differences between
+two versions:
+
+#+begin_src sh
+diff -ur .vcs/v2 .vcs/v3
+#+end_src
+
+Git has a much more powerful and specialised diff tool built in and there are many
+different ways to invoke it, but to compare two versions, say ~a1bf365~ and ~main~ it
+looks almost the same:
+
+#+begin_src sh
+git diff a1bf365 main
+#+end_src
+
+** Beyond dumb version control
+
+So why use git at all then? Let's look at what git can do beyond the dumb system.
+
+*** Tracking branches
+
+When you add a remote, git automatically downloads everything---all commits and all
+branches and tags---from that remote and keeps a copy of it all locally. The branches
+end up as locally immutable branches in your local clone called /remote-tracking
+branches/.
+
+They are locally immutable in the sense that they can only be updated to reflect the
+state of the remote when syncing with the remote. You can't update these branches any
+other way. The branch names will be prefixed with the remote name, like
+~my-remote/my-branch~.
+
+Git allows you to set any other branch as the /upstream/ of a branch. The meaning of
+upstream is usually "the branch I eventually want my changes merged into". You could set
+~my-remote/my-branch~ as the upstream of your current branch like so:
+
+#+begin_src sh
+git branch -u my-remote/my-branch
+#+end_src
+
+When you check the status of your local branch git can now tell you useful information
+like "Your branch is ahead of 'my-remote/my-branch' by 1 commit." You periodically sync
+with the remote using ~git fetch~ to see how far behind the upstream branch you are
+getting.
+
+*** Merging
+
+Both of our systems allow branching, but branching isn't very useful without merging. In
+the dumb version control system merging is a laborious process of combing through both
+versions and creating a combined version.
+
+With git you can create such a "combined" version with one command:
+
+#+begin_src sh
+git merge another-branch
+#+end_src
+
+This automatically calculates all the changes on ~my-branch~ that don't exist on your
+current branch and applies them, creating a new merge commit. Sometimes there are
+conflicts, like if both you and them touched the same line in different ways. Git can't
+resolve these conflicts automatically so presents them to you to resolve before
+completing the merge.
+
+*** Rebasing
+
+Often when working on a feature for a while you will find your local branch and your
+upstream branch will diverge due to other changes happening upstream. If you set your
+upstream as above, git will say something like "Your branch and 'my-remote/my-branch'
+have diverged, and have 8 and 1 different commits each, respectively."
+
+This means you've got 8 commits locally that haven't been merged and the upstream has 1
+commit that you haven't yet seen. Over time the upstream will get more commits. The
+longer this happens, the higher the chances of difficult merge conflicts happening later
+(remember, the only point of a branch is to be able to merge it).
+
+You can keep on top of this by "rebasing" your local branch on to the upstream like
+this:
+
+#+begin_src sh
+git rebase
+#+end_src
+
+What git does is takes those 8 commits on your branch and, one by one, re-applies the
+changes to the top of the upstream. This can cause conflicts but the hope is if you
+rebase frequently the conflicts are smaller and the changes you are applying are still
+fresh in your head. By keeping on top of this you'll never diverge too far from upstream
+and end up with a difficult merge before you can finish your work.
+
+Rebasing also allows you to edit the commits as they are being re-applied. This is very
+powerful and is one way you can "clean up" a local working branch ready for it to be
+reviewed and merged.
+
+*** Resetting
+
+Reset is one of the scarier git commands and that is somewhat justified given that it
+has the ~--hard~ option. This is one of the few commands that can actually overwrite
+your work. But remember, *no command in git can change, delete or overwrite commits* so,
+when in doubt, commit your work!
+
+Resetting tells git to point your current branch at a different commit. Normally
+branches are only updated when you make new commits, as mentioned above. But there a few
+reasons why it's useful to point a branch at any other commit.
+
+One reason to reset is to simply undo any changes in your working directory, this uses
+the scary ~--hard~ option to intentionally overwrite your working directory.
+
+Another is to re-commit some changes using a different set of commits. Perhaps you made
+a chain of "work in progress" commits and want to rewrite it as one final commit. You
+can ~--soft~ reset to the commit before the first WIP commit then commit your changes
+again. This achieves the same thing as a rebase and the choice is a personal preference.
+
+One more reason is if you have a branching model like git's own git repository which has
+a ~next~ branch for "pre-release" features. This branch is reset to the top of ~master~
+after each release. Complicated branching structures like this aren't recommended if you
+don't need them, but git gives you the option.
+
+Finally, resetting is how you make use of the reflog.
+
+*** The reflog
+
+What happens to the "old" commits following a rebase or a reset? I've already mentioned,
+and it's worth mentioning again, that no command in git can delete commits. However,
+unless you somehow remember their commit hashes, commits are no longer practically
+reachable without some kind of reference (ie. a branch or tag).
+
+That's where the reflog comes in. Since branches are mutable, git keeps a log of all
+changes to a branch including commits, rebases and resets. If you want to "undo" a
+rebase or a reset, the reflog is where you need to look. Following a rebase or reset,
+the reflog might be the only way to find some commits.
+
+The reflog will be automatically pruned after 90 days by default. After that time, the
+commits themselves will *actually be deleted*. This is to prevent git repos growing
+indefinitely. So, yes, I have been lying when I said commits can never be deleted, but
+there is a time delay of at least 90 days following any command before they will be. For
+this reason you shouldn't be regularly using the reflog to find important commits;
+always make sure important stuff is referenced by tags or branches.
+
+The reflog is your safety rope and I thoroughly recommend exercising your safety rope
+until you are confident in how git works. Do a stupid rebase and undo it using the
+reflog:
+
+#+begin_src sh
+git rebase some-silly-place
+git reset HEAD@{1}
+#+end_src
+
+The way to read the second command is "reset my current branch to where my current
+branch was one operation ago".
+
+The reflog can't save you if you're in a detached head state, though, because there's no
+ref to record the changes against. This is why git warns you about it and gives you
+every opportunity to record the hashes of any commits you make. Just heed the warnings
+and be careful in a detached head state.
+
+** Conclusion
+
+Version control can be difficult. Some of that difficulty is naturally inherited by
+git. Git adds to the difficulty with a somewhat cumbersome UI. But I do believe most of
+the difficulties stem from misconceptions and not starting with a basic idea of what
+version control is.
+
+I'm amazed by how many people, even experienced developers and git users, think git
+stores diffs and does something more clever than our dumb version control system to make
+and checkout commits.[fn:9] This is a bad start when it comes to understanding git.
+
+In my career I've always found myself being the "git guy". I don't know why this
+is. This article is an attempt for me to teach git in a slightly different way, starting
+at a lower level with no preconceptions of what version control is which, I think, is
+how I learnt it. Whether this is a useful way to learn or not remains to be seen. I'd
+love to hear feedback either way!
+
+[fn:9] OK, it does do something a lot more clever than ~cp -r~ internally but, as a
+user, you do *not* need to know or worry about that. The details are fascinating if you
+are interested, though.
+
 * DONE Emacs Undo Redo                                                :emacs:
 CLOSED: [2023-12-14 Thu 22:18]
 :PROPERTIES:
