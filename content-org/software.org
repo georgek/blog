@@ -15,9 +15,9 @@
 The title of this post isn't supposed to be provocative. After all, it's simply the
 textbook definition of what git is. So why bother stating it? Well, I've worked with a
 fair few junior developers now and I'm starting to see a pattern. Many of these
-developers have never programmed without git and they see git simply as the way to get
-new code into a repository. A glorified copy, essentially---but an annoying one that is
-prone to going wrong.
+developers have never programmed /without/ git and they see git simply as "the way to
+get new code into a repository". A glorified copy, essentially---but an annoying one
+that is prone to going wrong.
 
 But git is so much more than a glorified copy. In this post I want to go back to basics
 and show what a version control system is and what it can do for you. I hope this will
@@ -28,37 +28,37 @@ provide a different view of git that might help you in your git journey.
 Back in the day, before everything was on the cloud, it was frighteningly common to see
 the following turn up in an email attachment:
 
-~important-document-v6-2024-02-16-(gpk).docx~
+~important-document-v6-2024-02-16-(gpk).doc~
 
 People who knew better would scoff at this, but what you're seeing here is version
 control. It's just very manual, dumb version control. It was scoffed it because it's the
 kind of thing that is prone to going wrong, but if implemented very carefully, it could
 go right. Here's how it might work:
 
-1. Type up the first version of a document, say ~important-document.docx~,
-2. Make a copy of that, called ~important-document-v1.docx~,
-3. Continue making further additions/edits to ~important-document.docx~,
-4. Make another copy of that, called ~important-document-v2.docx~.
+1. Type up the first version of a document, say ~important-document.doc~,
+2. Make a copy of that, called ~important-document-v1.doc~,
+3. Continue making further additions/edits to ~important-document.doc~,
+4. Make another copy of that, called ~important-document-v2.doc~.
 
 The important thing here is discipline. For this to go well, the ~v1~, ~v2~ documents
-must never be edited again, lest you undermine the whole system. To make it easier to do
+must never be edited again or you'll undermine the whole system. To make it easier to do
 the right thing the dumb version control user might opt to keep the untouchable copies
 in a hidden directory, like ~.vcs~, which might look like:
 
 #+begin_src :linenos false
 .
-├── important-document.docx
+├── important-document.doc
 └── .vcs
-    ├── important-document-v1.docx
-    └── important-document-v2.docx
+    ├── important-document-v1.doc
+    └── important-document-v2.doc
 #+end_src
 
 What about those other parts in the first example, like the ~(gpk)~? These are to enable
 collaboration. The way this worked is you would send ~v6~ to me, then continue working
 and produce a ~v7~. Later, I would send you back some corrections. You now have two
 branches that need to be reconciled. And that's exactly what people would do, they would
-go through the corrected ~v6~ and apply all the changes to ~v7~. People just kept this
-stuff in their head and, for the most part, it kind of worked.
+go through the corrected ~v6-(gpk)~ and apply all the changes to ~v7~. People just kept
+this stuff in their head and, for the most part, it kind of worked.
 
 ** Git is dumb version control
 
@@ -83,8 +83,9 @@ are different versions and if we ever hope to merge these together the system ne
 be able to store them and refer to them at the same time.
 
 There are many solutions to this problem, but git's solution is simple: it uses the hash
-of the entire commit as the version number. But since hashes are not sequential, it also
-stores a link to the previous version with every version.
+of the entire commit as the version number. These are virtually guaranteed to be
+universally unique. But, since hashes are not sequential, it also stores a link to the
+previous version with every version to establish the lineage.
 
 [fn:8] Of course, this is only true if you operate within the confines of git. Git can't
 help you if you ~rm -rf~ your entire repo or something. There is also garbage
@@ -101,7 +102,8 @@ the individual commands are analogous to each other.
 
 *** Making a commit
 
-In the dumb system we copy the working copy into the ~.vcs~ directory:
+To make a new commit in the dumb system we copy the working copy into the ~.vcs~
+directory:
 
 #+begin_src sh
 mkdir .vcs/v6
@@ -141,6 +143,9 @@ git checkout HEAD^
 
 Git warns us about being in a detached head state because anything you do in this state
 is kind of difficult to keep track of unless you're good at remembering commit hashes.
+
+It turns out checkout is actually a pretty rare thing to do in git, but it's included
+for completeness.
 
 *** Using meaningful version labels
 
@@ -188,14 +193,14 @@ sequential numbers you could know by inspecting the ~.vcs~ directory and seeing 
 largest number is ~v6~. This is how you would know the next version is to be ~v7~.
 
 Git stores the current version/branch in /its/ head. Quite literally, in a file called
-~HEAD~. You can check this any git repository by running ~cat .git/HEAD~. You would
+~HEAD~. You can check this in any git repository by running ~cat .git/HEAD~. You would
 probably see something like ~ref: refs/heads/master~.
 
 This is how git "knows" what the previous version is when you make a commit. It's also
 how it knows which branch to update when you make a commit.
 
 You can use ~HEAD~ as a label in its own right as we saw above when we checked out
-~HEAD^~.
+~HEAD^~ (the ~^~ is a relative lookup and means the parent of ~HEAD~ in this case).
 
 A detached head state happens when you checkout a commit directly using its hash. If you
 were to look at ~.git/HEAD~ in this state you would see an entire commit hash instead of
@@ -223,6 +228,9 @@ git push my-remote --follow-tags '*:*'
 
 This pushes all commits as well as all branches and all tags.
 
+Note that in neither case is your working directory transferred. Only things you have
+already committed.
+
 *** Differences between versions
 
 In the dumb system, we can use the standard ~diff~ tool to see the differences between
@@ -242,7 +250,8 @@ git diff a1bf365 main
 
 ** Beyond dumb version control
 
-So why use git at all then? Let's look at what git can do beyond the dumb system.
+So why use git at all then? So far we've seen it can all be done using simple tools and
+some discipline. Let's look at what git can do beyond the dumb system.
 
 *** Tracking branches
 
@@ -254,7 +263,7 @@ branches/.
 They are locally immutable in the sense that they can only be updated to reflect the
 state of the remote when syncing with the remote. You can't update these branches any
 other way. The branch names will be prefixed with the remote name, like
-~my-remote/my-branch~.
+~my-remote/my-branch~ and can be safely updated at any time by running ~git fetch~.
 
 Git allows you to set any other branch as the /upstream/ of a branch. The meaning of
 upstream is usually "the branch I eventually want my changes merged into". You could set
@@ -265,9 +274,9 @@ git branch -u my-remote/my-branch
 #+end_src
 
 When you check the status of your local branch git can now tell you useful information
-like "Your branch is ahead of 'my-remote/my-branch' by 1 commit." You periodically sync
-with the remote using ~git fetch~ to see how far behind the upstream branch you are
-getting.
+like "Your branch is ahead of 'my-remote/my-branch' by 1 commit." If you periodically
+sync with the remote using ~git fetch~ you can see how far behind the upstream branch
+you are getting.
 
 *** Merging
 
@@ -295,7 +304,7 @@ upstream as above, git will say something like "Your branch and 'my-remote/my-br
 have diverged, and have 8 and 1 different commits each, respectively."
 
 This means you've got 8 commits locally that haven't been merged and the upstream has 1
-commit that you haven't yet seen. Over time the upstream will get more commits. The
+commit that you haven't yet seen. Over time the upstream will get more commits and the
 longer this happens, the higher the chances of difficult merge conflicts happening later
 (remember, the only point of a branch is to be able to merge it).
 
@@ -310,7 +319,7 @@ What git does is takes those 8 commits on your branch and, one by one, re-applie
 changes to the top of the upstream. This can cause conflicts but the hope is if you
 rebase frequently the conflicts are smaller and the changes you are applying are still
 fresh in your head. By keeping on top of this you'll never diverge too far from upstream
-and end up with a difficult merge before you can finish your work.
+and be stuck with a difficult merge before you can finish your work.
 
 Rebasing also allows you to edit the commits as they are being re-applied. This is very
 powerful and is one way you can "clean up" a local working branch ready for it to be
@@ -325,7 +334,7 @@ when in doubt, commit your work!
 
 Resetting tells git to point your current branch at a different commit. Normally
 branches are only updated when you make new commits, as mentioned above. But there a few
-reasons why it's useful to point a branch at any other commit.
+reasons why it's useful to point a branch at some other commit.
 
 One reason to reset is to simply undo any changes in your working directory, this uses
 the scary ~--hard~ option to intentionally overwrite your working directory.
@@ -333,14 +342,14 @@ the scary ~--hard~ option to intentionally overwrite your working directory.
 Another is to re-commit some changes using a different set of commits. Perhaps you made
 a chain of "work in progress" commits and want to rewrite it as one final commit. You
 can ~--soft~ reset to the commit before the first WIP commit then commit your changes
-again. This achieves the same thing as a rebase and the choice is a personal preference.
+again. This can also be achieved with a rebase but sometimes the reset is easier.
 
 One more reason is if you have a branching model like git's own git repository which has
 a ~next~ branch for "pre-release" features. This branch is reset to the top of ~master~
 after each release. Complicated branching structures like this aren't recommended if you
 don't need them, but git gives you the option.
 
-Finally, resetting is how you make use of the reflog.
+Finally, resetting is how you make use of the reflog...
 
 *** The reflog
 
@@ -353,6 +362,8 @@ That's where the reflog comes in. Since branches are mutable, git keeps a log of
 changes to a branch including commits, rebases and resets. If you want to "undo" a
 rebase or a reset, the reflog is where you need to look. Following a rebase or reset,
 the reflog might be the only way to find some commits.
+
+You can view the reflog for you current branch by running ~git reflog~.
 
 The reflog will be automatically pruned after 90 days by default. After that time, the
 commits themselves will *actually be deleted*. This is to prevent git repos growing
@@ -391,7 +402,7 @@ and checkout commits.[fn:9] This is a bad start when it comes to understanding g
 
 In my career I've always found myself being the "git guy". I don't know why this
 is. This article is an attempt for me to teach git in a slightly different way, starting
-at a lower level with no preconceptions of what version control is which, I think, is
+at a lower level with no preconceptions of what version control is which is, I think,
 how I learnt it. Whether this is a useful way to learn or not remains to be seen. I'd
 love to hear feedback either way!
 
