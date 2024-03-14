@@ -9,6 +9,7 @@
 CLOSED: [2024-02-24 Sat 17:23]
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-is-a-version-control-system
+:EXPORT_HUGO_LASTMOD: [2024-03-14 Thu 22:21]
 :END:
 
 ** Introduction                                                      :ignore:
@@ -254,6 +255,25 @@ git diff a1bf365 main
 So why use git at all then? So far we've seen it can all be done using simple tools and
 some discipline. Let's look at what git can do beyond the dumb system.
 
+*** Composing commits
+
+You might have noticed git required two commands to make a commit. One of them is called
+~commit~, which makes sense, but what is ~add~? Well, unlike the dumb version control
+system, git lets us choose what to add to the next commit. Imagine you made two
+unrelated changes, one in ~file1~ and another in ~file2~. To make your next version to
+contain only the change in ~file1~:
+
+#+begin_src sh
+git add file1
+git commit -m "Changes to file1"
+#+end_src
+
+You can go even further and break down files line by line using ~git add -p~, but I find
+this is something much easier to achieve with a graphical git client.
+
+This makes it much easier to produce /atomic/ commits rather than one big commit with a
+bunch of unrelated changes at the end of the day.
+
 *** Tracking branches
 
 When you add a remote, git automatically downloads everything---all commits and all
@@ -389,6 +409,33 @@ The reflog can't save you if you're in a detached head state, though, because th
 ref to record the changes against. This is why git warns you about it and gives you
 every opportunity to record the hashes of any commits you make. Just heed the warnings
 and be careful in a detached head state.
+
+*** Bisecting
+
+In the dumb version control system you'd probably start deleting old versions at some
+point as your disk fills up. Git stores all the copies much more efficiently and people
+tend to keep git histories forever. But /why/ do we bother keeping all those old
+versions? The answer is often a question: why not? But there is a real answer: we keep
+them to track down potential regressions.
+
+In any long standing project there will eventually be unintended breakage. A user may
+report a feature that was working in version 23 is broken in version 24. There could be
+hundreds of commits between those versions, but one of them introduced the regression
+and finding it can significantly cut down on debugging time.
+
+Git bisect can efficiently and (semi-)automatically find the commit that first broke the
+feature. It looks something like this:
+
+#+begin_src sh
+git bisect start
+git bisect bad v24              # the bad version
+git bisect good v23             # the good version
+#+end_src
+
+Now git will repeatedly checkout commits and let you test them. You can either test them
+manually somehow and tell git they are good or bad with ~git bisect good~ or ~git bisect
+bad~ or you can run a script to do it completely automatically with ~git bisect
+run~. It's so cool you'll be wishing for the next opportunity to use it.
 
 ** Conclusion
 
