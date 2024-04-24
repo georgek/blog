@@ -14,7 +14,7 @@
 :EXPORT_FILE_NAME: my-nas
 :END:
 
-* DONE Odd Problem Accessing OPNsense Web UI via "OPT1" Interface
+* DONE Odd Problem Accessing OPNsense Web UI via "OPT1" Interface :opnsense:pfsense:routing:
 CLOSED: [2024-04-24 Wed 21:50]
 :PROPERTIES:
 :EXPORT_FILE_NAME: opnsense-pfsense-reply-to
