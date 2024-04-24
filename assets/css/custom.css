@@ -190,6 +190,22 @@ article > p:first-of-type::first-letter {
   content: "🇪🇸 ";
 }
 
+.tldr {
+  border-style: solid;
+  border-color: #005522;
+  border-width: 0 0 0 4px;
+  position: relative;
+  padding: 0rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.tldr-heading p {
+  font-style: italic;
+  font-weight: bold;
+  margin: 0;
+  color: #005522;
+}
+
 [x-cloak] {
   display: none !important;
 }

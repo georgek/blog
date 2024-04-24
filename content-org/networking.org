@@ -14,6 +14,85 @@
 :EXPORT_FILE_NAME: my-nas
 :END:
 
+* DONE Odd Problem Accessing OPNsense Web UI via "OPT1" Interface
+CLOSED: [2024-04-24 Wed 21:50]
+:PROPERTIES:
+:EXPORT_FILE_NAME: opnsense-pfsense-reply-to
+:END:
+
+I ran into a weird problem where I couldn't access the OPNsense web UI using an OPT1
+interface. The fix is easy, but it can be very confusing and it's all caused by an
+unintuitive default.
+
+#+begin_tldr
+#+begin_tldr-heading
+tl;dr
+#+end_tldr-heading
+If you can't access the web UI via an OPT1 interface, try disabling the "reply-to"
+feature: https://docs.opnsense.org/manual/interfaces.html
+#+end_tldr
+
+I've been playing around with OPNsense inside a VM as I prepare to replace my current
+pfSense router which is no longer fast enough.  I have a quad network card which is
+passed through at the hardware level and, in addition, I have the virtual network
+interface provided by the hypervisor, xcp-ng.
+
+I thought it would be a nice idea to set the router up via the xcp-ng interface. That
+would mean I could configure it entirely before swapping out my old router. In
+particular I'd enable a DHCP server and set the IP address of the LAN interface to the
+same as my current router without having to segregate it from my network.
+
+So I set two of the physical interface to LAN and WAN, as you do, and enabled the xcp-ng
+interface as the "OPT1" interface. OPT1 was set to be configured via DHCP so it would
+just be a regular device on my network. I then added a firewall rule enabling access to
+the web UI via OPT1.
+
+But it didn't work.
+
+I searched around a bit online and it seems loads of people have the same, or similar,
+problems with accessing the web UI over OPT1. What was frustrating is there didn't
+appear to be any answers. Most people suggested adding firewall rules, but I had already
+done this; the traffic wasn't getting blocked.
+
+** The problem
+
+It turns out that any interface with an upstream gateway is considered a WAN-type
+interface by OPNsense (and pfSense). This is the case when configuring via DHCP. The
+upstream gateway is my network's router. This is the first thing I hadn't fully
+understood.
+
+The second thing is that both OPNsense and pfSense set a rather strange rule on any
+WAN-type interface. This is apparently a very old default and unlikely to change, but it
+can also be useful in some situations. Essentially, WAN-type interfaces reply to any
+traffic, no matter where it comes from, via the upstream gateway. This is called
+"reply-to".
+
+I'm still a little unsure about what exactly was happening. At one point while I was
+troubleshooting I had two interfaces plugged into my network, both configured via
+DHCP. I saw packets entering the OPT1 interface then leaving to my network's router via
+the other interface! Whatever happened, though, the replies were not making it back to
+my PC.
+
+** The solution
+
+The solution is to disable reply-to somehow. This can be done globally or with firewall
+rules. Now that I understand the problem, I went for the latter. It's really quite
+simple in the end. Make a rule on OPT1 with the following settings:
+
+- Action: Pass
+- Direction: in
+- TCP/IP: IPv4+IPv6
+- Protocol: TCP
+- Source: any
+- Destination: This Firewall
+- Ports: HTTP
+- Reply-to: Disable (the most important; under advanced)
+
+This is similar to the anti-lockout rule that would be added to the LAN interface, but
+OPNsense doesn't add it to OPT1.
+
+Hope this helps someone out of a similar situation! Happy routing!
+
 * DONE Resolving Private IP Addresses with pfSense DNS Resolver :pfsense:dns:k8s:
 CLOSED: [2023-10-01 Sun 23:10]
 :PROPERTIES:
