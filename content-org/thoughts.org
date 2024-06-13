@@ -4,6 +4,59 @@
 #+html_container: section
 #+html_container_nested: t
 
+* TODO YouTube and the Public Square                        :youtube:opinion:
+
+I want to tell a story about a public town square. The square is a focal point of the
+town, a place where people can go to trade, meet up or just visit for its own
+sake. There are often performances in the square: musicians play music, artists paint,
+speakers give lectures and sermons.
+
+Nearby the square many merchants have set up shop. It's an obvious place for them due to
+the draw of the square itself. One day a group of merchants realise the artists
+performing in the square are a key part of its draw, so they set up a kind of fund
+between them and pay artists a share of this when they perform there. The merchants
+realise they need the artists to drive business and don't want them to stop performing
+there.
+
+This makes the artists quite happy. They were always able to make some money from
+busking, but now they have a more stable income from the merchants. The quality of the
+performances actually increases and this draws even more crowds. Everyone wins.
+
+Some of the merchants notice that some artists seem to be drawing more crowds than
+others. They decide it's only fair that more popular artists take a larger share of the
+funds. This creates competition between the artists. Now they have an incentive to
+attract larger crowds so they try harder and broaden their appeal. More obscure artists
+can still perform, but they find themselves with a smaller share of the fund.
+
+At some point, people realise that performing in the square can be quite lucrative. If
+they can draw enough of a crowd they'll receive quite a large payout from the merchants'
+fund. Before long next to the buskers and their simple acoustic instruments are
+flamboyant shows with dancers, lights and dozens of people behind the scenes making
+things work.
+
+More people than ever now visit the town square and some of the biggest artists in the
+country perform there. But the merchants begin to realise that many people are just
+coming for the shows and aren't buying anything at all. To try to counter this the
+merchants introduce a new rule: for an artist to be eligible for a payout, they must
+advertise the merchants' shops during their performance. The payout is now a product of
+the number of people they draw and the number of advertisements they show.
+
+This puts many people off. Many people learn that performances are often bookended with
+adverts so they turn up late and leave early. This behaviour angers the merchants. They
+try to appeal to the public: you can skip the adverts, but only if you buy something
+directly from us. However the public cannot be compelled. After all, this is a public
+square.
+
+So what to do? The merchants could just accept that many people are still drawn to the
+shops anyway and profit is still being made. But their greed makes this hard to accept:
+if only they could capture /more/ profit. They could stop paying the artists, but by now
+there are other town squares and the artists are businesses themselves and they will go
+elsewhere to get paid. They could perhaps build a wall around the town square,
+effectively claiming public land as private, and charge people to enter, but this would
+drive away the buskers and turn the square into another concert venue which is an
+entirely different market. The only option is to use tougher and tougher tactics to try
+to get the public to see the adverts.
+
 * DONE A Lament for the Firefox Quick Find Key                 :rant:firefox:
 CLOSED: [2023-11-16 Thu 20:14]
 :PROPERTIES:
