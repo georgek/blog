@@ -4,7 +4,7 @@ all: build
 .PHONY: build
 build:
 	cd content-org && emacs -L ../ox-hugo --batch -Q --load ../publish.el --funcall gpk-publish-all
-	tree content
+	tree -h content
 	hugo --debug --logLevel debug --minify
 
 .PHONY: clean
