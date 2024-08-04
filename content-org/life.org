@@ -6,7 +6,155 @@
 #+html_container: section
 #+html_container_nested: t
 
+* DONE Make Reading a Habit                                 :reading:opinion:
+CLOSED: [2024-08-04 Sun 12:18]
+:PROPERTIES:
+:EXPORT_FILE_NAME: make-reading-habit
+:END:
+
+** Introduction                                                      :ignore:
+
+Habits are really important. Long-term goals are too but, ultimately, habits are what
+you are doing to yourself day in, day out. Your habits determine what goes into your
+body (your diet), your physical condition (diet and exercise) and your mental condition
+(sleep and everything else).
+
+I think you should make reading one of your habits.
+
+The benefits of reading are many. First of all, it's a great form of entertainment. You
+can read anywhere; you won't disturb anyone. I love films, but the books are almost
+always better than the films. Really. A good book can conjure images in the mind that a
+film could never capture and these images never age. You'll never go back to a favourite
+book and be disappointed at how bad the CGI looks now.
+
+But, even more importantly, reading is one of the most powerful abilities you have to
+understand and assimilate knowledge. Whatever your field of expertise, there is almost
+certainly a wealth of literature available that you do not want to miss out on. If
+reading is a habit, then you will have easy access to all of it. It's easy to forget in
+this age of YouTube videos and podcasts but there is information in books that just
+cannot be distilled into a 10 minute video.
+
+This is a self-reinforcing habit. The more you read, the easier it will become and the
+more you'll get out of it. Before you know it you'll be hooked!
+
+** Make reading work for you
+
+So why are there so many people who don't read at all? I think like any good habit you
+need to make it work for you. This should not, and cannot, happen through discipline. It
+needs to become a part of your life right next to eating, exercising and sleeping.
+
+Here are some of my ideas, in rough order, which will help to make it part of your life.
+
+*** Get books
+
+Before you can read you need something to read. Get some books. They are everywhere. You
+don't need to spend a lot of money. There are often book swaps where you can take books
+for free (don't feel you need to deposit a book first; you need to start
+somewhere). Check your workplace, your friends and families houses etc. for books you
+can borrow. Check second-hand shops and online stores like Amazon. Just get some books.
+
+*** Stop trying to read on screens
+
+If you are reading this then you already have a screen device and access to the world
+wide web. But if you still don't read much then this isn't working for you. Personally,
+I can't read much from a phone, tablet or computer monitor. Try reading paper books or
+an eReader (see next). The more general point here is to recognise what *doesn't* work
+for you and try something else.
+
+*** Get an eReader
+
+Unlike most screens, eReaders use an "eInk" display which is much more like paper and
+can be read in full sunlight. In addition, they are usually far lighter and cheaper than
+tablets and phones and feature front-lit screens which can go really dim and warm which
+is perfect for bedtime reading. I take my Kobo to bed with me every night and usually
+fall asleep while reading it. I also travel with (it weighs as much as one small
+paperback), so I'm never without books.
+
+The one problem with eBooks is they are hindered by DRM. Platforms like Kindle are built
+around DRM and I do not recommend using them. Kobo, on the other hand, will read any
+eBook file you put on it. Find out where to acquire DRM-free eBooks for your eReader.
+
+*** Always have your next book ready
+
+One thing I find great about eBooks is you can acquire many more than you will read
+without them being a burden. Use this to your advantage and acquire books as quickly as
+you can. One sure way to break the reading habit is to run out of stuff to read. This
+can easily happen with physical books if you are not careful, but there's no reason for
+it to happen with eBooks. If you don't get on with eBooks then a library, book swap or
+favourite bookshop can also help you to never run out.
+
+*** Read easy books first
+
+A reader and writer share a unique relationship and, many times, if you don't get on
+with a book it's not you, it's them. Some people are put off by reading because they've
+tried to read a book that just isn't for them. It might be too hard or just not your cup
+of tea. As you read more you'll build your confidence as a reader and be able to say "I
+don't like that" or even "this book isn't very good" but it's easy at first to think
+you're a bad reader.
+
+For this reason you should seek out easy books first. By this I don't necessarily mean
+children's books, but books that have broad appeal that everyone loves. Don't listen to
+the snobs. Read Dan Brown's /The Da Vinci Code/ or Alex Garland's /The Beach/. These are
+page turners and popular for a reason.
+
+*** Try different genres
+
+I read mostly science-fiction, but other people like fantasy, novels, thrillers
+etc. Read one of the most popular books from each category and find what you like. To
+get you started, try /Foundation/ by Isaac Asimov (hard science-fiction), /The
+Hithchhiker's Guide to the Galaxy/ by Douglas Adams (soft science-fiction), /Harry
+Potter and the Philosopher's Stone/ by J.K. Rowling (fantasy), /The Catcher in the Rye/
+by J.D. Salinger (novel), and the aforemention /The Da Vinci Code/ (thriller).
+
+*** Get the classic works in your professional field
+
+Get copies of these---real copies---and treasure them. But do bear in mind they might
+not be /easy/ books. Knuth's /The Art of Computer Programming/ is a classic in computer
+science, but it's not for the fainthearted. There might be easier ones to start with
+like /Structure and Interpretation of Computer Systems/ (SICP).
+
+*** Join your library
+
+These still exist and they give you free access to many books. They also usually have
+eBooks too, but they come with a time limit (like a real book). It's usually worth
+joining the library as it doesn't cost anything.
+
+*** Curate your own library
+
+You shouldn't keep every book you read, but you should definitely keep some. Curate a
+collection of books that you treasure and never want to be without and get rid of the
+ones you don't need. Sell them, exchange them or give them away. Build your very own
+library.
+
+Besides having your essentials and favourites at your own disposal it's also nice to
+lend these books to friends and colleagues when you wish. If you recommend a book to
+someone there's a much higher chance of them reading it if you also hand them a
+copy (and perhaps one day they might reciprocate!).
+
+*** Let reading push out bad habits
+
+I suppose it's possible to read an unhealthy amount, but it's not a common problem. On
+other hand, it's very common to watch an unhealthy amount of TV or do an unhealthy
+amount of scrolling. These are usually detrimental to other health habits like sleep or
+exercise. Let reading push out the unhealthy habits and live in harmony with the healthy
+ones. As mentioned above, I read every night before sleep. My reading habit and sleeping
+habit are symbiotically linked. Do be careful about what you read, though. Fiction is
+great before bed, hardcore textbooks not so much.
+
+** Conclusion
+
+Reading should be a daily habit that coexists with, and reinforces, your other good
+habits. But like every good habit it needs to start somewhere and it needs to continue
+unhindered. I thoroughly believe in making good habits a part of your life. I do not
+believe in using discipline. If you don't like reading, you won't do it. Hopefully some
+of the above will help you to get started, like it, build it into your life and never
+stop! If you don't read then you are missing out but if you start reading, this could be
+one of the biggest changes you've ever made.
+
 * TODO Ben Eater Computer                    :projects:electronics:computers:
+:PROPERTIES:
+:EXPORT_FILE_NAME: ben-eater-computer
+:END:
 
 * DONE Building a Home Cinema on a Shoestring    :homecinema:audio:projector:
 CLOSED: [2023-07-24 Mon 14:25]
