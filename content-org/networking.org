@@ -4,7 +4,8 @@
 #+hugo_categories: Networking
 
 
-* TODO Kubernetes Ingress vs Load Balancer                       :k8s:devops:
+* DONE Kubernetes Ingress vs Load Balancer                       :k8s:devops:
+CLOSED: [2024-08-06 Tue 21:10]
 :PROPERTIES:
 :EXPORT_FILE_NAME: k8s-ingress-v-load-balancer
 :EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description Or how to deploy a web app to a cluster and make it publicly accessible
@@ -96,26 +97,35 @@ Note that the service plane is not specific to web services at all. These are ju
 or UDP services and could be anything: a database, a message queue or, indeed, a
 webserver, but no assumptions are made.
 
-There are three types or "levels" of Service, each building upon the last:
+There are three[fn:1] levels (called "types") of Service, each building upon the last:
+
+[fn:1] Actually, there is a fourth called ExternalName but, as far as I can tell, this
+is completely different and doesn't build on the other three. It's more like an internal
+CNAME record for an external service.
 
 *** ClusterIP (the default)
 
 This gives your service a stable internal cluster IP address, and a name in the internal
-DNS server. If your service is currently backed by three Pods, accessing the service IP
-address balances the traffic between those three Pods. No matter what happens to the
-Pods, the service IP address stays the same, which means other workloads in your cluster
-can access the service. But you still can't access it from outside of the cluster.
+DNS server, like ~my-service.my-namespace~. If your service is currently backed by three
+Pods, accessing the service IP address balances the traffic between those three Pods. No
+matter what happens to the Pods, the service IP address stays the same, which means
+other workloads in your cluster can access the service. But you still can't access it
+from outside of the cluster.
 
 *** NodePort
 
-In addition to the above, this opens a high-numbered port on each node through which you
-can access the service from *outside* of the cluster. What this means is you could
-connect to any of the nodes in your cluster on the allocated port (say 30233) and
-connect to the service.
+In addition to the above, this opens a high-numbered port on each node (the same port on
+each node) through which you can access the service from *outside* of the cluster. What
+this means is you could connect to any of the nodes in your cluster on the allocated
+port (say 30233) and connect to the service.
 
 Using a high-numbered port isn't expected for a web service, but in this configuration
 you could have some external load balancer routing web traffic into your cluster through
 the node ports.
+
+Note that although you can access the service from outside the cluster, most clusters
+themselves are not on the public internet but rather behind a firewall. So it will only
+be internet accessible if the load balancer is configured that way.
 
 *** LoadBalancer
 
@@ -146,7 +156,7 @@ and I suspect they want to keep the concept more general, but in practice this i
 to be used primarily for web services. Ingresses allow you do things like route HTTP
 traffic to different backends based on the hostname and/or path. If you've ever used
 Apache VirtualHosts or written an Nginx config yourself this should be familiar. It is
-also similar to things like API Gateway as used with AWS Lambda (in fact, Ingresses is
+also similar to things like API Gateway as used with AWS Lambda (in fact, Ingress is
 in the process of being replaced by the "Gateway API" in K8s).
 
 An Ingress maps rules to services, for example hostname ~www.example.com~ and path
@@ -284,3 +294,7 @@ private-domain: "nip.io"
 private-domain: "sslip.io"
 private-domain: "traefik.me"
 #+end_src
+
+# Local Variables:
+# org-footnote-section: nil
+# End:
