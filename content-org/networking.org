@@ -4,6 +4,173 @@
 #+hugo_categories: Networking
 
 
+* TODO Kubernetes Ingress vs Load Balancer                       :k8s:devops:
+:PROPERTIES:
+:EXPORT_FILE_NAME: k8s-ingress-v-load-balancer
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :description Or how to deploy a web app to a cluster and make it publicly accessible
+:END:
+
+** Introduction                                                      :ignore:
+
+I've been using Kubernetes successfully for a while, but I felt like I still didn't
+fully understand the difference between an Ingress and a LoadBalancer. Whenever I tried
+to find an explanation I'd find some vague thing like "they are sort of the same, but
+not really".
+
+The problem is I was thinking about these things wrong. One is not a replacement for
+the other; they exist in different planes of abstraction within k8s. For someone who
+just wants to deploy a web service, there are three orthogonal concepts you need to
+understand in k8s.
+
+** Workloads
+
+The first thing you need to do is get your workload on to the cluster. As we're talking
+about web apps, the workload we're talking about is a web server. Somehow you need to
+run some kind of web server on the cluster. It doesn't matter if you're trying to deploy
+a static site or a fully dynamic monolithic web app, the workload is a web server.
+
+In this plane, Kubernetes doesn't know about web servers. It's designed to be more
+general than that. It only knows about running workloads. The way you deliver a
+webserver as a workload is to package it into a container image. Kubernetes does know
+how to run a container image.
+
+Building a container image is assumed knowledge here, but generally you would write a
+~Dockerfile~ with the ~CMD~ set to run a webserver and an ~EXPOSE~ to set the port the
+webserver is listening on.
+
+The smallest deployable unit in K8s is actually a Pod, but a typical Pod consists of
+just one container.
+
+You can deploy your webserver as a Pod and it will run. When it runs the cluster will
+automatically assign a unique IP address to the Pod that is valid within the
+cluster. That was easy! But there are a couple of problems.
+
+First note that the workload plane doesn't understand or care what type of workload you
+are deploying. We want to deploy a service and running the server is an important part
+of that, but how can clients access this? The workload plane gives you random
+cluster-internal IP addresses for your Pods. That's it. As far as it's concerned you
+might be running some batch job and that's all you need.
+
+Secondly, running a Pod only ensures it runs one time. If it crashes, the node crashes
+or it's evicted from a node, it won't get run again.
+
+To get a workload to keep running you use a ReplicaSet. This is a configuration that
+ensures a number of Pods are running at all times. If one of the Pods disappears for
+whatever reason, the ReplicaSet will ensure it gets replaced. You can change the number
+of replicas in a ReplicaSet at any time (referred to as scaling up or down). But you
+can't change the Pod configuration. In particular, you can't change the image used. The
+only way to upgrade your service would be to remove the ReplicaSet and add another one,
+which would take the service down.
+
+So we don't tend to use ReplicaSets directly. Instead we use a Deployment. A Deployment
+is similar to a ReplicaSet but it allows you to change the image used by the
+Pods. Changing the image causes a rollout to take place whereby each Pod is replaced
+with the new version one by one. At each stage there are always the desired number of
+replicas up and running.
+
+A key thing to understand is that the Pods themselves are ephemeral. At any time the
+actual Pods running your workload, and therefore their IP addresses, can change for
+various reasons. The Deployment only makes sure the right *number* of Pods are
+running at any one time. We'll need some way to access the Pods reliably. That's
+addressed in the Services plane.
+
+So to recap, use Deployments to ensure your desired workloads are running on the cluster
+with the requested configurations etc. For a web app these workloads are webservers
+packaged up as containers. The workload plane is only concerned with making sure your
+webservers are running. It isn't concerned with how you or anyone else access those
+webservers (because it doesn't even know or care that they are webservers).
+
+** Services
+
+The workload plane makes sure things run but doesn't provide a stable service (as the
+underlying Pods will change). The services plane provides a stable service, but doesn't
+care how things are run (that is handled by the workload plane).
+
+A Service is a way to expose a number of (inherently unstable) Pods as a stable
+service. You do that by labelling the Pods in the workload plane and selecting those
+pods in the Service. The workload plane is free to do what it wants with those Pods
+(move, upgrade, scale up/down etc.), but as long as the labels stay the same, your
+service will remain available, it will just be backed by different Pods.
+
+Note that the service plane is not specific to web services at all. These are just TCP
+or UDP services and could be anything: a database, a message queue or, indeed, a
+webserver, but no assumptions are made.
+
+There are three types or "levels" of Service, each building upon the last:
+
+*** ClusterIP (the default)
+
+This gives your service a stable internal cluster IP address, and a name in the internal
+DNS server. If your service is currently backed by three Pods, accessing the service IP
+address balances the traffic between those three Pods. No matter what happens to the
+Pods, the service IP address stays the same, which means other workloads in your cluster
+can access the service. But you still can't access it from outside of the cluster.
+
+*** NodePort
+
+In addition to the above, this opens a high-numbered port on each node through which you
+can access the service from *outside* of the cluster. What this means is you could
+connect to any of the nodes in your cluster on the allocated port (say 30233) and
+connect to the service.
+
+Using a high-numbered port isn't expected for a web service, but in this configuration
+you could have some external load balancer routing web traffic into your cluster through
+the node ports.
+
+*** LoadBalancer
+
+In addition to the above, this also provisions a load balancer in the configuration
+described above, usually allowing you to access services on the cluster from *outside of
+your firewall* (ie. the internet). This happens automatically on cloud platforms but
+there are bare metal options like MetalLB and even "fake" options like ServiceLB (used
+in k3s).
+
+So should you use a LoadBalancer for your web service? You can, but probably not. As
+mentioned above the service plane is merely concerned with routing network traffic to
+the right place. There's nothing HTTP specific here. So if you were to use LoadBalancer
+you'd be responsible for things like TLS termination and you'd need one LoadBalancer per
+service which could be expensive (generally you'll get a publicly routeable IPv4 address
+per LoadBalancer).
+
+A more common configuration is to use ingresses for web services, which we'll see next.
+
+To recap, the service layer is concerned with providing a stable address and routing
+network traffic from that address to the underlying Pods inside the cluster. It is not
+concerned with how those Pods get provisioned. It is also not concerned with what kind
+of network service it is (be it a web service or otherwise).
+
+** Ingresses
+
+Ingresses are specific to web services. The K8s docs are a little hesitant to say this
+and I suspect they want to keep the concept more general, but in practice this is going
+to be used primarily for web services. Ingresses allow you do things like route HTTP
+traffic to different backends based on the hostname and/or path. If you've ever used
+Apache VirtualHosts or written an Nginx config yourself this should be familiar. It is
+also similar to things like API Gateway as used with AWS Lambda (in fact, Ingresses is
+in the process of being replaced by the "Gateway API" in K8s).
+
+An Ingress maps rules to services, for example hostname ~www.example.com~ and path
+~/api/~ can be set to a backend service ~my-service~. By itself the Ingress, like a
+Deployment, is like a request for a desired state. To achieve anything it requires an
+Ingress Controller to be installed in the cluster. It is the Ingress Controller that
+actually does the routing. A typical Ingress Controller is Nginx.
+
+It is this Ingress Controller that will typically be deployed as a Service with type
+LoadBalancer. A typical configuration will be to have your web services deployed as
+Deployments, exposed as Services (type ClusterIP) and mapped using Ingresses. The
+Ingress Controller will be deployed as a Service type LoadBalancer and receive TCP
+traffic from the external load balancer, perform TLS termination and route it to the
+desired underling Service, which will then route it to the correct Pods.
+
+** Conclusion
+
+Hopefully this clears up the difference between Ingress and LoadBalancer. As you can
+see, they are quite different because they essentially live in separate planes of
+abstraction. An Ingress is HTTP specific and is concerned with routing HTTP requests to
+the right backend. A LoadBalancer is a type of Service which is only concerned with
+routing network traffic to Pods---it doesn't know about HTTP. They work together to give
+a common and convenient configuration for deploying web apps.
+
 * TODO My Router                                             :router:pfsense:
 :PROPERTIES:
 :EXPORT_FILE_NAME: my-router
