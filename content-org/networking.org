@@ -2,6 +2,8 @@
 #+hugo_draft: t
 #+hugo_base_dir: ../
 #+hugo_categories: Networking
+#+html_container: section
+#+html_container_nested: t
 
 
 * DONE Kubernetes Ingress vs Load Balancer                       :k8s:devops:

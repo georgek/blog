@@ -1,4 +1,5 @@
 #+author: George Kettleborough
+#+hugo_draft: t
 #+hugo_base_dir: ../
 #+hugo_categories: Programming
 #+html_container: section
