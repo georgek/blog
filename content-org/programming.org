@@ -5,6 +5,147 @@
 #+html_container: section
 #+html_container_nested: t
 
+* TODO The Point of a Test is to Fail
+:PROPERTIES:
+:EXPORT_FILE_NAME: point-of-test-is-to-fail
+:END:
+
+** Introduction                                                      :ignore:
+
+If you write software for a codebase with a test suite, it might sometimes seem like the
+point of a test is to pass. After all, passing tests are /good/; they indicate you've
+done your job properly. And they're coloured green!
+
+Many developers seem to work under this assumption. After adding a new feature they'll
+run the tests. If they all pass then great, job done, if any fail they then proceed to
+fix the code and/or the tests themselves. Only then do they proceed to add new tests for
+the functionality they've just added.
+
+But this is missing the whole point of a test: the point of a test, it's /raison
+d'être/, is to *fail*. If you follow the workflow above you'll never see your test
+fail. This is a very, very bad thing because you might have written a test that *cannot
+fail*. Such a test is worse than useless, it's actively harmful as it bloats the
+codebase, wastes computing time, and offers false reassurance to anyone running the
+test suite. This happens all the time.
+
+** Test-driven development
+
+This is why, under test-driven development, the first step is always to write the test
+and see it fail. This is the only way to know you've written a test that can fail. If
+you've already implemented the feature it's already too late, you'll never see it fail.
+
+Unfortunately, we all know it's easy to get carried away and write the (fun)
+implementation before the (boring) test. If you do find yourself in this situation,
+consider stashing[fn:1] the feature then writing the test before unstashing it to
+(hopefully) see it pass. However, if it doesn't pass the tendency might still be to
+alter the test to make it pass. That's still writing a passing test and not following
+TDD.
+
+Note that one common misconception about TDD is it's about unit tests. TDD is not about
+unit tests.[fn:2] The most important thing here is the red-green-refactor workflow of
+TDD.
+
+** Fixing bugs
+
+Writing a test first is especially important when fixing a bug. A bug always means there
+is a gap in your test suite. The existing code passed despite having the bug. So fill
+the gap in your tests first: write the missing (failing) test! These are often the most
+important tests because they test non-obvious behaviour that is easy to get
+wrong. Writing a passing test afterwards can be even worse than not writing a test at
+all!
+
+** Conclusion
+
+
+
+[fn:1] https://git-scm.com/docs/git-stash 
+
+[fn:2] https://www.youtube.com/watch?v=IN9lftH0cJc
+
+* TODO Falling Out of Love with Django
+:PROPERTIES:
+:EXPORT_FILE_NAME: falling-out-of-love-with-django
+:END:
+
+I started web programming in the early 2000s with PHP. I'd already learnt HTML as a
+child and PHP gave me the ability to generate HTML dynamically from a database. I built
+my own blog and did my first paid work developing sites for local businesses. But I
+started to see that I was repeating the same patterns over and over again: get record
+from database, map fields to HTML elements, reverse that for forms etc. You get the
+idea.
+
+At that time I didn't know about "libraries" or "frameworks". They might have existed, I
+honestly don't know, but I started to see a need for them anyway. But it didn't matter
+because I was just about to start university and stop web programming, at least for a
+while.
+
+It wasn't until 2018 that I decided to resurrect my atrophied web skills for a project
+at work. I wanted to build a network application for a team to collaboratively build a
+dataset and a web-based, database-driven application seemed like the way to go. I might
+have given PHP a passing thought but I'd been using Python for a while at that point and
+I quite liked it, so I discovered Django.
+
+I very quickly fell in love with Django. It was everything I was beginning to imagine
+back in the PHP days. To a complete newbie it surely seems like magic, but I knew what
+it was doing underneath and was very happy to let it take the drudgery out of building
+CRUD applications.
+
+Later I would join a company that used Django heavily for business software that handled
+day to day operations. I didn't even know this when I joined the company so I jumped on 
+
+** Django models are not models
+
+Dictionary (OED):
+
+#+begin_quote
+model: A simplified description of a system, process etc. put forward as a basis for
+theoretical or empirical understanding; a conceptual or mental representation of
+something.
+#+end_quote
+
+Django models have a direct relationship with database tables. They follow the "active
+record" pattern. This coupling to the database means they are severely lacking for all
+but the simplest domain modelling requirements.
+
+A simple example is a model with a compound field. Imagine this basic model of a todo
+list:
+
+#+begin_src python
+class TodoList:
+    def __init__(self, name):
+        self.name = name
+        self.items = []
+
+    def add_item(self, item: str) -> None:
+        self.items.append(item)
+
+    def get_items(self) -> list[str]:
+        return self.items
+
+    def complete_item(self, item: str) -> None:
+        self.items.remove(item)
+#+end_src
+
+Seems like a pretty basic model. But we can't do this in Django. We'd have to do
+something like this:
+
+#+begin_src python
+class TodoList(models.Model):
+    name = models.CharField()
+
+
+class TodoListItem(models.Model):
+    todo_list = models.ForeignKey(TodoList, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+    content = models.TextField()
+#+end_src
+
+Can't validate an aggregate before saving it to the database.
+
+** Django views are not views
+
+** Django templates suck
+
 * DONE Working on Multiple Web Projects with Docker Compose and Traefik :networking:web:development:traefik:docker:
 CLOSED: [2023-10-02 Mon 09:00]
 :PROPERTIES:
@@ -655,3 +796,7 @@ lot more too.
 And that's it!  You'll find the Arduino documentation here:
 https://www.arduino.cc/reference/en/ That's all you should need to get started.  Happy
 hacking!
+
+# Local Variables:
+# org-footnote-section: nil
+# End:
