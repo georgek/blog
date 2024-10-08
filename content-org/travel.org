@@ -6,6 +6,230 @@
 #+html_container: section
 #+html_container_nested: t
 
+* TODO West Highland Way                :walking:britain:scotland:great_trail:
+:PROPERTIES:
+:EXPORT_FILE_NAME: west-highland-way
+:END:
+
+** Introduction                                                      :ignore:
+
+The West Highland Way is a waymarked, long-distance path in Scotland. It starts just
+north of Glasgow and ends at Fort William in the Highlands. It is probably the most
+famous of Scotland's Great Trails (similar to the National Trails in England and
+Wales). In September 2024 I walked the West Highland Way over seven days with my partner
+[[https://www.peregrinavicki.com/][Vicki]].
+
+** Planning
+
+At 154 km the WHW will take most people between 5-10 days to complete. We didn't fancy
+any super long days, so we decided to do it in 7 days.
+
+# to get points: grep trkpt day1.gpx | head -1 | sed 's/.*lat="\([0-9.-]*\)" lon="\([0-9.-]*\)".*/\2:\1/'
+
+#+hugo: {{<map main-map=true tiles-url="/whw/whw.pmtiles" relief-url="/whw/whw-relief.pmtiles" tracks="/whw/trk/day1.gpx,/whw/trk/day2.gpx,/whw/trk/day3.gpx,/whw/trk/day4.gpx,/whw/trk/day5.gpx,/whw/trk/day6.gpx,/whw/trk/day7.gpx,/whw/trk/day8.gpx,/whw/trk/day9.gpx" points="-4.317885115742683:55.94149366021156,-4.452222799882293:56.06590616516769,-4.642188074:56.159632858,-4.722019834:56.328580426,-4.712647442:56.438099965,-4.8273109551519156:56.63285189308226,-4.962930651381612:56.713714711368084,-5.067570162937045:56.80027504451573" bounds="-5.114230,55.941364,-4.317883,56.821757" max-bounds="-5.214230,55.841364,-4.217883,56.921757">}}
+
+There are many options when it comes to accommodation and supplies. Many people carry a
+tent and camp along the way which provides the ultimately flexibility for splitting up
+days. The right to roam exists in Scotland so you can generally camp and walk anywhere,
+but there are some camping restrictions along the way. On the other hand, it is
+completely possible to walk the WHW with only day packs as there are very good pack
+transport services along the way. We opted for the middle ground: we carried our own
+supplies, but we stayed in accommodation along the way.
+
+My supplies consisted of two full sets of clothes, one to wear and one in my pack for
+the next day, plus an extra t-shirt to wear at night. This means it's necessary to do
+laundry every day, but it's worth it for the lighter pack. I didn't bring any specific
+evening shoes, but I wish I brought some lightweight sandals as putting damp boots back
+on is not pleasant. I carried a minimal bathroom kit, some cold weather gear (hat and
+gloves), two thermal layers (fleece and puffy), waterproofs, my Kobo for reading and
+phone charger etc. For water I use a 2.5 L bladder.
+
+Accommodation needs to be booked and booked early. We booked our accommodation around
+two months before the trip and many places were already unavailable. The WHW is
+extremely popular and there are many walking groups that do block bookings. Supplies are
+usually not a problem, but this needs to be planned as there are long sections without
+any kind of supplies available. We carried a couple of emergency dried pasta packets,
+but ended up bringing them home. We never found ourselves carrying more than our lunch
+each day.
+
+One cannot talk about the Highlands without talking about two things: the weather and
+the midges. Winter in Scotland is considered a challenge to say the least, and summer is
+plagued by the midges. This leaves spring and autumn as the only real options. Early
+spring is perhaps the ideal time to do it, but autumn works too. If you spend a week in
+the West Highlands you can pretty much guarantee you'll encounter rain no matter what
+the time of year, though. Waterproofs are an absolute must, and I would recommend a
+midge net for your face and long-sleeved clothing.
+
+** Walking
+
+#+hugo: {{<mini-map-section>}}
+
+*** Day 1: Milngavie to Drymen
+
+#+hugo: {{<mini-map-bounds bounds="-4.452526,55.941364,-4.317883,56.068368">}}
+
+The forecast spoke of rain. It had rained all night in Glasgow and continued to rain in
+the morning as made our way by train out to Milngavie. We started the walk around 11:00
+and were fortunate to do so during a break in the rain. The official start of the WHW is
+unmistakable and definitely gets you excited.
+
+The path begins well within the outskirts of Glasgow and we crossed paths with many a
+dog walker, but it soon leads into the countryside.
+
+The rain started again before midday. We managed to eat our lunch, standing up, during a
+short spell of lighter rain, but then it really came down heavily and persistently for
+the whole afternoon. There is not really much more to say about this day: it
+rained.
+
+There were many more walkers than we expected, but we quickly lost track of them all. We
+managed to keep our boots fairly dry by carefully straddling the endless puddles but we
+would be passed by other walkers, heads down, as they strode right through the middle,
+presumably already soaked to the skin. It was miserable to say the least.
+
+Just before we arrived at Drymen the rain had stopped, but we were soaked. Our
+waterproofs had done their best, but there is a limit. Even our bags were damp
+inside. But at least we had dry clothes and a warm room.
+
+*** Day 2: Drymen to Rowardennan
+
+#+hugo: {{<mini-map-bounds bounds="-4.642558,56.065906,-4.432136,56.159434">}}
+
+Our boots had almost dried overnight so we started with dry clothes, which was nice. The
+weather started off a lot nicer. On this day it became apparent just how many people
+were walking the same way. We passed countless groups and presumably there were many
+faster walkers ahead of us too. I think I saw one of the accommodations in Drymen had
+over 100 rooms.
+
+We got our first view of Loch Lomond before the climb over Conic Hill. Unfortunately we
+were walking up into a cloud. No rainfall, but it was wet. The views of the Loch from
+Conic Hill are meant to be splendid, but we couldn't see anything.
+
+The second half of the walk was much flatter. Lots of pine forests and some views, but
+visibility remained low. It seemed like quite a long walk, but we eventually got to the
+Ben Lomond Bunkhouse at around 17:30. There are only around 10 beds but everyone was
+friendly and it was good fun.
+
+*** Day 3: Rowardennan to Inverarnan
+
+#+hugo: {{<mini-map-bounds bounds="-4.722247,56.159633,-4.642160,56.331753">}}
+
+We started walking in a group with two companions who also stayed in the bunkhouse. This is
+supposed to be the hardest part of the WHW so we got a nice early start. The first half
+was really easy with wide, flat paths and few puddles. There is essentially no way out
+of this part of the path. There is loch to one side and a steep climb out to the
+other. Half way was at a hotel which is the only source of supplies for the whole day,
+but is well geared up to provide lunch to the hordes of walkers.
+
+The rain started again just as we were leaving after lunch. It was at this point I
+realised I'd left my waterproof jacket in the bunkhouse. I managed to arrange a pack
+transport service to deliver it to Tyndrum, but that meant I wouldn't get it until the
+end of the next day. Luckily one of our companions was able to kindly lend me her poncho
+for the afternoon.
+
+In addition to the rain, this part of the way lived up to its reputation: it was
+tough. Pretty much nonstop scrambling over rocks and tree roots all afternoon. But we
+remained in high spirits and it certainly wasn't as miserable as day one. The occasional
+view across Loch Lomond certainly helped in this respect. The day ended with rain, and
+soggy feet, but we had a nice warm room to dry everything in.
+
+*** Day 4: Inverarnan to Tyndrum
+
+#+hugo: {{<mini-map-bounds bounds="-4.722313,56.328558,-4.617136,56.435751">}}
+
+By this point of the walk we were expecting rain every day. So imagine our surprise when
+the forecast showed clear skies, sun and highs of 24°C! It seemed unbelievable but, sure
+enough, it started off clear and sunny. In fact it stayed this way for the entire
+day. We could finally see where we were and it was stunning.
+
+We took a detour to a village for lunch and very well-stocked Londis. Everywhere we went
+there were walkers. The second half was quite spectacular and we even ended up donning
+sun hats! We stayed at Tyndrum which is an odd place. It's more like a motorway services
+than a village.
+
+*** Day 5: Tyndrum to Glencoe Mountain Resort
+
+#+hugo: {{<mini-map-bounds bounds="-4.828096,56.438100,-4.708648,56.634021">}}
+
+The great weather continued. Not a cloud in the sky. This was probably the most
+spectacular day. It started off flat as we walked between mountains towards the Bridge
+of Orchy. We followed the West Highland Line and saw how it snaked through the
+terrain. We got 10 km done well before midday, but as it was a long day we decided to
+push on further before lunch.
+
+We climbed out of the Bridge of Orchy and had spectacular 360 degree views before
+heading back down to the river where we would have lunch. The afternoon was uphill and
+became a little tough in the heat as there was very little shelter as we made our way
+across Ranoch Moor. This was the most remote part of the walk so far. In reality it's
+only a few kilometres from the main road, but when you're out there you might as well be
+on the surface of moon.
+
+Our bed for the night was a "glamping" pod at a ski resort.
+
+*** Day 6: Glencoe Mountain Resort to Kinlochleven
+
+#+hugo: {{<mini-map-bounds bounds="-4.960418,56.632852,-4.825686,56.714387">}}
+
+Following yesterday's long day, we had the shortest day of our walk at only 16 km. But
+it did involve one of the more considerable climbs up Devil's Staircase. It started off
+easy enough following the road into the valley that looks like a giant half pipe. Then
+we departed to climb up high above the road to the highest point on the walk and some
+nice views. The next set of mountains in front of us became visible at this point,
+including Ben Nevis.
+
+The afternoon was all downhill but seemed to be taking forever before descending rapidly
+into Kinlochleven at the end. We followed giant pipes down the hill, I think for a
+hydro-electric power plant or maybe the aluminium works. The village itself is
+surrounded by high mountains on almost all sides. The water pressure from the taps is
+incredibly high!
+
+*** Day 7: Kinlochleven to Fort William
+
+#+hugo: {{<mini-map-bounds bounds="-5.114230,56.713715,-4.962931,56.821757">}}
+
+Our last full day would end at Glen Nevis which is only a short way from Fort
+William. The constant sun was finally over; there were clouds hugging the hills in the
+morning. This was the worst day for midges. We left the village with midge nets on and
+kept them close by the whole morning. The day started with a steep climb into the woods,
+but was soon over and flattened out. Most of the day was on an old drove road through a
+valley between the hills. The sun came out a bit but there was a definite change in the
+air, but luckily no rain.
+
+The day was quite easy but fatigue made it seem longer. Towards the end we could see
+Fort William from high up before another rapid descent. We left the path for the night
+to stay in Glen Nevis. The next day we planned to summit Ben Nevis, but the weather
+looked bad and we didn't fancy climbing into a cloud again so we stayed closer to the
+ground.
+
+On our final day in the Highlands we completed the walk into Fort William. The end is
+not as impressive as the start and the weather had returned to more a normal rainy,
+blustery character. The best part about this final day was the train ride back to
+Glasgow on the West Highland Line. It's a four hour journey, but it flew by. I could
+have stayed on for another four hours.
+
+** Reflection
+
+#+hugo: {{<mini-map-section>}}
+
+#+hugo: {{<mini-map-bounds bounds="-5.214230,55.841364,-4.217883,56.921757">}}
+
+We thoroughly enjoyed the West Highland Way, despite the rain and the midges. It's not
+an easy walk, but it's by no means the most difficult either. This makes it well within
+the capabilities of most people, especially if done over more days. For more capable
+walkers it still has a lot to offer and the prospect of camping along the way is
+attractive to many.
+
+The most unexpected part of the WHW was the number of people. There were many
+foreigners, most notably Americans. I had no idea people travelled all the way to
+Scotland to walk. There were also many different kinds of people with varying
+experience. Many probably on their first (and perhaps last) long-distance walk. Many
+people had huge packs and looked miserable as a result. I've been there. A light pack
+makes all the difference.
+
+The number of people could be considered a downside for people looking for more alone
+time. There is some to be found, but you're never that far from other people. However, I
+suspect more people consider this is a positive than a negative. Similar to the Camino
+de Santiago in Spain, you could easily make friends on this walk if you wanted to.
+
 * DONE Norfolk Coast Path                     :walking:britain:nationaltrail:
 CLOSED: [2024-02-15 Thu 23:33]
 :PROPERTIES:

@@ -46,6 +46,12 @@ article-toc h4 {
   font-family: "Lora", serif;
 }
 
+.mapcontainer {
+  float: right;
+  width: 30%;
+  aspect-ratio: 1 / 5;
+}
+
 div.map {
   width: 100%;
   height: 500px;
@@ -148,6 +154,31 @@ article > p:first-of-type::first-letter {
   max-width: 70%;
 }
 
+.calendar {
+  font-family: sans;
+  width: 100%;
+  height: 16em;
+  overflow-x: scroll;
+  border: 1px solid var(--text-color);
+  padding: 0.2em;
+}
+
+.calendar table {
+  margin: 0;
+}
+
+.calendar td {
+  position: relative;
+  height: 4em;
+}
+
+.calendar .day {
+  font-size: 0.6rem;
+  position: absolute;
+  top: 0.1em;
+  left: 0.1em;
+}
+
 .tags li a {
   height: 1.5em;
   text-decoration: none;
@@ -168,6 +199,20 @@ article > p:first-of-type::first-letter {
   vertical-align: middle;
 }
 
+.tag-great-trail a::before {
+  content: "";
+  mask: url("/tags/greattrail.svg");
+  mask-size: cover;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  background-color: var(--bkg-color);
+  display: inline-block;
+  width: 1.5em;
+  height: 1.2em;
+  margin-right: 0.2em;
+  vertical-align: middle;
+}
+
 .tag-camino a::before {
   content: "";
   mask: url("/tags/camino.svg");
@@ -184,6 +229,10 @@ article > p:first-of-type::first-letter {
 
 .tag-britain a::before {
   content: "🇬🇧 ";
+}
+
+.tag-scotland a::before {
+  content: "🏴󠁧󠁢󠁳󠁣󠁴󠁿 ";
 }
 
 .tag-spain a::before {

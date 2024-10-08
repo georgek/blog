@@ -10,7 +10,7 @@
     "@alpinejs/intersect": "^3.13.5",
     "alpinejs": "^3.13.3",
     "maplibre-gl": "^4.0.0",
-    "maplibre-gl-vector-text-protocol": "^0.0.4",
+    "maplibre-gl-vector-text-protocol": "^0.0.5",
     "pmtiles": "^3.0.0"
   }
 }

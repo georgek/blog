@@ -6,7 +6,7 @@ let protocol = new pmtiles.Protocol();
 maplibregl.addProtocol("pmtiles", protocol.tile);
 maplibregl.addProtocol("gpx", VectorTextProtocol);
 
-const attr = '© <a href="https://openstreetmap.org">OpenStreetMap</a>';
+const attr = '<a href="https://openstreetmap.org">OpenStreetMap</a>';
 
 async function initMap(e) {
   const tilesUrl = e.dataset.tilesUrl;
@@ -32,6 +32,7 @@ async function initMap(e) {
     },
     bounds: bounds,
     maxBounds: maxBounds,
+    maxZoom: 16,
   });
 
   map.on("load", () => {
@@ -70,6 +71,7 @@ async function initMap(e) {
           coordinates: point.split(":").map(parseFloat),
         },
       }));
+      console.log(features);
       map.addSource("points", {
         type: "geojson",
         data: {
@@ -93,7 +95,9 @@ async function initMap(e) {
       map.addSource("relief", {
         type: "raster-dem",
         url: `pmtiles://${e.dataset.reliefTilesUrl}`,
-        encoding: "terrarium",
+        encoding: "mapbox",
+        tileSize: 512,
+        attribution: '<a href="https://sonny.4lima.de/">Sonny</a>',
       });
       map.addLayer(
         {
@@ -103,11 +107,15 @@ async function initMap(e) {
           paint: {
             "hillshade-accent-color": "#004400",
             "hillshade-highlight-color": "#ddffdd",
-            "hillshade-exaggeration": 0.3,
+            "hillshade-exaggeration": 1,
           },
         },
         "water",
       );
+      // map.setTerrain({
+      //   source: "relief",
+      //   exaggeration: 2,
+      // });
     }
   });
 
