@@ -6,7 +6,8 @@
 #+html_container: section
 #+html_container_nested: t
 
-* TODO West Highland Way                :walking:britain:scotland:great_trail:
+* DONE West Highland Way               :walking:britain:scotland:great_trail:
+CLOSED: [2024-10-10 Thu 22:33]
 :PROPERTIES:
 :EXPORT_FILE_NAME: west-highland-way
 :END:
@@ -19,6 +20,33 @@ famous of Scotland's Great Trails (similar to the National Trails in England and
 Wales). In September 2024 I walked the West Highland Way over seven days with my partner
 [[https://www.peregrinavicki.com/][Vicki]].
 
+#+begin_pictures
+whw/20240905_164951
+whw/20240904_151647
+whw/20240904_160025
+whw/20240906_201455
+whw/20240903_150815
+whw/20240906_101020
+whw/20240906_094106
+#+end_pictures
+
+#+begin_pictures
+whw/20240907_120515
+whw/20240905_165805
+whw/20240907_130253
+whw/20240903_141207
+whw/20240903_155620
+whw/20240906_115821
+whw/20240905_120155
+#+end_pictures
+
+#+begin_pictures
+whw/20240907_100205
+whw/20240907_122953
+whw/20240907_122940
+whw/20240905_102117
+#+end_pictures
+
 ** Planning
 
 At 154 km the WHW will take most people between 5-10 days to complete. We didn't fancy
@@ -26,10 +54,10 @@ any super long days, so we decided to do it in 7 days.
 
 # to get points: grep trkpt day1.gpx | head -1 | sed 's/.*lat="\([0-9.-]*\)" lon="\([0-9.-]*\)".*/\2:\1/'
 
-#+hugo: {{<map main-map=true tiles-url="/whw/whw.pmtiles" relief-url="/whw/whw-relief.pmtiles" tracks="/whw/trk/day1.gpx,/whw/trk/day2.gpx,/whw/trk/day3.gpx,/whw/trk/day4.gpx,/whw/trk/day5.gpx,/whw/trk/day6.gpx,/whw/trk/day7.gpx,/whw/trk/day8.gpx,/whw/trk/day9.gpx" points="-4.317885115742683:55.94149366021156,-4.452222799882293:56.06590616516769,-4.642188074:56.159632858,-4.722019834:56.328580426,-4.712647442:56.438099965,-4.8273109551519156:56.63285189308226,-4.962930651381612:56.713714711368084,-5.067570162937045:56.80027504451573" bounds="-5.114230,55.941364,-4.317883,56.821757" max-bounds="-5.214230,55.841364,-4.217883,56.921757">}}
+#+hugo: {{<map main-map=true bearing=270 tiles-url="/whw/whw.pmtiles" relief-url="/whw/whw-relief.pmtiles" tracks="/whw/trk/day1.gpx,/whw/trk/day2.gpx,/whw/trk/day3.gpx,/whw/trk/day4.gpx,/whw/trk/day5.gpx,/whw/trk/day6.gpx,/whw/trk/day7.gpx,/whw/trk/day8.gpx,/whw/trk/day9.gpx" points="-4.317885115742683:55.94149366021156,-4.452222799882293:56.06590616516769,-4.642188074:56.159632858,-4.722019834:56.328580426,-4.712647442:56.438099965,-4.8273109551519156:56.63285189308226,-4.962930651381612:56.713714711368084,-5.067570162937045:56.80027504451573" bounds="-5.114230,55.941364,-4.317883,56.821757" max-bounds="-5.214230,55.841364,-4.217883,56.921757">}}
 
 There are many options when it comes to accommodation and supplies. Many people carry a
-tent and camp along the way which provides the ultimately flexibility for splitting up
+tent and camp along the way which provides the ultimate flexibility for splitting up
 days. The right to roam exists in Scotland so you can generally camp and walk anywhere,
 but there are some camping restrictions along the way. On the other hand, it is
 completely possible to walk the WHW with only day packs as there are very good pack
@@ -47,10 +75,8 @@ phone charger etc. For water I use a 2.5 L bladder.
 Accommodation needs to be booked and booked early. We booked our accommodation around
 two months before the trip and many places were already unavailable. The WHW is
 extremely popular and there are many walking groups that do block bookings. Supplies are
-usually not a problem, but this needs to be planned as there are long sections without
-any kind of supplies available. We carried a couple of emergency dried pasta packets,
-but ended up bringing them home. We never found ourselves carrying more than our lunch
-each day.
+available on all days but this needs to be planned as there are long sections without
+anything them home. We never found ourselves carrying more than our lunch each day.
 
 One cannot talk about the Highlands without talking about two things: the weather and
 the midges. Winter in Scotland is considered a challenge to say the least, and summer is
@@ -123,8 +149,8 @@ but is well geared up to provide lunch to the hordes of walkers.
 The rain started again just as we were leaving after lunch. It was at this point I
 realised I'd left my waterproof jacket in the bunkhouse. I managed to arrange a pack
 transport service to deliver it to Tyndrum, but that meant I wouldn't get it until the
-end of the next day. Luckily one of our companions was able to kindly lend me her poncho
-for the afternoon.
+end of the next day. Luckily one of our companions was kind enough to lend me her poncho
+for the afternoon. I needed it!
 
 In addition to the rain, this part of the way lived up to its reputation: it was
 tough. Pretty much nonstop scrambling over rocks and tree roots all afternoon. But we
@@ -141,10 +167,10 @@ the forecast showed clear skies, sun and highs of 24°C! It seemed unbelievable 
 enough, it started off clear and sunny. In fact it stayed this way for the entire
 day. We could finally see where we were and it was stunning.
 
-We took a detour to a village for lunch and very well-stocked Londis. Everywhere we went
-there were walkers. The second half was quite spectacular and we even ended up donning
-sun hats! We stayed at Tyndrum which is an odd place. It's more like a motorway services
-than a village.
+We took a detour to Crianlarich for lunch and found a very well-stocked
+Londis. Everywhere we went there were walkers. The second half was quite spectacular and
+we even ended up donning sun hats! We stayed at Tyndrum which is an odd place. It's more
+like a motorway services than a village.
 
 *** Day 5: Tyndrum to Glencoe Mountain Resort
 
@@ -163,7 +189,8 @@ across Ranoch Moor. This was the most remote part of the walk so far. In reality
 only a few kilometres from the main road, but when you're out there you might as well be
 on the surface of moon.
 
-Our bed for the night was a "glamping" pod at a ski resort.
+Our bed for the night was a "glamping" pod at a ski resort. It was a lovely clear night
+and I saw the Milky Way for the first time in many years.
 
 *** Day 6: Glencoe Mountain Resort to Kinlochleven
 
@@ -177,10 +204,10 @@ nice views. The next set of mountains in front of us became visible at this poin
 including Ben Nevis.
 
 The afternoon was all downhill but seemed to be taking forever before descending rapidly
-into Kinlochleven at the end. We followed giant pipes down the hill, I think for a
-hydro-electric power plant or maybe the aluminium works. The village itself is
-surrounded by high mountains on almost all sides. The water pressure from the taps is
-incredibly high!
+into Kinlochleven at the end. We followed giant pipes down the hill, presumably carrying
+water for the hydro-electric power plant or aluminium works in Kinlochleven. The village
+itself is surrounded by high mountains on almost all sides. The water pressure from the
+taps was incredibly high!
 
 *** Day 7: Kinlochleven to Fort William
 
@@ -220,8 +247,8 @@ attractive to many.
 
 The most unexpected part of the WHW was the number of people. There were many
 foreigners, most notably Americans. I had no idea people travelled all the way to
-Scotland to walk. There were also many different kinds of people with varying
-experience. Many probably on their first (and perhaps last) long-distance walk. Many
+Scotland to walk. There were also many different kinds of people with varying degrees of
+experience. Many probably on their first (and perhaps last) long-distance walk. Some
 people had huge packs and looked miserable as a result. I've been there. A light pack
 makes all the difference.
 

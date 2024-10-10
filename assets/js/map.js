@@ -12,6 +12,7 @@ async function initMap(e) {
   const tilesUrl = e.dataset.tilesUrl;
   const bounds = e.dataset.bounds.split(",").map(parseFloat);
   const maxBounds = e.dataset.maxBounds.split(",").map(parseFloat);
+  const bearing = e.dataset.bearing ? parseFloat(e.dataset.bearing) : 0;
 
   const response = await fetch("/osm-bright-gl-style/style.json");
   const style = await response.json();
@@ -30,9 +31,12 @@ async function initMap(e) {
       },
       layers: style.layers,
     },
+
     bounds: bounds,
     maxBounds: maxBounds,
     maxZoom: 16,
+    bearing: bearing,
+    pitchWithRotate: false,
   });
 
   map.on("load", () => {
@@ -71,7 +75,6 @@ async function initMap(e) {
           coordinates: point.split(":").map(parseFloat),
         },
       }));
-      console.log(features);
       map.addSource("points", {
         type: "geojson",
         data: {

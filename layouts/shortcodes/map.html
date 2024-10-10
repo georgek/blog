@@ -1,6 +1,7 @@
 <div
   class="map"
   data-tiles-url="{{ .Get "tiles-url" }}"
+  {{ if ( .Get "bearing" ) }}data-bearing="{{ .Get "bearing" }}"{{ end }}
   {{ if ( .Get "relief-url" ) }}
     data-relief-tiles-url="{{ .Get "relief-url" }}"
   {{ end }}

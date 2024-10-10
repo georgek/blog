@@ -8,6 +8,6 @@ for f in $(find src-images/ -type f -iregex '.*jpe?g$'); do
     echo "converting $f"
     d=$(dirname ${f#src-images/})
     fname=$(basename ${f%.*})
-    convert $f -resize 500x500 -strip -quality 78 static/web-images/$d/$fname-sm.jpeg
-    convert $f -resize 1920x1080 -strip -quality 86 static/web-images/$d/$fname.jpeg
+    convert $f -auto-orient -resize 500x500 -strip -quality 78 static/web-images/$d/$fname-sm.jpeg
+    convert $f -auto-orient -resize 1920x1080 -strip -quality 86 static/web-images/$d/$fname.jpeg
 done

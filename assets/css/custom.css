@@ -89,7 +89,7 @@ article > p:first-of-type::first-letter {
 .pictures {
   display: flex;
   flex-wrap: wrap;
-  margin: 1em 0;
+  margin: 0.6em 0;
   gap: 0.6em;
 }
 
