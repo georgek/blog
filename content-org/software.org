@@ -5,6 +5,136 @@
 #+html_container: section
 #+html_container_nested: t
 
+* DONE Hillshading on my Static Maps                          :maps:blog:gis:
+CLOSED: [2024-10-15 Tue 21:43]
+:PROPERTIES:
+:EXPORT_FILE_NAME: hillshading-static-maps
+:END:
+
+** Introduction                                                      :ignore:
+
+In a [[/posts/hillshading-static-maps/][previous article]] I wrote about adding maps to my blog, which is a static site. I
+use these maps to write about walks I've done. These maps can be dragged, rotated and
+zoomed, but there is no backend tileserver supporting it, it all comes from a single
+static file. This is thanks to the PMTiles format and support by the frontend renderer
+maplibre-gl.
+
+In the original article I took a pre-made pmtile file of the world from the Protomaps
+project and extracted a smaller part using the pmtiles CLI. Later I ended up making my
+own pmtiles directly from OpenStreetMap data, which I'll describe below. This provides a
+lot of geographic data like coastlines, forests, roads etc., but what I really wanted
+was hillshading, which I've now figured out.
+
+#+hugo: {{<map tiles-url="/gran-canaria.osm.pmtiles" relief-url="/gran-canaria-relief.pmtiles" bounds="-15.923996,27.713926,-15.308075,28.205793" max-bounds="-16.273499,27.508271,-14.889221,28.386568">}}
+
+** Making custom PMTiles
+
+First of all I'll talk about making custom PMTiles. OpenStreetMap exports can be fetched
+from [[http://download.geofabrik.de/][Geofabrik]] in PBF format. Rather than download the whole world you can download just
+the region you need. To convert this into a pmtiles file I use [[https://github.com/onthegomap/planetiler][Planetiler]] like so:
+
+#+begin_src sh
+java -Xmx1g -jar ~/java/planetiler.jar --download \
+     --osm-path=scotland-latest.osm.pbf \
+     --output scotland-latest.osm.pmtiles
+#+end_src
+
+The ~--download~ option does some magic to download and include extra data sources like
+coastlines etc. At this point a smaller region can be extracted with the ~pmtiles~ tool
+as in the first article:
+
+#+begin_src sh
+pmtiles extract scotland-latest.osm.pmtiles whw.pmtiles \
+        --bbox=-5.11,56.82,-3.15,55.94
+#+end_src
+
+For this data we need to use a different style, I went for [[https://github.com/openmaptiles/osm-bright-gl-style/tree/master][osm-bright-gl-style]]. To load
+this into maplibre-gl looks like this:
+
+#+begin_src js
+  const response = await fetch("/osm-bright-gl-style/style.json");
+  const style = await response.json();
+  const map = new maplibregl.Map({
+    container: e,
+    style: {
+      version: 8,
+      sprite: `${window.location.origin}/osm-bright-gl-style/sprite`,
+      glyphs: `${window.location.origin}/osm-bright-gl-style/{fontstack}/{range}.pbf`,
+      sources: {
+        openmaptiles: {
+          type: "vector",
+          url: `pmtiles://${tilesUrl}`,
+          attribution: attr,
+        },
+      },
+      layers: style.layers,
+    },
+  });
+#+end_src
+
+Feel free to check out the source of my blog to see more:
+https://github.com/georgek/blog/blob/master/assets/js/map.js
+
+** Making Hillshade PMTiles
+
+Initially I searched for hillshade data in PMTiles format, but was only able to find a
+few low quality sources, so I gave up. But more recently I happened upon [[https://sonny.4lima.de/][Sonny's LiDAR
+models]]. Initially looking at this it didn't make much sense, but it promised data that
+was free to use, so my interest was piqued.
+
+Before I continue, I must give a disclaimer: I don't fully understand this and this will
+not teach you what all this means. This is just what worked for me.
+
+Assuming your region of interest is covered by Sonny's data then what you want is the
+'DTM 1"' data. It's hosted on Google Drive which is a little clunky, and it comes in
+separate tiles, of which you might need more than one. Each region gives an overview
+which should enable you to find which individual file(s) you need.
+
+After downloading and unzipping, you should end up with one or more ~.hgt~ files. For
+example, for Gran Canaria I have ~N27W016.hgt~ and ~N28W016.hgt~. The first thing to do
+is convert them to tiff using [[https://gdal.org/en/latest/][GDAL]]:
+
+#+begin_src sh
+for f in *.hgt; do
+    gdal_translate $f $(basename $f .hgt).tiff
+done
+#+end_src
+
+Next I use [[https://github.com/rasterio/rasterio][Rasterio]] to merge them into one file, and clip it to a bounding box:
+
+#+begin_src sh
+rio merge *.tiff \
+    --bounds -16.273499,27.508271,-14.889221,28.386568 \
+    -o gran-canaria.tiff
+#+end_src
+
+The next part took a long while to figure out. We want to convert it to mbtiles format,
+but the tiff currently isn't in quite the right format expected by maplibre-gl, but this
+can be converted into the right mbtiles format using [[https://github.com/mapbox/rio-rgbify][rio-rgbify]]:
+
+#+begin_src sh
+rio rgbify --format webp --min-z 0 --max-z 16 \
+    gran-canaria.tiff gran-canaria.mbtiles
+#+end_src
+
+Note the max zoom setting ~--max-z~. Increasing this will dramatically increase the file
+size of the output. 16 is great, but even for a small island like this the file size
+will be large (176 MiB). I've found 14--15 a reasonable compromise.
+
+This can finally be converted into pmtiles using the pmtiles CLI:
+
+#+begin_src sh
+pmtiles convert gran-canaria.mbtiles gran-canaria.pmtiles
+#+end_src
+
+** Conclusion
+
+This almost certainly isn't the best way to do this and I don't really know what I'm
+doing. But it worked and I'm pleased. GIS data seems like a massive rabbit hole and
+there doesn't seem to be a great amount of easily-accessible information out there about
+it. But it's getting better. A few years ago I wouldn't have imagined I could do this
+without using a 3rd party service. But here it is on a static site!
+
 * DONE Git is a Version Control System                              :git:vcs:
 CLOSED: [2024-02-24 Sat 17:23]
 :PROPERTIES:
@@ -1045,6 +1175,8 @@ practice 90 days is probably more than long enough.
 Why are we still using paper-like calendars?
 
 Bit about Gutenberg press.
+
+#+hugo: {{<calendar>}}
 
 HN comments:
 
