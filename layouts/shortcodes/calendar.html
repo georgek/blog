@@ -1,0 +1,13 @@
+<div class="calendar" x-data="">
+  <table>
+    <template x-for="i in 10">
+      <tr>
+        <template x-for="i in 7">
+          <td>
+            <span class="day" x-text="i"></span>
+          </td>
+        </template>
+      </tr>
+    </template>
+  </table>
+</div>
