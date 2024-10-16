@@ -13,7 +13,7 @@ CLOSED: [2024-10-15 Tue 21:43]
 
 ** Introduction                                                      :ignore:
 
-In a [[/posts/hillshading-static-maps/][previous article]] I wrote about adding maps to my blog, which is a static site. I
+In a [[/posts/hugo-static-site-maps/][previous article]] I wrote about adding maps to my blog, which is a static site. I
 use these maps to write about walks I've done. These maps can be dragged, rotated and
 zoomed, but there is no backend tileserver supporting it, it all comes from a single
 static file. This is thanks to the PMTiles format and support by the frontend renderer
@@ -113,18 +113,44 @@ but the tiff currently isn't in quite the right format expected by maplibre-gl, 
 can be converted into the right mbtiles format using [[https://github.com/mapbox/rio-rgbify][rio-rgbify]]:
 
 #+begin_src sh
-rio rgbify --format webp --min-z 0 --max-z 16 \
+rio rgbify --format webp --min-z 0 --max-z 14 \
     gran-canaria.tiff gran-canaria.mbtiles
 #+end_src
 
-Note the max zoom setting ~--max-z~. Increasing this will dramatically increase the file
-size of the output. 16 is great, but even for a small island like this the file size
-will be large (176 MiB). I've found 14--15 a reasonable compromise.
+Note the max zoom setting ~--max-z~. Increasing this will dramatically increase both the
+processing time and the file size of the output. 16 is great, but even for a small
+island like this the file size will be large (176 MiB). I've found 14--15 a reasonable
+compromise.
 
 This can finally be converted into pmtiles using the pmtiles CLI:
 
 #+begin_src sh
 pmtiles convert gran-canaria.mbtiles gran-canaria.pmtiles
+#+end_src
+
+At this point it's easy to add the source and layer to maplibre-gl:
+
+#+begin_src js
+map.addSource("relief", {
+    type: "raster-dem",
+    url: `pmtiles://${e.dataset.reliefTilesUrl}`,
+    encoding: "mapbox",
+    tileSize: 512,
+    attribution: '<a href="https://sonny.4lima.de/">Sonny</a>',
+});
+map.addLayer(
+    {
+        id: "relief",
+        source: "relief",
+        type: "hillshade",
+        paint: {
+            "hillshade-accent-color": "#004400",
+            "hillshade-highlight-color": "#ddffdd",
+            "hillshade-exaggeration": 1,
+        },
+    },
+    "water",
+);
 #+end_src
 
 ** Conclusion
