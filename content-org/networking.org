@@ -6,6 +6,152 @@
 #+html_container_nested: t
 
 
+* DONE Talos Linux on XCP-ng                         :k8s:devops:linux:xcpng:
+CLOSED: [2024-11-09 Sat 16:19]
+:PROPERTIES:
+:EXPORT_FILE_NAME: talos-linux-xcp-ng
+:END:
+
+** Introduction                                                      :ignore:
+
+Talos Linux is a minimal Linux distribution designed purely for running Kubernetes
+nodes. It's pretty neat, check out its website here: https://www.talos.dev/
+
+I use XCP-ng in my homelab for running virtual machines and decided to set up a Talos
+cluster there. I followed the excellent [[https://www.talos.dev/v1.8/introduction/getting-started/][Getting Started guide]] but there are a few
+additional things I wanted to do right from the start:
+
+1. Have the Xen Guest Tools (aka Xen Guest Utilities,
+   xe-guest-utilities. xen-guest-agent etc.) installed on the nodes,
+2. Have static IP addresses.
+
+I also had to configure the installation disk as mentioned in the guide, to ~/dev/xvda~.
+
+** Xen Guest Tools
+
+Before configuring your nodes, you need to create a custom installation image. This
+sounds really daunting, but actually it couldn't be simpler!
+
+The way it works is you boot from the standard bare metal installation image, like
+metal-amd64, but then you provide an installation image to Talos as a configuration
+option (by default it's the same image you booted from).
+
+To create a custom image, go to the [[https://factory.talos.dev/][Talos Image Factory]] and follow the instructions. You
+want a bare metal image, latest version of Talos, and amd64 architecture. The important
+part is the System Extensions step. Search for "xen" and you'll find
+~siderolabs/xen-guest-agent~. Tick this extension and click next.
+
+At the end you'll see a bunch of links to your custom image. Copy the "Initial Install"
+link like
+~factory.talos.dev/installer/53b20d86399013eadfd44ee49804c1fef069bfdee3b43f3f3f5a2f57c03338ac:v1.8.2~.
+Put this into your ~controlplane.yaml~ and ~worker.yaml~ under ~machine.install.image~
+before you run ~talosctl apply-config~.
+
+Alternatively, if you haven't yet generated the configs, you can include the image in
+them by default:
+
+#+begin_src sh
+talosctl gen config talos-cluster https://<controlplane_addr>:6443 \
+         --install-image factory.talos.dev/installer/53b20d86399013eadfd44ee49804c1fef069bfdee3b43f3f3f5a2f57c03338ac:v1.8.2
+#+end_src
+
+** Static IP addresses
+
+By default Talos will use DHCP and give each node a random hostname. This might well be
+all you need if you register DHCP leases in your DNS server. There's not really any need
+to use IP addresses if you use DNS. But I still like to set a static network config for
+servers. Call it an old habit.
+
+If you have an IP address in mind for a single controlplane node you can go ahead and
+use this IP address in configs before you actually configure any nodes with that IP
+address. It will all sort itself out later.
+
+To make this easier I first disabled [[https://www.talos.dev/v1.8/talos-guides/network/predictable-interface-names/][predictable interface names]]. This is the setting
+that gives interfaces names like ~enx78e7d1ea46da~. To do this, when booting the ISO
+edit the Linux command line by pressing ~e~ at the GRUB menu. Add the option
+~net.ifnames=0~ somewhere on the Linux command.
+
+Now, when a node is booted, check the IP address it got from DHCP using Talos's handy
+VGA console (e.g. ~192.168.2.6~). You can now check its network interfaces like so:
+
+#+begin_src sh
+talosctl get links --insecure --nodes 192.168.2.6
+#+end_src
+
+It should just have something like ~eth0~ now.
+
+Now prepare patch files for each node. These will get applied after you configure the
+node with either ~controlplane.yaml~ or ~worker.yaml~:
+
+#+begin_src yaml
+machine:
+  network:
+    hostname: <your-hostname>
+    interfaces:
+      - interface: eth0
+        addresses:
+          - <ip_address e.g. 192.168.8.1/16>
+        routes:
+          - network: 0.0.0.0/0
+            gateway: <your_router>
+    nameservers:
+      - <your_nameserver>
+#+end_src
+
+Apply each node's patch like so:
+
+#+begin_src sh
+talosctl patch mc --talosconfig talosconfig -e <controlplane_addr> -n <node_addr> \
+         --patch-file patches/your-hostname.yaml
+#+end_src
+
+You should see the network configuration update immediately.
+
+Note for updating controlplane nodes you can use any controlplane node as the ~-e~
+parameter, including itself. Remember that once you configure a controlplane to update
+the address in your ~-e~ option for subsequent patches!
+
+** Conclusion
+
+All in all I found it incredibly easy to bootstrap a cluster using Talos on XCP-ng. The
+only thing I found confusing was how the extensions worked, but it all made sense once I
+discovered the Image Factory.
+
+In writing this up I realise that the static network config part is probably
+unnecessary. Perhaps in a future cluster I'll experiment with using DHCP and not
+worrying about IP addresses at all.
+
+Happy scheduling!
+
+* TODO NAT is not a Firewall
+:PROPERTIES:
+:EXPORT_FILE_NAME: nat-not-a-firewall
+:END:
+
+** Introduction                                                      :ignore:
+
+Network Address Translation (NAT) is ubiquitous on the internet today, but it wasn't
+supposed to be this way. It's been possible for a couple of decades now to "upgrade" the
+internet and restore its original design, but this requires the cooperation of thousands
+of companies with conflicting interests. It's a dream of many, but one that seems
+forever distant.
+
+But a funny thing seems to have happened: some people have been conditioned to expect
+NAT and think the prospect of a real internet is scary. I think this comes down to not
+understanding what a firewall is. A firewall is a good thing to have, but NAT is not a
+firewall.
+
+** What is the Internet?
+
+The internet is a single global network capable of connecting any computer in the world
+to any other computer. When you connect a computer to the internet in the UK it is
+immediately capable of low latency communication with any computer currently online in
+Australia, the USA, India, even Antarctica. All you require is a cheap local ISP, and
+the internet takes care of the rest. It's quite remarkable and worth reflecting on how
+well it works.
+
+This is all enabled by a suite of protocols called the Internet Protocol suite.
+
 * DONE Kubernetes Ingress vs Load Balancer                       :k8s:devops:
 CLOSED: [2024-08-06 Tue 21:10]
 :PROPERTIES:
