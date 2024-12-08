@@ -5,9 +5,481 @@
 #+html_container: section
 #+html_container_nested: t
 
-* TODO The Point of a Test is to Fail
+* DONE Clean Domain Models with SQLAlchemy   :python:sqlalchemy:sql:databases:
+CLOSED: [2024-12-08 Sun 21:42]
 :PROPERTIES:
-:EXPORT_FILE_NAME: point-of-test-is-to-fail
+:EXPORT_FILE_NAME: clean-domain-models-sqlalchemy
+:END:
+
+** Introduction                                                      :ignore:
+
+One of the most tried and tested techniques in programming is to build components that
+map closely to the real-world problems you are trying to solve. In [[https://en.wikipedia.org/wiki/Domain-driven_design][domain-driven design]]
+(DDD), one of the key tenets is to have a /domain model/ at the centre of your
+application.
+
+The domain model should be built in close collaboration with domain experts and,
+crucially, should consist purely of high-level domain logic and be completely free of
+low-level application logic like databases, GUIs, web frameworks etc.
+
+For example, a publishing system might have an action called "publish" that makes sense
+to all domain experts. An /implementation/ might ultimately be as simple as a SQL
+~UPDATE~ on a table setting ~is_published=true~, but the domain model should not be
+polluted with such details. "Publish" is part of the domain model; ~UPDATE~ is not.
+
+Let's look at how we can use SQLAlchemy to handle database persistence of domain objects
+without polluting our domain model.
+
+** A domain model
+
+The domain model is the heart of our application, so it makes sense to start with that.
+
+#+begin_src python
+class TodoList:
+
+    def __init__(self, name: str, items: list[str]):
+        self.name = name
+        self.items = items
+
+    def add_to_bottom(self, item: str) -> None:
+        self.items.append(item)
+
+    def add_to_top(self, item: str) -> None:
+        self.items.insert(0, item)
+
+    def get_first_item(self) -> str | None:
+        if self.items:
+            return self.items[0]
+        return None
+
+    @property
+    def hashed_name(self) -> str:
+        m = hashlib.sha256()
+        m.update(self.name.encode())
+        return m.hexdigest()
+#+end_src
+
+There are a few things to note about this ~TodoList~:
+
+1. It has a simple attribute ~name~,
+2. It has a complex attribute ~items~, this is a ~list~ of ~str~. Being a list means it
+   is *ordered*,
+3. It has an invariant property ~hashed_name~ which is always the sha256 hash of ~name~.
+
+But, more importantly, note that this has absolutely no logic concerning databases or
+persistence in any way.
+
+Now let's use SQLAlchemy to persist these ~TodoList~ objects in a database. The goal is
+to *not touch the domain model at all*. We are going to build a layer of application
+logic which does not concern the domain experts and therefore it should not be part of
+the domain model.
+
+** Simple fields
+
+Let's start with the simple attribute ~name~. We can easily define a database table that
+has the single field ~name~, along with a database generated ~id~ column. Note that this
+column is not part of our domain model, but is useful to generate anyway. The following
+describes a database table using SQLAlchemy:
+
+#+begin_src python
+from sqlalchemy import Column, Integer, String, Table
+from sqlalchemy.orm import registry
+
+mapper_registry = registry()
+
+todo_lists = Table(
+    "todo_lists",
+    mapper_registry.metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("name", String(), unique=True, nullable=False),
+)
+#+end_src
+
+We now tell SQLAlchemy to map this table to our domain class:
+
+#+begin_src python
+mapper_registry.map_imperatively(TodoList, todo_lists)
+#+end_src
+
+By default SQLAlchemy maps columns names to attribute names, but you can tell it to do
+otherwise (as we will later). What we've just set up is an /object-relational mapping/
+(ORM). SQLAlchemy will map data to/from relations (in a SQL database) and object (in our
+application).
+
+Now we can persist an object in a database, but only the ~name~ field is saved:
+
+#+begin_src python
+engine = create_engine("sqlite:///test.db", echo=True)
+mapper_registry.metadata.drop_all(engine)
+mapper_registry.metadata.create_all(engine)
+
+# construct domain object
+my_list = TodoList("my_list", ["one", "two", "three"])
+
+# save in database
+with Session(engine) as s:
+    s.add(my_list)
+    s.commit()
+
+# retrieve from database
+with Session(engine) as s:
+    l = s.get(TodoList, 1)
+
+l.name    # => "my_list"
+l.items   # => AttributeError
+#+end_src
+
+Now let's look at how to save the ~items~ field.
+
+** Complex fields
+
+The ~items~ attribute of ~TodoList~ is complex: it is made up of multiple parts. In
+addition, it encodes important domain semantics, namely it is an /ordered/ list.
+
+Some databases, like Postgres, support many complex field types, including arrays, which
+would fit our purpose here quite nicely. But if we don't want to rely on a particular
+database implementation we have to do something else.
+
+In SQL the way to handle this is to use foreign keys and joins. What we need is another
+table containing the todo items which has a foreign key to a todo list. That's easy
+enough:
+
+#+begin_src python
+todo_items = Table(
+    "todo_items",
+    mapper_registry.metadata,
+    Column("list_id", ForeignKey("todo_lists.id"), primary_key=True),
+    Column("item_name", String(), primary_key=True),
+)
+#+end_src
+
+Now, we need to create a class for SQLAlchemy to map to. This class won't be part of our
+domain model, it exists purely so that SQLAlchemy can do its thing:
+
+#+begin_src python
+@dataclass
+class TodoListItem:
+    item_name: str
+    list_id: int | None = None
+
+mapper_registry.map_imperatively(TodoListItem, todo_items)
+#+end_src
+
+Note the ~list_id~ is optional because we won't have a value for this when we construct
+a new ~TodoList~.
+
+At this point, SQLAlchemy knows how to map this new ~TodoListItem~ class to the table
+~todo_items~, but we don't want to use this class directly, we want to go through our
+domain model. We need to tell SQLAlchemy how to handle this relationship by updating the
+mapping for ~TodoList~:
+
+#+begin_src python
+mapper_registry.map_imperatively(
+    TodoList, todo_lists,
+    properties={
+        "_items": relationship(
+            TodoListItem,
+            cascade="all, delete-orphan",
+            lazy="selectin",
+        ),
+    },
+)
+#+end_src
+
+This doesn't quite do what we want, this would map an attribute ~_items~ on our domain
+model to those ~TodoListItem~ objects, which are not part of our domain model at
+all. What we want is to extract just the ~item_name~ from the related table and map
+those to our ~TodoList.items~ list. We can do that with an ~association_proxy~:
+
+#+begin_src python
+from sqlalchemy.ext.associationproxy import association_proxy
+
+TodoList.items = association_proxy("_items", "item_name")
+#+end_src
+
+Now we can persist the items:
+
+#+begin_src python
+engine = create_engine("sqlite:///test.db", echo=True)
+mapper_registry.metadata.drop_all(engine)
+mapper_registry.metadata.create_all(engine)
+
+# construct domain object
+my_list = TodoList("my_list", ["one", "two", "three"])
+
+# save in database
+with Session(engine) as s:
+    s.add(my_list)
+    s.commit()
+
+# retrieve from database
+with Session(engine) as s:
+    l = s.get(TodoList, 1)
+
+l.name    # => "my_list"
+l.items   # => ['one', 'three', 'two']
+#+end_src
+
+But hold on, what is going on with the order?! This is because we are still missing an
+important part of the database representation. Not only are we forced to have separate
+tables and foreign keys, we also must handle the order ourselves. SQL databases are
+strictly unordered, unless an order is specified.
+
+First let's amend our ~todo_items~ table to add a position:
+
+#+begin_src python
+todo_items = Table(
+    "todo_items",
+    mapper_registry.metadata,
+    Column("list_id", ForeignKey("todo_lists.id"), primary_key=True),
+    Column("item_name", String(), primary_key=True),
+    Column("position", Integer()),
+)
+#+end_src
+
+We should also add this to our ~TodoListItem~ class:
+
+#+begin_src python
+@dataclass
+class TodoListItem:
+    item_name: str
+    list_id: int | None = None
+    position: int | None = None
+#+end_src
+
+Now we can tell SQLAlchemy to order the relation by specifying
+~order-by="TodoListItem.position"~ but how do we write those positions in the first
+place? Fortunately there is special collection type called ~ordering_list~ which will
+handle this for us:
+
+#+begin_src python
+mapper_registry.map_imperatively(
+    TodoList, todo_lists,
+    properties={
+        "_items": relationship(
+            TodoListItem,
+            order_by="TodoListItem.position",
+            collection_class=ordering_list("position"),
+            cascade="all, delete-orphan",
+            lazy="selectin",
+        ),
+    },
+)
+#+end_src
+
+Now when we write an object to the database, ~ordering_list~ will automatically fill in
+the ~position~ column for us according to the order of the list in the domain
+object. When we retrieve an object from the database the list will be ordered according
+to those ~positions~ again.
+
+We've now managed to persist a complex field in the database without polluting our
+domain model with anything at all. As it happens we needed to create a new table, a
+foreign key and an ordering column, but our domain model is none the wiser! It's still
+just a list.
+
+Next let's see how we can persist that generated ~hashed_name~ field in the database.
+
+** Generated fields
+
+Our domain model has an invariant: the ~hashed_name~ is always the sha256 of the
+~name~. If we want to be able to search for this hash efficiently we will need to
+persist it in the database. What we'd like is to write this field to the database when
+the object is created or updated.
+
+First, let's add it to the table definition:
+
+#+begin_src python
+todo_lists = Table(
+    "todo_lists",
+    mapper_registry.metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("name", String(), unique=True, nullable=False),
+    Column(
+        "hashed_name", String(), index=True, nullable=False, key="_hashed_name"
+    ),
+)
+#+end_src
+
+Note we set ~key="_hashed_name"~. This causes SQLAlchemy to map it to/from a hidden
+field on model ~_hashed_name~, rather than try to set the property, which it can't.
+
+In order to update this value according to our domain model we can set some triggers:
+
+#+begin_src python
+@event.listens_for(TodoList, "before_insert")
+@event.listens_for(TodoList, "before_update")
+def populate_hashed_name(mapper, connection, target):
+    target._hashed_name = target.hashed_name
+#+end_src
+
+Now we can persist the whole thing and retrieve by hash:
+
+#+begin_src python
+engine = create_engine("sqlite:///test.db", echo=True)
+mapper_registry.metadata.drop_all(engine)
+mapper_registry.metadata.create_all(engine)
+
+# construct domain object
+my_list = TodoList("my_list", ["one", "two", "three"])
+
+# save in database
+with Session(engine) as s:
+    s.add(my_list)
+    s.commit()
+
+# retrieve from database
+with Session(engine) as s:
+    result = s.execute(select(TodoList).where(
+        TodoList._hashed_name == "495a613093452715b9989b8233829836804bce4c1f95e221f86da526ea93281b"
+    ))
+    for obj in result.scalars():
+        print(obj.name)         # => 'my_list'
+#+end_src
+
+** Conclusion
+
+So now we are able to persist our domain model fully into the database. SQLAlchemy does
+its job as an ORM to make this mapping complete. From the point of view of our domain
+model the ~TodoList~ is just a Python class and the business rules can be expressed and
+tested in regular Python code.
+
+The full code is here:
+
+#+begin_src python
+from dataclasses import dataclass
+import hashlib
+
+from sqlalchemy import (
+    Column,
+    ForeignKey,
+    Integer,
+    String,
+    Table,
+    create_engine,
+    event,
+)
+from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.orderinglist import ordering_list
+from sqlalchemy.orm import registry, relationship
+
+# --- Domain ---
+
+class TodoList:
+    """The domain model for a todo list"""
+
+    def __init__(self, name: str, items: list[str]):
+        self.name = name
+        self.items = items
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, TodoList) and self.name == other.name:
+            return True
+        return False
+
+    def __hash__(self) -> int:
+        return hash(self.name)
+
+    def add_to_bottom(self, item: str) -> None:
+        self.items.append(item)
+
+    def add_to_top(self, item: str) -> None:
+        self.items.insert(0, item)
+
+    def get_first_item(self) -> str | None:
+        if self.items:
+            return self.items[0]
+        return None
+
+    @property
+    def hashed_name(self) -> str:
+        m = hashlib.sha256()
+        m.update(self.name.encode())
+        return m.hexdigest()
+
+
+# --- ORM stuff ---
+
+mapper_registry = registry()
+
+todo_lists = Table(
+    "todo_lists",
+    mapper_registry.metadata,
+    Column("id", Integer, primary_key=True, autoincrement=True),
+    Column("name", String(), unique=True, nullable=False),
+    Column("hashed_name", String(), index=True, nullable=False, key="_hashed_name"),
+)
+
+todo_items = Table(
+    "todo_items",
+    mapper_registry.metadata,
+    Column("list_id", ForeignKey("todo_lists.id"), primary_key=True),
+    Column("item_name", String(), primary_key=True),
+    Column("position", Integer()),
+)
+
+@dataclass
+class TodoListItem:
+    item_name: str
+    list_id: int | None = None
+    position: int | None = None
+
+mapper_registry.map_imperatively(TodoListItem, todo_items)
+
+mapper_registry.map_imperatively(
+    TodoList, todo_lists,
+    properties={
+        "_items": relationship(
+            TodoListItem,
+            order_by="TodoListItem.position",
+            collection_class=ordering_list("position"),
+            cascade="all, delete-orphan",
+            lazy="selectin",
+        ),
+    },
+)
+
+TodoList.items = association_proxy("_items", "item_name")
+
+@event.listens_for(TodoList, "before_insert")
+@event.listens_for(TodoList, "before_update")
+def populate_hashed_name(mapper, connection, target):
+    target._hashed_name = target.hashed_name
+#+end_src
+
+In an ORM like Django, we would be forced to bend our model to the needs of the
+database, like having a foreign key relationship for ~items~, and would have to pollute
+our model with ORM specific stuff like column types etc. When it comes to testing, you
+end up needing a database the moment you have a relationship (or the complex field in
+our example).
+
+Alternatively we could consider Django models to be just database tables and manually
+map them to domain models ourselves. But in that case we'd also have to implement the
+unit of work pattern ourselves and track the changes to each object so we know which
+ones to update. But isn't that what the ORM is for? Django seems to only do half the
+job. SQLAlchemy does this for us, of course.
+
+One thing you might be wondering is whether it's true that SQLAlchemy didn't touch the
+domain model. What are those ~_items~ and ~_hashed_name~ attributes? And what about this
+~_sa_instance_state~ that you'll see on instances from the db? SQLAlchemy does indeed
+dynamically modify the instances to keep track of changes and implement some of the
+magic. You do have to take care when setting up the mapping, but it should always be the
+mapping that bends to the needs of the domain model, not the other way around.
+
+If done properly the mapping won't affect the way the domain model operates in any
+way. You could instantiate an instance either via SQLAlchemy or its ~__init__~ method,
+or perhaps by a special test repository that doesn't use a database. It will all be the
+same. But that doesn't mean an end-to-end test or two wouldn't be appropriate.
+
+Finally, I did wonder about using a ~deque~ for the ~items~ instead of a ~list~. After
+all, ~self.items.insert(0, item)~ is not an efficient operation for a list (nor would a
+~pop_first_item~ method, for example). Using a ~deque~ isn't quite so easy. SQLAlchemy
+includes the machinery for ~list~, ~set~ and ~dict~, but you would have to provide your
+own ~proxy_factory~ argument to ~association_proxy~ to use other collections. This is
+possible, though, if you need it.
+
+* TODO A Test Needs to Fail
+:PROPERTIES:
+:EXPORT_FILE_NAME: a-test-needs-to-fail
 :END:
 
 ** Introduction                                                      :ignore:
@@ -58,7 +530,7 @@ all!
 
 
 
-[fn:1] https://git-scm.com/docs/git-stash 
+[fn:1] https://git-scm.com/docs/git-stash
 
 [fn:2] https://www.youtube.com/watch?v=IN9lftH0cJc
 
@@ -91,7 +563,7 @@ it was doing underneath and was very happy to let it take the drudgery out of bu
 CRUD applications.
 
 Later I would join a company that used Django heavily for business software that handled
-day to day operations. I didn't even know this when I joined the company so I jumped on 
+day to day operations. I didn't even know this when I joined the company so I jumped on
 
 ** Django models are not models
 
