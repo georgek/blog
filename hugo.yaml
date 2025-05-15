@@ -2,8 +2,10 @@ title: gpk blog
 baseURL: https://blog.gpkb.org/
 languageCode: en-gb
 theme: poison
-paginate: 10
 pluralizeListTitles: false
+
+pagination:
+  pagerSize: 10
 
 params:
   brand: gpk blog
