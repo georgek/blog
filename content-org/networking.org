@@ -6,6 +6,110 @@
 #+html_container_nested: t
 
 
+* DONE Automating Metabase Upgrades on Kubernetes with Flux :k8s:devops:metabase:
+CLOSED: [2025-05-27 Tue 21:04]
+:PROPERTIES:
+:EXPORT_FILE_NAME: automate-metabase-flux
+:END:
+
+** Introduction                                                      :ignore:
+
+[[https://github.com/metabase/metabase][Metabase]] is a really nice free software business intelligence tool. It's quite easy to
+deploy; they provide a [[https://hub.docker.com/r/metabase/metabase][Docker image]] and all you really need for a production instance is
+your own database.
+
+I use [[https://fluxcd.io/][Flux]] to manage my cluster so I thought it would be nice to utilise
+[[https://fluxcd.io/flux/components/image/][image update automation]] to keep up to date
+with updates automatically. But Metabase makes this slightly difficult because it
+doesn't use proper semantic versioning on the image tags.
+
+Normally one would write an ~ImagePolicy~ like the following to pick up all minor and
+patch releases on the ~54~ major version:
+
+#+begin_src yaml
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: metabase
+spec:
+  imageRepositoryRef:
+    name: metabase
+  policy:
+    semver:
+      range: "54.x"
+#+end_src
+
+Metabase's [[https://www.metabase.com/docs/latest/developers-guide/versioning][versioning scheme]] is described as loosely like semver with the major
+difference being they prepend a ~0.~ to the beginning to indicate it's the OSS version
+of the software. So rather than ~v54.7.2~ it's ~v0.54.7.2~.
+
+This is no problem because Flux supports a ~pattern~ and ~extract~ allowing you to write
+a regular expression and extract parts of the tag representing the semver, like so:
+
+#+begin_src yaml
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: metabase
+spec:
+  imageRepositoryRef:
+    name: metabase
+
+  filterTags:
+    pattern: '^v0.(?P<version>.*)$'
+    extract: '$version'
+
+  policy:
+    semver:
+      range: "54.x"
+#+end_src
+
+This would take ~v0.54.7.2~ and extract ~54.7.2~. Perfect.
+
+But there is another problem: for some reason the first release of each minor version is
+not tagged the same. Instead of ~v0.54.8.0~ it gets tagged simply as ~v0.54.8~ which
+would be turned into ~54.8~ by the above and not parsed correctly as semver.
+
+This took a lot more head scratching. We need to somehow append an extra ~.0~ to the end
+of the version in case we find a "degenerate" semver like ~54.8~. The problem with
+regexp is we can't generate anything that isn't there in the string we are matching
+against; there's no default if no match is found for a group. But luckily there is both
+a dot and a zero in the tag for us to use. So behold the following monstrosity:
+
+#+begin_src yaml
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: metabase
+spec:
+  imageRepositoryRef:
+    name: metabase
+
+  filterTags:
+    pattern: '(^v(?P<patch>0)(?P<dot>\.)(?P<majorminor>\d+\.\d+)$)|(^v0\.(?P<majorminorpatch>\d+\.\d+\.\d+)$)'
+    extract: '$majorminor$dot$patch$majorminorpatch'
+
+  policy:
+    semver:
+      range: "54.x"
+#+end_src
+
+This now works for both full patch level versions like ~v0.54.7.2~ and the degenerate
+versions like ~v0.54.8~. Hope this helps someone.
+
+* TODO Why Can't my Pod Access the Kubernetes API?
+:PROPERTIES:
+:EXPORT_FILE_NAME: pod-no-k8s-api-access
+:END:
+
+** Introduction                                                      :ignore:
+
+After a cluster upgrade recently I noticed the Daemonset for [[https://github.com/kubernetes/ingress-nginx][ingress-nginx]] had not
+rolled out properly. Looking into it, the pod on one of the nodes was never becoming
+ready and eventually being restarted.
+
+
+
 * DONE Talos Linux on XCP-ng                         :k8s:devops:linux:xcpng:
 CLOSED: [2024-11-09 Sat 16:19]
 :PROPERTIES:
