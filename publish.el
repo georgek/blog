@@ -33,6 +33,10 @@
 (require 'ox-hugo)                      ; my patched version of ox-hugo is used
 (ox-extras-activate '(ignore-headlines))
 
+;;; Assume published timestamps etc. are in local time. A better solution would be to
+;;; include time zone with org timestamps, but I don't know how to do that.
+(set-time-zone-rule "Europe/London")
+
 (defun gpk-publish-all ()
   "Publish all content files"
   (message "Publishing from emacs...")
