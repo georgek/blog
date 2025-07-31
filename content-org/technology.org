@@ -3,7 +3,7 @@
 #+hugo_base_dir: ../
 #+hugo_categories: Technology
 
-* DONE Just Send Me the Prompt
+* DONE Just Send Me the Prompt                                       :llm:ai:
 CLOSED: [2025-07-31 Thu 09:41]
 :PROPERTIES:
 :EXPORT_FILE_NAME: just-send-me-the-prompt
