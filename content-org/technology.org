@@ -19,7 +19,7 @@ The technique goes as follows:
 2. (Here's where it gets really exciting), instead of sending your prompt to an LLM,
    just send the prompt directly to me!
 
-"What?" I hear you asking, "My prompt doesn't contain all the information you need!"
+"What?" I hear you crying, "My prompt doesn't contain all the information you need!"
 
 But it does. You can't create information from thin air and I too have access to LLMs.
 If I want to bloat your information a hundred fold by incorporating generic drivel I can
