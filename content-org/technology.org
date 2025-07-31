@@ -3,6 +3,57 @@
 #+hugo_base_dir: ../
 #+hugo_categories: Technology
 
+* DONE Just Send Me the Prompt
+CLOSED: [2025-07-31 Thu 09:41]
+:PROPERTIES:
+:EXPORT_FILE_NAME: just-send-me-the-prompt
+:END:
+
+If you are thinking about using an LLM to communicate with me, you will be glad to hear
+I've just developed an exciting new technique which will save us both time. Rarely are
+such wins possible, so this is surely cause for a celebration.
+
+The technique goes as follows:
+
+1. Type up your LLM prompt,
+2. (Here's where it gets really exciting), instead of sending your prompt to an LLM,
+   just send the prompt directly to me!
+
+"What?" I hear you asking, "My prompt doesn't contain all the information you need!"
+
+But it does. You can't create information from thin air and I too have access to LLMs.
+If I want to bloat your information a hundred fold by incorporating generic drivel I can
+do it myself. I could even do it using the LLM of my choice and tweak the prompt to make
+it more or less verbose.
+
+However, we are barely scratching the surface of what's possible here. Because, you see,
+/I won't even feed your prompt to an LLM at all!/
+
+OK, I know this sounds insane but hear me out: I have the very same language processing
+capabilities built into my brain. An organic language model, you might say. It's even
+quite large, if I may be forgiven for boasting. I can understand a fair bit but,
+admittedly, I can't understand everything. Luckily I /also/ have circuits I've developed
+that tell me whether I really understand something or not.
+
+So what if I don't understand? What if your prompt is too terse? Too devoid of context?
+I could always fall back to feeding it to the LLM after all, but ultimately the LLM
+won't have any more information than what's the in prompt, it will just be guessing the
+details. So what then?
+
+This all depends on the medium of communication.
+
+If it's an email you've sent me, I will simply reply to you (sending you my prompt
+directly, of course) asking for clarification or more details. You can then amend your
+prompt as you would normally and send it back.
+
+If it's a published work such as a book or marketing literature then I'm more limited in
+my recourse and I will likely just leave a bad review or not buy your product etc.
+
+Either way, together we will learn to communicate clearly and effectively
+together. We'll learn to be clear and concise in our prompts and be fully aware of
+implicit context at all times. I believe it's called prompt engineering, but I prefer
+the older terminology: writing.
+
 * TODO My Eight Year Old PC
 :PROPERTIES:
 :EXPORT_FILE_NAME: my-eight-year-old-pc
