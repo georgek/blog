@@ -42,6 +42,9 @@ jobs:
       - name: Build
         run: make
 
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
