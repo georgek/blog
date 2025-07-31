@@ -612,9 +612,18 @@ class TodoListItem(models.Model):
     content = models.TextField()
 #+end_src
 
+What the hell is this? Foreign keys? Two classes? This is an insane way to model a todo
+list, but this is what we are forced to do in Django.
+
 Can't validate an aggregate before saving it to the database.
 
+Can't test a model without having a database. I can't instantiate a ~TodoList~, add some
+items to it, and run some tests. I am forced to persist it and the related objects into
+the database before I can test it.
+
 ** Django views are not views
+
+
 
 ** Django templates suck
 
