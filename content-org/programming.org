@@ -9,6 +9,7 @@
 CLOSED: [2024-12-08 Sun 21:42]
 :PROPERTIES:
 :EXPORT_FILE_NAME: clean-domain-models-sqlalchemy
+:EXPORT_HUGO_LASTMOD: [2025-08-04 Mon 09:27]
 :END:
 
 ** Introduction                                                      :ignore:
@@ -62,7 +63,7 @@ class TodoList:
 There are a few things to note about this ~TodoList~:
 
 1. It has a simple attribute ~name~,
-2. It has a complex attribute ~items~, this is a ~list~ of ~str~. Being a list means it
+2. It has a compound attribute ~items~ which is a list of strings. Being a list means it
    is *ordered*,
 3. It has an invariant property ~hashed_name~ which is always the sha256 hash of ~name~.
 
@@ -131,12 +132,12 @@ l.items   # => AttributeError
 
 Now let's look at how to save the ~items~ field.
 
-** Complex fields
+** Compound fields
 
-The ~items~ attribute of ~TodoList~ is complex: it is made up of multiple parts. In
+The ~items~ attribute of ~TodoList~ is compound: it is made up of multiple parts. In
 addition, it encodes important domain semantics, namely it is an /ordered/ list.
 
-Some databases, like Postgres, support many complex field types, including arrays, which
+Some databases, like Postgres, support many compound field types, including arrays, which
 would fit our purpose here quite nicely. But if we don't want to rely on a particular
 database implementation we have to do something else.
 
@@ -272,7 +273,7 @@ the ~position~ column for us according to the order of the list in the domain
 object. When we retrieve an object from the database the list will be ordered according
 to those ~positions~ again.
 
-We've now managed to persist a complex field in the database without polluting our
+We've now managed to persist a compound field in the database without polluting our
 domain model with anything at all. As it happens we needed to create a new table, a
 foreign key and an ordering column, but our domain model is none the wiser! It's still
 just a list.
@@ -449,7 +450,7 @@ def populate_hashed_name(mapper, connection, target):
 In an ORM like Django, we would be forced to bend our model to the needs of the
 database, like having a foreign key relationship for ~items~, and would have to pollute
 our model with ORM specific stuff like column types etc. When it comes to testing, you
-end up needing a database the moment you have a relationship (or the complex field in
+end up needing a database the moment you have a relationship (or the compound field in
 our example).
 
 Alternatively we could consider Django models to be just database tables and manually
