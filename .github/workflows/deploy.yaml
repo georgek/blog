@@ -12,13 +12,10 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      TZ: Europe/London
 
     steps:
-      - name: Set Timezone
-        uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: "Europe/London"
-
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -47,8 +44,8 @@ jobs:
       - name: Build
         run: make
 
-      # - name: Setup upterm session
-      #   uses: owenthereal/action-upterm@v1
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
 
       - name: Upload static files as artifact
         id: deployment
