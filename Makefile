@@ -5,7 +5,7 @@ all: build
 build:
 	cd content-org && emacs -L ../ox-hugo --batch -Q --load ../publish.el --funcall gpk-publish-all
 	tree -h content
-	hugo --logLevel debug --minify
+	hugo --logLevel debug --minify --buildFuture
 	tree -h public
 
 .PHONY: clean
