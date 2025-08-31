@@ -5,6 +5,185 @@
 #+html_container: section
 #+html_container_nested: t
 
+* DONE Think Twice about Boolean Fields in your Data Model :databases:sql:python:django:
+CLOSED: [2025-08-31 Sun 11:50]
+:PROPERTIES:
+:EXPORT_FILE_NAME: no-booleans-in-normalised-model
+:END:
+
+** Introduction                                                      :ignore:
+
+The SQL standard includes a ~boolean~ type which, unsurprisingly, represents a Boolean
+value. This can be useful, but I'm going to argue that it should almost never be used in
+a normalised data model.
+
+** The Problems with Boolean
+
+Here are few of the problems you'll inevitably run into if you use ~boolean~ in a
+normalised data model:
+
+*** It's not really binary
+
+So you're chatting to your domain expert and he says something like "books are either
+hardback or paperback". Something twigs in your mind: two options... binary... that's a
+Boolean! So you duly write:
+
+#+begin_src sql
+CREATE TABLE book (
+  ...
+  is_paperback BOOLEAN,
+  ...
+);
+#+end_src
+
+This might work, for now at least. But here's the thing: things in businesses or nature
+are very rarely binary. Even if it appears binary now it won't be long before some third
+option comes along. Biologists thought all flowering plants fit neatly into two
+categories (/monocots/ and /dicots/) for 250 years, but that is no longer the case. In my
+experience it takes far less time than 250 years for things to turn out to be non-binary
+in practice!
+
+*** It's not really independent
+
+You're chatting to another domain expert and she says "some of our products we ship
+ourselves, but all others are shipped by an external supplier directly to the
+consumer". So you think, OK, a ~boolean~ field ~is_shipped_internally~. Then to another
+engineer she says "some of our products require sign-off by a qualified professional"
+and he duly adds another ~boolean~ field ~requires_sign_off~. You end up with:
+
+#+begin_src sql
+CREATE TABLE book (
+  ...
+  is_shipped_internally BOOLEAN,
+  required_sign_off BOOLEAN,
+  ...
+);
+#+end_src
+
+
+Later you discover that for legal reasons /all/ products that require sign-off will be
+shipped externally, so now your data model allows an impossible value, namely something
+that's shipped internally and requires sign-off.
+
+*** It doesn't capture the real data
+
+This one can even crop up with purely internal details. Imagine a "task" model that
+captures the state of some internal task. It's very tempting to use ~boolean~ fields to
+capture things like ~is_started~, ~is_completed~ etc. But what if someone then asks
+/when/ was this task completed? You don't know. Using a ~boolean~ field has actually led
+to losing the real underlying data.
+
+** What to do Instead
+
+*** Use enums
+
+If there is a categorical property associated with your records, you can use an enum to
+model it. Postgres includes first-class support for [[https://www.postgresql.org/docs/current/datatype-enum.html][enumerated types]]; for other
+databases you might just need to use a ~varchar~ and control the values in software. In
+Postgres for the book example you might have:
+
+#+begin_src sql
+CREATE TYPE book_type AS ENUM ('hardback', 'paperback');
+
+CREATE TABLE book (
+  ...
+  book_type book_type,
+  ...
+);
+#+end_src
+
+In Django we would probably use a ~CharField~ with the ~choices~ option. It would be
+nice if it supported the Postgres ~enum~ but it doesn't seem to work out of the box.
+
+*** Use views or properties
+
+Boolean values exist and are incredibly common, but they are best thought of as answers
+to a question, also known as a *predicate*. For example, we could ask "is this book
+paperback?", which might be written in code as ~is_paperback(book)~.
+
+There are a couple of ways to support this. The first is in SQL itself, using views, for
+example:
+
+#+begin_src sql
+CREATE VIEW book_view AS
+  SELECT book_type = 'paperback' AS is_paperback,
+         book_type = 'hardback' AS is_hardback
+    FROM book;
+#+end_src
+
+Postgres will stop you writing a type like ~book_type = 'paperbac'~, by the way.
+
+You could also do this in your code, for example, in Django using a ~property~:
+
+#+begin_src python
+class Book(Model):
+
+    ...
+
+    @property
+    def is_paperback(self) -> bool:
+        return self.book_type == "paperback"
+#+end_src
+
+The lets you write code at a higher abstraction level without exposing the
+implementation of those properties.
+
+This also means you can enforce your invariant properties, like no book can be both
+internally shipped and require sign-off (strictly speaking the invariant here is
+~is_internal(b) ^ requires_signoff(b) = false~):
+
+#+begin_src python
+class Book(Model):
+
+    @property
+    def is_shipped_internally(self) -> bool:
+        return self.shipping_type == "internal"
+
+    @property
+    def requires_sign_off(self) -> bool:
+        return self.shipping_type == "external_with_sign_off"
+#+end_src
+
+It's easy to see that it's not possible for a book to be both internally shipped and
+requiring sign off.
+
+*** Dig deeper
+
+Once you think about deriving Boolean values from data using predicates, you'll often
+find there's some deeper data you could store instead of storing the Boolean
+directly. For example, instead of storing ~is_published~ as can store ~published_at~ as
+a timestamp. Now you can always derive ~is_published~ when you need it, but you've also
+captured some of the underlying data that feeds into this value. I find just by thinking
+twice before using ~boolean~ I'll often realise there's some deeper data I can record
+instead.
+
+** YAGNI?
+
+After all of this you might be thinking "You're Aren't Going to Need It" (YAGNI). Using
+a ~boolean~ is fine if it works, and if I ever need a third option I'll just write a
+migration. But here's the real problem: migrating from ~boolean~ to something else
+*sucks*. Furthermore, in the case of needing ~published_at~ it isn't even possible. Even
+if you could write the migration to, say, an enum type, this is a multi-stage process of
+walking out database migrations and code changes, or alternatively downtime. It's both
+tedious and laborious.
+
+On the other hand, using any of the above solutions instead of ~boolean~ costs you
+hardly anything. Even if there are only two options are there are only ever two options,
+was it really that difficult to write out those two options one time instead of using
+the built-in true/false values? No, it really isn't. Maybe a ~boolean~ is slightly
+faster to query than an enum, but you should only be thinking about such things if and
+when they become a problem. Premature optimisation is the root of all evil,
+remember. You can always denormalise your table into a materialised view if needed
+later.
+
+** Conclusion
+
+So in conclusion I would seriously consider just never using ~boolean~ in your
+normalised data models at all. I really struggle to think of times when it's the most
+appropriate field type but I've encountered countless times when it was
+inappropriate. It's still useful for denormalised (materialised) views or BI tables
+etc., just keep it out of your normalised models.
+
 * DONE Clean Domain Models with SQLAlchemy   :python:sqlalchemy:sql:databases:
 CLOSED: [2024-12-08 Sun 21:42]
 :PROPERTIES:
