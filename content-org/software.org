@@ -5,6 +5,99 @@
 #+html_container: section
 #+html_container_nested: t
 
+* DONE Run AI Agents in Lightweight Sandboxes                :ai:llm:sandbox:
+CLOSED: [2025-08-31 Sun 12:18]
+:PROPERTIES:
+:EXPORT_FILE_NAME: ai-agent-sandbox
+:END:
+
+** Introduction                                                      :ignore:
+
+Currently, "AI agents" like Claude Code are all the rage for software development.
+These programs facilitate feeding context into LLMs directly from your codebase and
+environment by empowering the LLM to read/write files and run arbitrary code on your
+system.
+
+If you're at all security conscious, the above should make you very uncomfortable. An
+intentionally non-deterministic model running arbitrary code and reading arbitrary
+files? No thanks. What's worse is programs like Claude Code are not even open source. As
+a rule I go to lengths to avoid proprietary software, but I decided to cave on Claude
+Code just to see what all the fuss is about.
+
+But there's no way I'm going to let it loose in my ~$HOME~.
+
+I've seen some talk online of running things inside Docker, but I feel like Docker is a
+pretty heavy solution when all we need is a sandbox. Fortunately there's a much more
+lightweight solution called [[https://github.com/containers/bubblewrap][bubblewrap]].
+
+** Installing Claude Code
+
+First of all we need to install Claude Code. The official installation method is to use
+~npm~, but I don't want to install this somewhere on my ~$PATH~, so instead you can
+simply install it at a different prefix:
+
+#+begin_src bash
+npm install --prefix ~/claude/ -g @anthropic-ai/claude-code
+#+end_src
+
+Now it's safely away in it's own root and can't be accidentally executed outside of a
+sandbox.
+
+** Using Bubblewrap
+
+By default running ~bwrap --new-session prog~ will run ~prog~ isolated from the rest of
+your system, so much so it probably won't be able to do anything useful. What you can
+then do is selectively enable the things it needs access to. For running Claude Code I
+have come up with the following:
+
+#+begin_src bash
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+bwrap --ro-bind /usr /usr \
+      --dir /tmp \
+      --dir /var \
+      --symlink ../tmp var/tmp \
+      --proc /proc \
+      --dev /dev \
+      --ro-bind /etc /etc \
+      --symlink usr/lib /lib \
+      --symlink usr/lib64 /lib64 \
+      --symlink usr/bin /bin \
+      --symlink usr/sbin /sbin \
+      --unshare-all \
+      --share-net \
+      --die-with-parent \
+      --new-session \
+      --dir /run/user/$(id -u) \
+      --setenv XDG_RUNTIME_DIR "/run/user/`id -u`" \
+      --setenv PS1 "bwrap-demo$ " \
+      --bind $HOME/claude /claude \
+      --ro-bind $HOME/.local /claude/.local \
+      --setenv HOME /claude \
+      --setenv PATH /claude/bin:/claude/.local/bin:$PATH \
+      --bind $(pwd) /work \
+      --chdir /work \
+      claude $@
+#+end_src
+
+This gives the process read-only access to bits of my system like ~/usr/bin~ etc. (so it
+can run commands), network access, read/write access to its own home directory at
+~$HOME/claude~ (which if you recall is also where I installed ~claude~ using ~npm~),
+sets some env vars like ~$PATH~, and finally gives read/write access to the current
+directory. The intention is you would run this from the root of a project directory,
+like you would normally.
+
+** Conclusion
+
+I find it a lot more pleasing to be able to write a simple script like this to sandbox
+programs without having to write pointless Dockerfiles everywhere. The way Docker works
+isn't magic and quite often you don't really need everything it has to offer. Bubblewrap
+is a great tool to have in the toolbox. In this case the ~$HOME/claude~ directory is
+analogous to a persistent Docker volume and our use of ~bwrap~ equivalent to a ~docker
+run --rm~.
+
 * DONE Hillshading on my Static Maps                          :maps:blog:gis:
 CLOSED: [2024-10-15 Tue 21:43]
 :PROPERTIES:
