@@ -54,7 +54,7 @@ any super long days, so we decided to do it in 7 days.
 
 # to get points: grep trkpt day1.gpx | head -1 | sed 's/.*lat="\([0-9.-]*\)" lon="\([0-9.-]*\)".*/\2:\1/'
 
-#+hugo: {{<map main-map=true bearing=270 tiles-url="/whw/whw.pmtiles" relief-url="/whw/whw-relief.pmtiles" tracks="/whw/trk/day1.gpx,/whw/trk/day2.gpx,/whw/trk/day3.gpx,/whw/trk/day4.gpx,/whw/trk/day5.gpx,/whw/trk/day6.gpx,/whw/trk/day7.gpx,/whw/trk/day8.gpx,/whw/trk/day9.gpx" points="-4.317885115742683:55.94149366021156,-4.452222799882293:56.06590616516769,-4.642188074:56.159632858,-4.722019834:56.328580426,-4.712647442:56.438099965,-4.8273109551519156:56.63285189308226,-4.962930651381612:56.713714711368084,-5.067570162937045:56.80027504451573" bounds="-5.114230,55.941364,-4.317883,56.821757" max-bounds="-5.214230,55.841364,-4.217883,56.921757">}}
+#+hugo: {{<map main-map=true bearing=270 tiles-url="/whw/whw.pmtiles.gz" relief-url="/whw/whw-relief.pmtiles.gz" tracks="/whw/trk/day1.gpx,/whw/trk/day2.gpx,/whw/trk/day3.gpx,/whw/trk/day4.gpx,/whw/trk/day5.gpx,/whw/trk/day6.gpx,/whw/trk/day7.gpx,/whw/trk/day8.gpx,/whw/trk/day9.gpx" points="-4.317885115742683:55.94149366021156,-4.452222799882293:56.06590616516769,-4.642188074:56.159632858,-4.722019834:56.328580426,-4.712647442:56.438099965,-4.8273109551519156:56.63285189308226,-4.962930651381612:56.713714711368084,-5.067570162937045:56.80027504451573" bounds="-5.114230,55.941364,-4.317883,56.821757" max-bounds="-5.214230,55.841364,-4.217883,56.921757">}}
 
 There are many options when it comes to accommodation and supplies. Many people carry a
 tent and camp along the way which provides the ultimate flexibility for splitting up
@@ -285,7 +285,7 @@ trodden paths with some slower sections on sandy and shingle beaches (but you ca
 choose to walk inland on firmer ground instead). Fortunately there are no pebbles and
 the shingles didn't become too tiring.
 
-#+hugo: {{<map main-map=true tiles-url="/ncp/ncp.osm.pmtiles" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
+#+hugo: {{<map main-map=true tiles-url="/ncp/ncp.osm.pmtiles.gz" tracks="/ncp/trk/day1.gpx,/ncp/trk/day2.gpx,/ncp/trk/day3.gpx,/ncp/trk/day4.gpx,/ncp/trk/day5.gpx,/ncp/trk/day6.gpx,/ncp/trk/day7.gpx" points="0.4887009970843792:52.94428450986743,0.6836324650794268:52.96570463106036,0.8525082003325224:52.95722373761237,1.0182195156812668:52.95657833106816,1.2131382431834936:52.94532135128975,1.4773163013160229:52.85447761416435,1.7025797814130783:52.68969677388668,1.7221770901232958:52.53826973028481" bounds="0.396881,52.495323,1.812744,53.023870" max-bounds="0.396881,52.495323,1.893768,53.078353">}}
 
 There is only one section---the very last section between Gorleston and Hopton---that
 *cannot be walked at high tide*. Other sections are not affected as the waymarkers will
