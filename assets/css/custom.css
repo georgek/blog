@@ -80,7 +80,7 @@ article > p:first-of-type::first-letter {
   font-size: 250%;
   font-weight: bold;
   padding: 6px 3px;
-  margin-right: 0.2em;
+  margin-right: 0.1em;
   margin-top: 0.1em;
   float: left;
   line-height: 1;

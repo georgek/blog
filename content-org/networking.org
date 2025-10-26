@@ -2,9 +2,162 @@
 #+hugo_draft: t
 #+hugo_base_dir: ../
 #+hugo_categories: Networking
+#+hugo_paired_shortcodes: pictures
 #+html_container: section
 #+html_container_nested: t
 
+* DONE My Homelab                              :homelab:networking:k8s:xcpng:
+CLOSED: [2025-10-26 Sun 22:25]
+:PROPERTIES:
+:EXPORT_FILE_NAME: homelab-2025
+:END:
+
+** Introduction                                                      :ignore:
+
+It's been about eight years since I started running network services in my home. It all
+started with [[https://pi-hole.net/][Pi-hole]], which I ran not on a Raspberry Pi, but an Atom-powered Dell Mini
+"thin client" I acquired from eBay. Today I run a lot more and it's become what is now
+known as a Homelab.
+
+I'm quite fond of it all, so thought I might as well write about it.
+
+#+begin_pictures
+homelab-2025/pc.jpeg
+homelab-2025/nas.jpeg
+homelab-2025/server.jpeg
+#+end_pictures
+
+** NAS
+
+I built my NAS around five years ago. At the time my PC was in a [[https://www.fractal-design.com/products/cases/node/node-804/black][Fractal Design Node 804]]
+case, but I decided this was much more suitable for use as a NAS, so I transplanted my
+PC into a smaller case and used the Node for my NAS. The specs are as follows:
+
+- Asus WS C246M Pro motherboard,
+- Intel Core i3 9100 3.6 GHz CPU,
+- 32 GiB ECC memory,
+- 6x4 TiB Seagate Ironwolf HDDs.
+
+I went for the i3 because, unlike the i5 or i7, it supports ECC memory. To get higher
+performance it would be necessary to go Xeon, but it's a NAS so I didn't plan to do much
+computation. The motherboard is a workstation board; I can't really remember why I went
+for it but I think I wanted something between a "real" server board and a desktop board
+and this was a good price.
+
+For the operating system I chose [[https://www.truenas.com/][TrueNAS]] (then FreeNAS). I'm still on TrueNAS Core
+(FreeBSD based). It's been absolutely rock solid. I'm so glad I went with a custom NAS
+rather than something off the shelf like Synology (especially considering [[https://www.servethehome.com/synology-lost-the-plot-with-hard-drive-locking-move/][recent
+events]]).
+
+I opted for a RAIDZ2 pool which means I can lose up to two disks before I lose any
+data. So far, I haven't lost any, but as the disks are all five years old now I am
+considering the possibility.
+
+I since added an SSD which I use for higher performance, but less critical data, like
+databases that are backed up elsewhere.
+
+At first I ran VMs on this box, but now I have my dedicated XCP-ng box I don't run any.
+
+** XCP-ng
+
+I acquired a PC and decided to install [[https://xcp-ng.org/][XCP-ng]] on it. It started off as me just wanting
+to play around with Kubernetes so I made a few VMs and created a cluster. But now this
+box hosts real services.
+
+I didn't build the PC so I'm not 100% on the specs, but it has a Intel Core i5 10600K
+4.1 GHz 6 core/12 thread CPU and 32 GiB of RAM. I've added an Intel 4 port gigabit
+Ethernet card and a USB card, both of which I pass through to VMs.
+
+The most important VM I run is my [[https://opnsense.org/][OPNsense]] router. This is my internet gateway, DHCP
+server, DNS server and more. I run my router on here out of necessity. Previously I ran
+pfSense on the aforementioned Dell Mini PC, but I since got a gigabit internet
+connection, and the poor thing wasn't able to route above about 300 Mbit/s. I could have
+bought a completely separate router that could handle the speeds but, being a
+cheapskate, I opted for a used quad Ethernet card instead.
+
+I did think it was a bit crazy running my router as a VM, but I've been running it this
+way for over a year and it's been fine. The only trouble I have is with it sometimes not
+picking up the connection to my modem when it boots. Sometimes I have to reboot the
+entire hypervisor for it to work, which is annoying.
+
+I run an Ubuntu server which does two main things: hosts my USB printer and my [[https://forgejo.org/][Forgejo]]
+git server. XCP-ng supports USB passthrough, but I found it did not persist following VM
+reboots, so instead I bought a cheap PCI USB card and pass through the card instead and
+this works perfectly. I have an old Samsung laser printer that still works fine after 15
+years and Ubuntu still includes the drivers in the ~printer-driver-splix~ package.
+
+Four of the VMs are Kubernetes nodes. Yes, it's wasteful to run 4 VMs on one physical
+box, but this is a Homelab after all. I also run [[https://xen-orchestra.com/][Xen Orchestra]] for managing XCP-ng.
+
+** Networking
+
+My networking is wired wherever possible. I believe in wireless only for portable
+devices. If something stays put, I make an effort to wire it in. I use a couple of
+Netgear unmanaged switches, nothing fancy. For WiFi I use a TP-Link access point.
+
+I run a local Unbound DNS server on OPNsense which is a full recursive resolver using
+the root name servers. I have blocklists included here, similar to Pi-Hole. I use
+Unbound to also give my local services names. I'm using a lot of wildcard DNS to make
+things simple (for example a wildcard that resolves and ~*.k8s.lab~ to my Kubernetes
+cluster).
+
+I work from home so I have a redundant internet connection via a data-only 4G plan and a
+4G modem. This is configured as a fallback connection in OPNsense and traffic gets
+routed there if/when my main connection goes down.
+
+I don't have anything available publicly and instead use Wireguard to get access when
+I'm out of the house. As my IP address is dynamic I use a Dynamic DNS client to
+configure my domain name when my IP address changes.
+
+** Kubernetes
+
+I run most of my services using Kubernetes these days. Initially I used Docker Compose,
+which is great, but I no longer think it's suitable for running a lot of services. I do
+use it extensively for development, of course.
+
+My cluster is running [[https://www.talos.dev/][Talos]] which has been great. It's a bare metal Kubernetes immutable
+distro which I wrote about [[/posts/talos-linux-xcp-ng/][here]].
+
+I'm using [[https://fluxcd.io/][Flux]] to configure my cluster. This has also been great. Flux support the
+"GitOps" approach wherein you just make changes in a git repo and they are automatically
+rolled out to provision infrastructure etc. This is why I don't run Forgejo on the k8s
+cluster as otherwise it would be a circular dependency!
+
+Apps I'm currently running include:
+
+- [[https://github.com/kubernetes/dashboard][Kubernetes dashboard]],
+- [[https://github.com/kmille/freetar][Freetar]],
+- [[https://github.com/immich-app/immich][Immich]],
+- [[https://github.com/iv-org/invidious][Invidious]],
+- [[https://github.com/jellyfin/jellyfin][Jellyfin]],
+- [[https://github.com/alexta69/metube][Metube]],
+- [[https://github.com/owntone/owntone-container][Owntone]],
+- [[https://github.com/librespeed/speedtest][Speedtest]],
+- [[https://github.com/TandoorRecipes/recipes][Tandoor]],
+- [[https://github.com/thelounge/thelounge-docker][TheLounge]],
+- [[https://github.com/meeb/tubesync][TubeSync]].
+
+I'm also running a monitoring stack using kube-prometheus-stack with Grafana dashboards.
+
+Many of these apps uses databases which I provision using [[https://cloudnative-pg.io/][CloudNativePG]]. This lets me
+declaratively create databases and even automatically back them up to S3 compatible
+buckets.
+
+** Conclusion
+
+My homelab is part hobby, part training ground, and part real self-hosting of my digital
+life. Many things I do just for fun and are obviously enormous overkill. Others I do for
+learning or trying things out and eventually use them for real in my day
+job. Increasingly I'm using it to escape "cloud" providers, in particular Google, and
+take control of my own data.
+
+One thing I will have to bear in mind is I might not always want to put this much effort
+in to everything. I'm on top of the K8s stuff now because it's what I do at work too,
+but that might not always be the case. The good thing about self-hosting is I'm not
+locked into anything, though. If I want a more turnkey solution later, like TrueNAS
+Scale, for example, then I should be able to migrate easily.
+
+But for now I'm enjoying it even if some of it is ridiculous overkill.
 
 * DONE Automating Metabase Upgrades on Kubernetes with Flux :k8s:devops:metabase:
 CLOSED: [2025-05-27 Tue 21:04]
@@ -96,19 +249,6 @@ spec:
 
 This now works for both full patch level versions like ~v0.54.7.2~ and the degenerate
 versions like ~v0.54.8~. Hope this helps someone.
-
-* TODO Why Can't my Pod Access the Kubernetes API?
-:PROPERTIES:
-:EXPORT_FILE_NAME: pod-no-k8s-api-access
-:END:
-
-** Introduction                                                      :ignore:
-
-After a cluster upgrade recently I noticed the Daemonset for [[https://github.com/kubernetes/ingress-nginx][ingress-nginx]] had not
-rolled out properly. Looking into it, the pod on one of the nodes was never becoming
-ready and eventually being restarted.
-
-
 
 * DONE Talos Linux on XCP-ng                         :k8s:devops:linux:xcpng:
 CLOSED: [2024-11-09 Sat 16:19]
