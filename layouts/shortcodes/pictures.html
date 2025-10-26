@@ -9,7 +9,7 @@
       x-data="{ open: false, loading: 'lazy' }"
       x-intersect="loading='eager'"
     >
-      <a href="/web-images/{{ $src }}.jpeg" @click.prevent="open = ! open">
+      <a href="/web-images/{{ $src }}" @click.prevent="open = ! open">
         <img
           src="/web-images/{{ $src }}-sm.jpeg"
           alt="{{ $alt }}"
@@ -25,7 +25,7 @@
         @click="open = false"
       >
         <img
-          src="/web-images/{{ $src }}.jpeg"
+          src="/web-images/{{ $src }}"
           alt="{{ $alt }}"
           title="{{ $title }}"
           loading="lazy"

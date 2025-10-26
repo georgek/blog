@@ -21,30 +21,30 @@ Wales). In September 2024 I walked the West Highland Way over seven days with my
 [[https://www.peregrinavicki.com/][Vicki]].
 
 #+begin_pictures
-whw/20240905_164951
-whw/20240904_151647
-whw/20240904_160025
-whw/20240906_201455
-whw/20240903_150815
-whw/20240906_101020
-whw/20240906_094106
+whw/20240905_164951.JPG
+whw/20240904_151647.JPG
+whw/20240904_160025.JPG
+whw/20240906_201455.JPG
+whw/20240903_150815.JPG
+whw/20240906_101020.JPG
+whw/20240906_094106.JPG
 #+end_pictures
 
 #+begin_pictures
-whw/20240907_120515
-whw/20240905_165805
-whw/20240907_130253
-whw/20240903_141207
-whw/20240903_155620
-whw/20240906_115821
-whw/20240905_120155
+whw/20240907_120515.JPG
+whw/20240905_165805.JPG
+whw/20240907_130253.JPG
+whw/20240903_141207.JPG
+whw/20240903_155620.JPG
+whw/20240906_115821.JPG
+whw/20240905_120155.JPG
 #+end_pictures
 
 #+begin_pictures
-whw/20240907_100205
-whw/20240907_122953
-whw/20240907_122940
-whw/20240905_102117
+whw/20240907_100205.JPG
+whw/20240907_122953.JPG
+whw/20240907_122940.JPG
+whw/20240905_102117.JPG
 #+end_pictures
 
 ** Planning
@@ -269,13 +269,13 @@ Hopton. I walked it with my partner [[https://www.peregrinavicki.com/][Vicki]] o
 September 2022.
 
 #+begin_pictures
-ncp/DSC_1821|A view from a hill next to the sea with sea and houses visible.|The view from the Beaston bump.
-ncp/DSC_1822
-ncp/DSC_1826
-ncp/DSC_1828
-ncp/DSC_1831
-ncp/DSC_1844
-ncp/DSC_1847
+ncp/DSC_1821.JPG|A view from a hill next to the sea with sea and houses visible.|The view from the Beaston bump.
+ncp/DSC_1822.JPG
+ncp/DSC_1826.JPG
+ncp/DSC_1828.JPG
+ncp/DSC_1831.JPG
+ncp/DSC_1844.JPG
+ncp/DSC_1847.JPG
 #+end_pictures
 
 ** Planning
@@ -341,13 +341,13 @@ holiday home in Hemsby. This was by far the hardest bit to plan.
 #+hugo: {{<mini-map-bounds bounds="0.4887009970843792,52.970074117183685,0.6839822418987751,52.94412994757295">}}
 
 #+begin_pictures
-ncp/day1/IMG_1401
-ncp/day1/IMG_1429
-ncp/day1/IMG_1430
-ncp/day1/IMG_1492
-ncp/day1/IMG_1528
-ncp/day1/IMG_1550
-ncp/day1/IMG_1553
+ncp/day1/IMG_1401.jpg
+ncp/day1/IMG_1429.jpg
+ncp/day1/IMG_1430.jpg
+ncp/day1/IMG_1492.jpg
+ncp/day1/IMG_1528.jpg
+ncp/day1/IMG_1550.jpg
+ncp/day1/IMG_1553.jpg
 #+end_pictures
 
 The walk starts in the lovely seaside town of Hunstanton. The waymarkers take you on top
@@ -384,13 +384,13 @@ shortly arrived in Burnham Deepdale for the end of the day.
 #+hugo: {{<mini-map-bounds bounds="0.6836324650794268,52.97974926419556,0.852420860901475,52.95720923691988">}}
 
 #+begin_pictures
-ncp/day2/IMG_1654
-ncp/day2/IMG_1678
-ncp/day2/IMG_1718
-ncp/day2/IMG_1696
-ncp/day2/IMG_1812
-ncp/day2/DSC_1791
-ncp/day2/IMG_1832
+ncp/day2/IMG_1654.jpg
+ncp/day2/IMG_1678.jpg
+ncp/day2/IMG_1718.jpg
+ncp/day2/IMG_1696.jpg
+ncp/day2/IMG_1812.jpg
+ncp/day2/DSC_1791.jpg
+ncp/day2/IMG_1832.jpg
 #+end_pictures
 
 The second day started with us walking right out to the saltmarshes, far away from the
@@ -416,13 +416,13 @@ rather scenic and provided a nice reflection of the walk so far.
 #+hugo: {{<mini-map-bounds bounds="0.8525082003325224,52.95927571132779,1.0148312151432037,52.94912748970091">}}
 
 #+begin_pictures
-ncp/day3/IMG_1897
-ncp/day3/IMG_1941
-ncp/day3/IMG_1962
-ncp/day3/IMG_1993
-ncp/day3/IMG_2014
-ncp/day3/IMG_2019
-ncp/day3/IMG_2036
+ncp/day3/IMG_1897.jpg
+ncp/day3/IMG_1941.jpg
+ncp/day3/IMG_1962.jpg
+ncp/day3/IMG_1993.jpg
+ncp/day3/IMG_2014.jpg
+ncp/day3/IMG_2019.jpg
+ncp/day3/IMG_2036.jpg
 #+end_pictures
 
 We started this day at the end---Blakeney---and caught the bus back to the start at
@@ -451,13 +451,13 @@ where we would sleep.
 #+hugo: {{<mini-map-bounds bounds="1.0178787913173437,52.96580362133682,1.2116400618106127,52.94537323527038">}}
 
 #+begin_pictures
-ncp/day4/IMG_2154
-ncp/day4/IMG_2156
-ncp/day4/IMG_2165
-ncp/day4/IMG_2181
-ncp/day4/IMG_2258
-ncp/day4/IMG_2262
-ncp/day4/IMG_2277
+ncp/day4/IMG_2154.jpg
+ncp/day4/IMG_2156.jpg
+ncp/day4/IMG_2165.jpg
+ncp/day4/IMG_2181.jpg
+ncp/day4/IMG_2258.jpg
+ncp/day4/IMG_2262.jpg
+ncp/day4/IMG_2277.jpg
 #+end_pictures
 
 Like the previous day we started at the end and caught a bus back to the start. It would
@@ -489,13 +489,13 @@ the promenade into one of the prettiest seaside towns in Norfolk.
 #+hugo: {{<mini-map-bounds bounds="1.2131382431834936,52.94532135128975,1.4771898183971643,52.85138829611242">}}
 
 #+begin_pictures
-ncp/day5/IMG_2454
-ncp/day5/IMG_2528
-ncp/day5/IMG_2551
-ncp/day5/IMG_2582
-ncp/day5/IMG_2599
-ncp/day5/IMG_2651
-ncp/day5/IMG_2718
+ncp/day5/IMG_2454.jpg
+ncp/day5/IMG_2528.jpg
+ncp/day5/IMG_2551.jpg
+ncp/day5/IMG_2582.jpg
+ncp/day5/IMG_2599.jpg
+ncp/day5/IMG_2651.jpg
+ncp/day5/IMG_2718.jpg
 #+end_pictures
 
 We returned to Sheringham by train from Norwich. An incoming wind gave the sea, and
@@ -532,13 +532,13 @@ on the beach here with a sunset creating beautiful colours.
 #+hugo: {{<mini-map-bounds bounds="1.4773163013160229,52.85447761416435,1.7039009369909763,52.689558221027255">}}
 
 #+begin_pictures
-ncp/day6/IMG_2833
-ncp/day6/IMG_2839
-ncp/day6/IMG_2868
-ncp/day6/IMG_2922
-ncp/day6/IMG_2939
-ncp/day6/IMG_2948
-ncp/day6/IMG_3082
+ncp/day6/IMG_2833.jpg
+ncp/day6/IMG_2839.jpg
+ncp/day6/IMG_2868.jpg
+ncp/day6/IMG_2922.jpg
+ncp/day6/IMG_2939.jpg
+ncp/day6/IMG_2948.jpg
+ncp/day6/IMG_3082.jpg
 #+end_pictures
 
 Back to Bacton the next day and our walk started with some light rain. Our jackets and
@@ -575,13 +575,13 @@ our head torches.
 #+hugo: {{<mini-map-bounds bounds="1.701243706047535,52.69137960858643,1.7396469041705132,52.53630400635302">}}
 
 #+begin_pictures
-ncp/day7/IMG_3200
-ncp/day7/IMG_3213
-ncp/day7/IMG_3262
-ncp/day7/IMG_3343
-ncp/day7/IMG_3409
-ncp/day7/IMG_3440
-ncp/day7/IMG_3461
+ncp/day7/IMG_3200.jpg
+ncp/day7/IMG_3213.jpg
+ncp/day7/IMG_3262.jpg
+ncp/day7/IMG_3343.jpg
+ncp/day7/IMG_3409.jpg
+ncp/day7/IMG_3440.jpg
+ncp/day7/IMG_3461.jpg
 #+end_pictures
 
 The final day of the walk was a bit different. The beaches here are probably the most

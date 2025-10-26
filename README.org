@@ -9,3 +9,5 @@ To build the site you need Emacs and Hugo.  Simply run: ~make~ and the output wi
 To run the server locally and include drafts run: ~make dev~.
 
 To add a new post, start a new subtree in one of the ~content-org/*.org~ files.
+
+To add images, put them in ~src-images/<post>~ and run `make -j 8 images`.

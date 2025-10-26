@@ -17,6 +17,19 @@ clean:
 dev:
 	hugo server -D --navigateToChanged
 
-.PHONY: images
-images:
-	./scripts/mkimages
+SRC_IMAGE_DIR := src-images
+DST_IMAGE_DIR := static/web-images
+SRC_IMAGES := $(shell find "$(SRC_IMAGE_DIR)" -type f -iregex .*jpe?g$)
+
+DST_IMAGES_LG := $(patsubst $(SRC_IMAGE_DIR)/%,$(DST_IMAGE_DIR)/%,$(SRC_IMAGES))
+DST_IMAGES_SM := $(patsubst $(SRC_IMAGE_DIR)/%,$(DST_IMAGE_DIR)/%-sm.jpeg,$(SRC_IMAGES))
+
+images: $(DST_IMAGES_LG) $(DST_IMAGES_SM)
+
+$(DST_IMAGE_DIR)/%: $(SRC_IMAGE_DIR)/%
+	@mkdir -p $(dir $@)
+	magick "$<" -auto-orient -resize 1920x1080 -strip -quality 86 "$@"
+
+$(DST_IMAGE_DIR)/%-sm.jpeg: $(SRC_IMAGE_DIR)/%
+	@mkdir -p $(dir $@)
+	magick "$<" -auto-orient -resize 500x500 -strip -quality 78 "$@"
