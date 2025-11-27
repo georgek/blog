@@ -3,6 +3,40 @@
 #+hugo_base_dir: ../
 #+hugo_categories: Technology
 
+* DONE Resetting an Ideal Halo Zigbee Thermostat             :heating:zigbee:
+CLOSED: [2025-11-27 Thu 20:59]
+:PROPERTIES:
+:EXPORT_FILE_NAME: reset-ideal-halo-thermostat
+:END:
+
+I recently bought a house with an Ideal boiler and a wireless thermostat called a
+"Halo". The boiler has a "Halo Smart Interface" fitted into it, which should tell the
+boiler when to fire. The Halo itself contains the thermostat and communicates with the
+Smart Interface using Zigbee.
+
+During some decorating work the thermostat became disconnected from the boiler. This
+really confused the boiler, causing it to remain on, burning gas, indefinitely. This is
+quite concerning and doesn't give me much faith in the system, but that's a future
+problem. Right now I just need it to work.
+
+To try to get the thermostat connected again I tried lots of things but eventually
+resorted to completely resetting the Smart Interface. You can find out how to do this
+online: you hold the two buttons on the Smart Interface for 20 seconds.
+
+But the problem is I had the batteries removed from the thermostat when I did this. This
+put the thermostat into a state where it still thought it was paired, while the Smart
+Interface was unpaired.
+
+I couldn't find anything about how to reset the thermostat itself. Leaving the batteries
+out does nothing. But I couldn't believe they wouldn't include some way to do it, so I
+tried lots of things and eventually found out how.
+
+So on the very small chance someone finds this, to reset the Halo Thermostat, put the
+batteries in, then while it's on hold the middle and right buttons down for about 15-20
+seconds. It should go back to the setup screen.
+
+Happy boiling.
+
 * DONE Just Send Me the Prompt                                       :llm:ai:
 CLOSED: [2025-07-31 Thu 09:41]
 :PROPERTIES:
