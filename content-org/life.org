@@ -6,6 +6,231 @@
 #+html_container: section
 #+html_container_nested: t
 
+* DONE Thoughts on Thinking                                      :ai:opinion:
+CLOSED: [2026-10-08 Thu 16:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: thoughts-on-thinking
+:END:
+
+** Introduction                                                      :ignore:
+
+I've been meaning to write down my thoughts about AI, specifically as it relates to
+programming, for a while now, but it has never seemed like the right time. Things have
+been changing rapidly since I first installed an "AI agent" on my PC 14 months
+ago. Every time I felt I'd gathered my thoughts, something changed: a new model, a new
+breakthrough, new techniques. It still doesn't feel like the right time, but if I don't
+write my thoughts now, I might forget them later. So here are my thoughts, my hopes, and
+my fears about AI in October 2026.
+
+** Programming
+
+I've been programming for more than half of my life. I've never considering myself a
+great programmer, but I have written programs that can do interesting and useful
+stuff, and I've enjoyed it for the most part. AI is by far the biggest change in
+programming so far.
+
+The way we write programs is incremental. A computer is, in essence, a very simple
+machine. The manual for a fully-functional computer could fit in a small pamphlet. To
+write programs one needs only a small handful of "instructions". These instructions are
+very basic operations like "add these two numbers together", "copy this result into
+memory at this location" or "jump to this instruction if this number is bigger than this
+number"[fn:1]. A sequence of such instructions is a program.
+
+Given the above it might seem obvious how one could write a program to do, for example,
+a very long calculation. But the programs we actually write for computers tend to do
+stuff like the following: "for each full £10 a customer spends, they receive 1 bonus
+point", or "when the player holds the shift key, the character runs". There is a great
+gap between what a computer can do out of the box, and the logic we'd like to
+express. Computers don't know what money is, and they don't know what running is.
+
+To do things like this, we build abstractions. An advanced piece of software will be
+built from hundreds of layers of abstractions. Each layer, written in software, extends
+the computer in a direction that gets us closer to the goal. For example, we often start
+with operating systems which give us a way to control hardware in a much more intuitive
+way. Instead of saying "copy these bits from here to there", we can say "display the
+colour green on the screen". Underneath it is just moving bits and bytes around, but the
+abstractions allow us to think at a higher level and build bigger and bigger things.
+
+One of the most important innovations is the development of programming
+languages. Languages like C allow you to express really common low-level operations in a
+way that is elegant and intuitive. Languages like Python go even further: these
+languages are so expressive that a small snippet can convey meaning equivalent to
+hundreds of underlying primitive instructions.
+
+Building abstractions and languages is really not unique to programming, though. An
+internal combustion engine is not built directly from metal. People build the parts:
+cams, cogs, chains, rods, pistons, then build the engine up from that. Sometimes the
+parts have already been invented, perhaps for another purpose, and sometimes they are
+invented especially to solve a particular problem in the design. Either way, this
+process of building solutions up incrementally in layers is common to all types of
+engineering.
+
+And that's how it was. Building abstractions was the only real way to build software and
+it worked. Ideally each layer would be simple enough for a small group of people to
+understand and have confidence in its correctness. In this way, we could have confidence
+in the whole system. I would be able to write high level rules like "award the customer
+a bonus point" directly in a language in such a way that it would be obviously correct
+by inspection. And I would have confidence that my language would be interpreted
+correctly because the layer below was, in turn, obviously correct. This is similar to
+how mathematical proofs are built from theorems on top of theorems. Fermat's Last
+Theorem was proved not directly from axioms, but by proving another theorem, which
+implied Fermat due to yet another theorem. Each layer was checked, and therefore the
+whole edifice was sound.
+
+For almost 70 years this process has remained largely unchanged. But now, all of a
+sudden, many people are producing software in a completely different way.
+
+[fn:1] This type of "jump" instruction is crucial and what sets a computer apart from a
+mere programmable calculator.
+
+** AI Agents
+
+I was surprised when I discovered the first version of ChatGPT could write code. Not
+because I thought writing code was any more difficult than writing natural language, I
+was surprised that programs were even part of the LLM training data. I found it curious,
+but nothing more. The code it could produce was similar to what you would copy and paste
+from StackOverflow. It didn't seem useful to me. But the models got better.
+
+Soon I realised the models could do stuff for me that I found boring like YAML manifests
+for Kubernetes and HTML templates. Instead of asking the models what CSS properties to
+use for centring a paragraph I would begin to just say "generate the CSS to centre a
+paragraph". It was starting to become useful, and I've never shied away from tools that
+make my life easier.
+
+Then I installed Claude Code in August 2025. An AI agent is a really simple thing, but
+agents are what turned large language models (LLMs) from being a pretty good chat bot
+into something that might actually be described as AI.
+
+LLMs are at the heart of all recent advances in AI. The operation is quite simple: given
+a bunch of text, the model simply predicts what the next word will be. Now with a very
+simple harness, and an initial text, called the system prompt, you can build a chat
+bot. The system prompt will say something like "This is a transcript between a user and
+an AI assistant", then it, along with you, generates the transcript, one word at a
+time. The harness inserts your inputs into the transcript, then lets the model generate
+the assistant's part, in turn. The model, having been trained on an enormous corpus of
+text amounting to a large chunk of all recent human output, is able to produce an
+incredibly convincing transcript that really does feel like chatting to an "AI
+assistant". This is all a trick, but it's captivated many.
+
+An AI agent is just a slightly more complicated harness, along with a different system
+prompt. The chat bot harness merely gives the LLM a mouth, an AI agent gives it
+hands. An AI agent intercepts the output of the model and performs actions at the
+instruction of the LLM. For example, the agent might include the ability to copy a
+file. The system prompt will include something like the following: "You can ask for a
+file to be copied, to do that, say COPY". If the user then asks the model to copy a
+file, the model will duly say "COPY" and the agent will perform the actual task of
+copying the file on behalf of the model. That's really all there is to it. Agent
+programs like Claude Code come bundled with a few actions that make sense for building
+software: searching, editing files, file system manipulations etc. Now the models have
+all they need: they can read the relevant parts of a codebase and when they are ready
+they can edit the new code back into the files directly.
+
+This was quite mind blowing to behold. The first agents, like Claude Code, would
+actually guide you through exactly what changes they wanted to make to the code, in the
+form of "diffs" like "replace this function with this one". But very quickly people
+realised that following along and accepting or rejecting each diff individually was time
+consuming and laborious. Most agent programs now don't even include this "walkthrough"
+mode, they simply make sweeping changes all at once. Then they'll run your tests for you
+and make sure they pass.
+
+** My Own Personal Typist
+
+After I first used a coding agent I lost sleep. I could see everything I'd learnt, all
+the experience gained, books read, techniques developed, all become suddenly
+worthless. Why do I need to know programming languages any more? Why do I need to know
+about abstraction? Why do I need a text editor? AI coding agents can do everything I can
+do.
+
+But wait, can they really? Well, no, not yet. If you read the code they produce it isn't
+perfect and it's rarely to my taste. So I told myself all these agents are is like my
+own personal typist. I'm a /programmer/ after all, not a typist. I don't need to
+actually type the code myself to write programs. For years I'd realised that the real
+part of programming is thinking. Once I'd thought through a problem the code would
+essentially write itself. I just needed to transfer what's in my head to a form the
+computer could run.
+
+But it didn't quite work like this either. The problem is they would fill in gaps in
+your requirements by essentially guessing. Yet everything comes out like plausible
+looking code that actually runs. I began to experience what others had described, I felt
+like I was just doing code review now. Except now the volume of code is far greater and
+has been trained to trick you into thinking it's what you want. After all, remember
+these are the same models that tricked you into thinking you were having a conversation
+and that it could sympathise with your woes.
+
+** My Own Personal Mind
+
+There is another aspect to AI that I haven't yet mentioned. AI uses LLMs to "think", or
+perform "reasoning". The LLMs still just do next token prediction, but now the harnesses
+get them to perform reasoning before they produce a final answer.
+
+AI isn't just a personal typist. It thinks for you. Now you don't /have/ to use it that
+way, but it's so, so tempting, and easy to do by mistake because they are trained that
+way. If you leave a gap in your description, they'll fill in the blanks. If you want to
+implement a program you don't fully understand, it'll just do it for you.
+
+Imagine you're a bricklayer. You take pride in your work, the mortar is mixed to the
+perfect consistency, each brick laid with complete care and attention. Then somebody
+gifts you a magic box with a big red button on it that says "Build wall". You don't
+press it at first. You don't trust it. You know all the ways a wall can go wrong, you
+see amateurs making these mistakes all the time. But one day, maybe you're tired, maybe
+you're running out of time, you decide to give it a go. You press it and before you
+there appears a wall. What do you do now?
+
+It's difficult to bring oneself to do work when there's an easy way out of it. My work
+wasn't really typing, but it was thinking. But now I have a magic box with a big red
+button that says "Think". It is quite hard to resist pressing that button. It becomes
+addictive. It becomes a crutch. Very quickly you start to lose touch with what you
+really know, and what you think you know because the AI did it for you.
+
+This is all quite worrying. What will happen when more and more people stop thinking?
+People go to the gym to "keep fit" and make their bodies look useful. Will people start
+doing the same for the mind?
+
+** The Future of Programming
+
+Nothing is certain. We don't even know yet if we can continue doing this AI thing in a
+sustainable way (then again, when has sustainability ever been a problem?). But the
+future of software looks grim.
+
+People are already building systems they do not understand. They don't even try
+to. What's the point? Before we would think, design and test each layer in such a way
+that we were confident at each step before moving to the next. Now the software coming
+out is impenetrable, just like the models themselves. Nobody can understand it, but why
+would they? What's the point?
+
+Software is particularly prone to AI generation because most people already don't see
+it. If we tried to get an AI to design a bridge, it might come up with a design that is
+completely functional and structurally sound, but it might look completely
+distasteful. Instead of the Forth Bridge you might end up with a bizarre looking
+structure with no symmetry or beauty. It would work, but we wouldn't enjoy it. But
+software is more like wires in the walls or the engine under the bonnet. Most people
+don't even realise it's there, let alone care about how it works.
+
+The question I ask myself is, do I really like software, or do I just like building
+things? Sadly, I'm realising that I actually do like software. I did things not just
+because I could, I did them because they were hard. There's something truly marvellous
+about seeing your computer go from being able to add small numbers together, to adding
+larger numbers, multiplying them, dividing them, representing polynomials and then being
+able to calculate derivatives and integrals. It's like being a clock maker who has the
+power to forge new gears and springs right in front of him. There is beauty to behold
+here; it's not just work.
+
+I haven't written any software for fun this year. At work I still do a lot by hand, but
+it's starting to feel more and more like going to the gym. It's a luxury I can afford
+right now, but how long will it last? At home I barely write anything now. A lot of the
+time the fun was the challenge, but the answer to the question "can I do this?" is now
+always "yes", and that's not fun. If I have to write something I will, but it turns out
+I don't really need very much.
+
+All in all I find this all quite depressing, but I suppose that's how everyone feels
+when a professing becomes obsolete. Perhaps lamplighters felt the same way when
+electricity was invented.
+
+What I hope will happen is we get past this without too much destruction and realise the
+value of fully understanding systems. There's definitely some value in generating some
+code, but it's still unclear to me how much and when to step back and write by hand
+instead. I hope these things will become more clear with time.
+
 * DONE Make Reading a Habit                                 :reading:opinion:
 CLOSED: [2024-08-04 Sun 12:18]
 :PROPERTIES:
@@ -340,3 +565,7 @@ pay many times more and put in a lot more work.  Hopefully you don't have to.  E
 your home cinema journey!
 
 #  LocalWords:  waymarks waymark waymarkers waymarker
+
+# Local Variables:
+# org-footnote-section: nil
+# End:
